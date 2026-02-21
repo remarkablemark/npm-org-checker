@@ -1,10 +1,12 @@
-# npm-org-checker
+# npm org checker
 
 [![build](https://github.com/remarkablemark/npm-org-checker/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablemark/npm-org-checker/actions/workflows/build.yml)
 [![test](https://github.com/remarkablemark/npm-org-checker/actions/workflows/test.yml/badge.svg)](https://github.com/remarkablemark/npm-org-checker/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/remarkablemark/npm-org-checker/graph/badge.svg?token=DEr2eVeqdz)](https://codecov.io/gh/remarkablemark/npm-org-checker)
 
-Vite React Tailwind Template
+🔍 Check if an npm org name is available:
+
+- [npm org name checker](http://remarkablemark.org/npm-org-checker/)
 
 ## Install
 
