@@ -10,6 +10,7 @@
 ### Session 2026-02-21
 
 - Q: What npm registry API endpoint/method should be used to check organization name availability? → A: Use npm registry's `/org/<name>` endpoint with HTTP HEAD request
+- Q: How should CORS issues be handled when making npm registry requests from browser? → A: Use https://corsmirror.com/ as proxy for npm registry API calls
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -73,7 +74,7 @@ As a developer, I want to check multiple organization names at once so that I ca
 ### Functional Requirements
 
 - **FR-001**: System MUST validate organization name format according to npm naming rules
-- **FR-002**: System MUST check availability of organization names using HTTP HEAD request to npm registry's `/org/<name>` endpoint
+- **FR-002**: System MUST check availability of organization names using HTTP HEAD request to npm registry's `/org/<name>` endpoint via https://corsmirror.com/ proxy
 - **FR-003**: System MUST provide clear feedback about name availability status
 - **FR-004**: System MUST handle invalid input with helpful error messages
 - **FR-005**: System MUST display results using colored indicators (green checkmark ✅ for available, red X ❌ for unavailable) with status text
@@ -83,7 +84,7 @@ As a developer, I want to check multiple organization names at once so that I ca
 ### Key Entities
 
 - **Organization Name**: The proposed name for npm organization, includes validation rules and availability status
-- **Availability Check**: The process of querying npm registry via HTTP HEAD request to `/org/<name>` endpoint to determine if name is available
+- **Availability Check**: The process of querying npm registry via HTTP HEAD request to `/org/<name>` endpoint through https://corsmirror.com/ proxy to determine if name is available
 - **Validation Result**: The outcome of format validation including error types and messages
 
 ## Success Criteria _(mandatory)_
