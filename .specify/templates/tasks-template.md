@@ -188,7 +188,7 @@ Examples of foundational tasks (adjust based on your project):
 - All Foundational tasks marked [P] can run in parallel (within Phase 2)
 - Once Foundational phase completes, all user stories can start in parallel (if team capacity allows)
 - All tests for a user story marked [P] can run in parallel
-- Models within a story marked [P] can run in parallel
+- Components within a story marked [P] can run in parallel
 - Different user stories can be worked on in parallel by different team members
 
 ---
@@ -197,12 +197,12 @@ Examples of foundational tasks (adjust based on your project):
 
 ```bash
 # Launch all tests for User Story 1 together (if tests requested):
-Task: "Contract test for [endpoint] in tests/contract/test_[name].py"
-Task: "Integration test for [user journey] in tests/integration/test_[name].py"
+Task: "Component test for [ComponentName] in src/components/[ComponentName]/[ComponentName].test.tsx"
+Task: "Integration test for [user journey] in src/integration/[feature].test.tsx"
 
-# Launch all models for User Story 1 together:
-Task: "Create [Entity1] model in src/models/[entity1].py"
-Task: "Create [Entity2] model in src/models/[entity2].py"
+# Launch all components for User Story 1 together:
+Task: "Create [ComponentName] component in src/components/[ComponentName]/[ComponentName].tsx"
+Task: "Create [ComponentName] types in src/components/[ComponentName]/[ComponentName].types.ts"
 ```
 
 ---
