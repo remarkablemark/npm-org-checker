@@ -70,9 +70,9 @@ As a developer, I want to check multiple organization names at once so that I ca
 - **FR-002**: System MUST check availability of organization names against npm registry
 - **FR-003**: System MUST provide clear feedback about name availability status
 - **FR-004**: System MUST handle invalid input with helpful error messages
-- **FR-005**: System MUST display results in [NEEDS CLARIFICATION: visual format - simple text, colored indicators, or detailed cards?]
-- **FR-006**: System MUST check availability within [NEEDS CLARIFICATION: response time requirement - under 2 seconds, 5 seconds?]
-- **FR-007**: System MUST handle [NEEDS CLARIFICATION: rate limiting behavior - queue requests, show busy state, or throttle input?]
+- **FR-005**: System MUST display results using colored indicators (green checkmark ✅ for available, red X ❌ for unavailable) with status text
+- **FR-006**: System MUST show loading spinner while checking availability with no maximum response time requirement
+- **FR-007**: System MUST handle rate limiting by throttling input with 300ms debouncing
 
 ### Key Entities
 
