@@ -1,8 +1,8 @@
-# vite-react-tailwind-template
+# npm-org-checker
 
-[![build](https://github.com/remarkablemark/vite-react-tailwind-template/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablemark/vite-react-tailwind-template/actions/workflows/build.yml)
-[![test](https://github.com/remarkablemark/vite-react-tailwind-template/actions/workflows/test.yml/badge.svg)](https://github.com/remarkablemark/vite-react-tailwind-template/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/remarkablemark/vite-react-tailwind-template/graph/badge.svg?token=DEr2eVeqdz)](https://codecov.io/gh/remarkablemark/vite-react-tailwind-template)
+[![build](https://github.com/remarkablemark/npm-org-checker/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablemark/npm-org-checker/actions/workflows/build.yml)
+[![test](https://github.com/remarkablemark/npm-org-checker/actions/workflows/test.yml/badge.svg)](https://github.com/remarkablemark/npm-org-checker/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/remarkablemark/npm-org-checker/graph/badge.svg?token=DEr2eVeqdz)](https://codecov.io/gh/remarkablemark/npm-org-checker)
 
 Vite React Tailwind Template
 
@@ -11,8 +11,8 @@ Vite React Tailwind Template
 Clone the repository:
 
 ```sh
-git clone https://github.com/remarkablemark/vite-react-tailwind-template.git
-cd vite-react-tailwind-template
+git clone https://github.com/remarkablemark/npm-org-checker.git
+cd npm-org-checker
 ```
 
 Install the dependencies:
