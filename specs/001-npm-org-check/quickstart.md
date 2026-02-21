@@ -81,15 +81,14 @@ const RESERVED_WORDS = ['npm', 'node', 'package', 'module'];
 ### API Integration
 
 ```typescript
-// CORS proxy endpoint
-const CORS_PROXY = 'https://corsmirror.com/';
-const NPM_REGISTRY = 'https://registry.npmjs.org/';
-
 // Availability check endpoint
 const checkAvailability = async (orgName: string) => {
-  const response = await fetch(`${CORS_PROXY}${NPM_REGISTRY}org/${orgName}`, {
-    method: 'HEAD',
-  });
+  const response = await fetch(
+    `https://corsmirror.com/v1?url=https://npmjs.org/org/${orgName}`,
+    {
+      method: 'HEAD',
+    },
+  );
   return response.status === 404; // 404 means available
 };
 ```

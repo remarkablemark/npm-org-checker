@@ -111,6 +111,8 @@ interface AvailabilityResult {
   checkedAt: Date;
   source: 'npm-registry';
 }
+
+// Implementation uses: https://corsmirror.com/v1?url=https://npmjs.org/org/<name>
 ```
 
 ### Error Handling
