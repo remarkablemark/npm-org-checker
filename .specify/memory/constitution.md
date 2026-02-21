@@ -53,4 +53,4 @@ All PRs must pass: lint, type check, and full test suite with coverage. Conventi
 
 This constitution supersedes all other development practices. Amendments require: documentation of changes, team approval, and migration plan for existing code. All code reviews must verify constitutional compliance. Complexity must be justified with clear rationale.
 
-**Version**: 1.0.0 | **Ratified**: 2025-02-21 | **Last Amended**: 2025-02-21
+**Version**: 1.0.0 | **Ratified**: 2026-02-21 | **Last Amended**: 2026-02-21
