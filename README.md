@@ -2,7 +2,7 @@
 
 [![build](https://github.com/remarkablemark/npm-org-checker/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablemark/npm-org-checker/actions/workflows/build.yml)
 [![test](https://github.com/remarkablemark/npm-org-checker/actions/workflows/test.yml/badge.svg)](https://github.com/remarkablemark/npm-org-checker/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/remarkablemark/npm-org-checker/graph/badge.svg?token=DEr2eVeqdz)](https://codecov.io/gh/remarkablemark/npm-org-checker)
+[![codecov](https://codecov.io/gh/remarkablemark/npm-org-checker/graph/badge.svg?token=YWe1Enldnb)](https://codecov.io/gh/remarkablemark/npm-org-checker)
 
 🔍 Check if an npm org name is available:
 
