@@ -82,7 +82,7 @@ Examples of foundational tasks (adjust based on your project):
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
 - [ ] T010 [P] [US1] Component test for [ComponentName] in src/components/[ComponentName]/[ComponentName].test.tsx
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/[feature].test.tsx
+- [ ] T011 [P] [US1] Integration test for [user journey] in src/integration/[feature].test.tsx
 
 ### Implementation for User Story 1
 
@@ -106,7 +106,7 @@ Examples of foundational tasks (adjust based on your project):
 ### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
 
 - [ ] T018 [P] [US2] Component test for [ComponentName] in src/components/[ComponentName]/[ComponentName].test.tsx
-- [ ] T019 [P] [US2] Integration test for [user journey] in tests/integration/[feature].test.tsx
+- [ ] T019 [P] [US2] Integration test for [user journey] in src/integration/[feature].test.tsx
 
 ### Implementation for User Story 2
 
@@ -128,7 +128,7 @@ Examples of foundational tasks (adjust based on your project):
 ### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
 
 - [ ] T024 [P] [US3] Component test for [ComponentName] in src/components/[ComponentName]/[ComponentName].test.tsx
-- [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/[feature].test.tsx
+- [ ] T025 [P] [US3] Integration test for [user journey] in src/integration/[feature].test.tsx
 
 ### Implementation for User Story 3
 
