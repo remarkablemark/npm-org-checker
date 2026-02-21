@@ -46,9 +46,13 @@ description: 'Task list template for feature implementation'
 
 **Purpose**: Project initialization and basic structure
 
+**NOTE**: Skip this phase for existing projects - only for brand new React applications
+
 - [ ] T001 Create React project structure per implementation plan
 - [ ] T002 Initialize TypeScript React app with Vite dependencies
 - [ ] T003 [P] Configure ESLint, Prettier, and TypeScript strict mode
+
+**For existing projects**: Verify current setup meets requirements instead
 
 ---
 
