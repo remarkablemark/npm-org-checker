@@ -28,7 +28,7 @@ ESLint 9 + Prettier with auto-formatting on save. Import order enforced (externa
 
 ### V. Performance & Reliability
 
-Fast development server with HMR, optimized production builds, and comprehensive error boundaries. Structured error handling with user-friendly messages. Lazy loading for optimal initial load time.
+Fast development server with HMR, optimized production builds, and comprehensive error boundaries. Structured error handling with user-friendly messages. Network connectivity required for npm registry API calls.
 
 ## Technical Standards
 

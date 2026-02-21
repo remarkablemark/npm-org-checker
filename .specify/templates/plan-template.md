@@ -24,7 +24,7 @@
 **Target Platform**: Web browser (modern browsers)  
 **Project Type**: React web application  
 **Performance Goals**: <200ms initial load, 60fps UI interactions  
-**Constraints**: Must work offline-first, responsive design, accessibility compliant  
+**Constraints**: Responsive design, accessibility compliant, network connectivity required  
 **Scale/Scope**: Single-page tool for npm org name checking
 
 ## Constitution Check
