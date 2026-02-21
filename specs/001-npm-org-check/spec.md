@@ -12,6 +12,7 @@
 - Q: What npm registry API endpoint/method should be used to check organization name availability? → A: Use npm registry's `/org/<name>` endpoint with HTTP HEAD request
 - Q: How should CORS issues be handled when making npm registry requests from browser? → A: Use https://corsmirror.com/ as proxy for npm registry API calls
 - Q: What is the UI style and layout for the availability checker? → A: Clean, minimal interface with large, centered input field (full-width on mobile, 600px max on desktop)
+- Q: What error handling strategy should be used for API failures? → A: Display technical error details to user
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -82,6 +83,7 @@ As a developer, I want to check multiple organization names at once so that I ca
 - **FR-006**: System MUST show loading spinner while checking availability with no maximum response time requirement
 - **FR-007**: System MUST handle rate limiting by throttling input with 300ms debouncing
 - **FR-008**: System MUST display clean, minimal interface with large, centered input field (full-width on mobile, 600px max on desktop)
+- **FR-009**: System MUST display technical error details to user when API failures occur
 
 ### Key Entities
 
