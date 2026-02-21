@@ -17,21 +17,25 @@
   the iteration process.
 -->
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Language/Version**: TypeScript 5 (strict mode)  
+**Primary Dependencies**: React 19, Vite 7, Vitest 4, Tailwind CSS 4  
+**Storage**: N/A (client-side application)  
+**Testing**: Vitest 4 with @testing-library/react, 100% coverage required  
+**Target Platform**: Web browser (modern browsers)  
+**Project Type**: React web application  
+**Performance Goals**: <200ms initial load, 60fps UI interactions  
+**Constraints**: Must work offline-first, responsive design, accessibility compliant  
+**Scale/Scope**: Single-page tool for npm org name checking
 
 ## Constitution Check
 
 _GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-[Gates determined based on constitution file]
+- ✅ User-Centric Design: Feature prioritizes user experience and simplicity
+- ✅ Test-First Development: TDD approach with 100% coverage requirement
+- ✅ Modern React Standards: Functional components, TypeScript strict mode, accessibility
+- ✅ Code Quality & Consistency: ESLint/Prettier compliance, proper imports, error handling
+- ✅ Performance & Reliability: Optimized builds, error boundaries, fast HMR
 
 ## Project Structure
 
@@ -57,43 +61,27 @@ specs/[###-feature]/
 -->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+├── components/          # React components with co-located tests
+│   ├── ComponentName/
+│   │   ├── ComponentName.tsx
+│   │   ├── ComponentName.types.ts
+│   │   ├── ComponentName.test.tsx
+│   │   └── index.ts
+├── types/              # TypeScript type definitions
+├── utils/              # Utility functions
+├── hooks/              # Custom React hooks
+└── App.tsx             # Main application component
 
 tests/
-├── contract/
-├── integration/
-└── unit/
+├── integration/        # Integration tests
+└── setup.ts            # Test configuration
 
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+public/                  # Static assets
+dist/                   # Production build output
 ```
 
-**Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+**Structure Decision**: React single-page application with component-based architecture following constitutional principles
 
 ## Complexity Tracking
 

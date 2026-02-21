@@ -19,10 +19,9 @@ description: 'Task list template for feature implementation'
 
 ## Path Conventions
 
-- **Single project**: `src/`, `tests/` at repository root
-- **Web app**: `backend/src/`, `frontend/src/`
-- **Mobile**: `api/src/`, `ios/src/` or `android/src/`
-- Paths shown below assume single project - adjust based on plan.md structure
+- **React web app**: `src/`, `tests/` at repository root
+- **Components**: `src/components/ComponentName/` with co-located tests
+- \*\*Paths shown below assume React app structure - adjust based on plan.md
 
 <!--
   ============================================================================
@@ -47,9 +46,9 @@ description: 'Task list template for feature implementation'
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per implementation plan
-- [ ] T002 Initialize [language] project with [framework] dependencies
-- [ ] T003 [P] Configure linting and formatting tools
+- [ ] T001 Create React project structure per implementation plan
+- [ ] T002 Initialize TypeScript React app with Vite dependencies
+- [ ] T003 [P] Configure ESLint, Prettier, and TypeScript strict mode
 
 ---
 
@@ -61,12 +60,12 @@ description: 'Task list template for feature implementation'
 
 Examples of foundational tasks (adjust based on your project):
 
-- [ ] T004 Setup database schema and migrations framework
-- [ ] T005 [P] Implement authentication/authorization framework
-- [ ] T006 [P] Setup API routing and middleware structure
-- [ ] T007 Create base models/entities that all stories depend on
-- [ ] T008 Configure error handling and logging infrastructure
-- [ ] T009 Setup environment configuration management
+- [ ] T004 Setup Vitest testing framework with @testing-library/react
+- [ ] T005 [P] Implement React Router for navigation
+- [ ] T006 [P] Setup global error boundaries and error handling
+- [ ] T007 Create base component types in src/types/
+- [ ] T008 Configure Tailwind CSS and design system
+- [ ] T009 Setup environment configuration and build optimization
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -82,17 +81,17 @@ Examples of foundational tasks (adjust based on your project):
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test\_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test\_[name].py
+- [ ] T010 [P] [US1] Component test for [ComponentName] in src/components/[ComponentName]/[ComponentName].test.tsx
+- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/[feature].test.tsx
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
+- [ ] T012 [P] [US1] Create [ComponentName] component in src/components/[ComponentName]/[ComponentName].tsx
+- [ ] T013 [P] [US1] Create [ComponentName] types in src/components/[ComponentName]/[ComponentName].types.ts
+- [ ] T014 [US1] Implement [hook] in src/hooks/[hook].ts (depends on T012, T013)
+- [ ] T015 [US1] Implement [utility] in src/utils/[utility].ts
+- [ ] T016 [US1] Add validation and error handling to components
+- [ ] T017 [US1] Add accessibility features for user story 1
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -106,14 +105,14 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
 
-- [ ] T018 [P] [US2] Contract test for [endpoint] in tests/contract/test\_[name].py
-- [ ] T019 [P] [US2] Integration test for [user journey] in tests/integration/test\_[name].py
+- [ ] T018 [P] [US2] Component test for [ComponentName] in src/components/[ComponentName]/[ComponentName].test.tsx
+- [ ] T019 [P] [US2] Integration test for [user journey] in tests/integration/[feature].test.tsx
 
 ### Implementation for User Story 2
 
-- [ ] T020 [P] [US2] Create [Entity] model in src/models/[entity].py
-- [ ] T021 [US2] Implement [Service] in src/services/[service].py
-- [ ] T022 [US2] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T020 [P] [US2] Create [ComponentName] component in src/components/[ComponentName]/[ComponentName].tsx
+- [ ] T021 [US2] Implement [hook] in src/hooks/[hook].ts
+- [ ] T022 [US2] Implement [utility] in src/utils/[utility].ts
 - [ ] T023 [US2] Integrate with User Story 1 components (if needed)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
@@ -128,14 +127,14 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
 
-- [ ] T024 [P] [US3] Contract test for [endpoint] in tests/contract/test\_[name].py
-- [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/test\_[name].py
+- [ ] T024 [P] [US3] Component test for [ComponentName] in src/components/[ComponentName]/[ComponentName].test.tsx
+- [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/[feature].test.tsx
 
 ### Implementation for User Story 3
 
-- [ ] T026 [P] [US3] Create [Entity] model in src/models/[entity].py
-- [ ] T027 [US3] Implement [Service] in src/services/[service].py
-- [ ] T028 [US3] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T026 [P] [US3] Create [ComponentName] component in src/components/[ComponentName]/[ComponentName].tsx
+- [ ] T027 [US3] Implement [hook] in src/hooks/[hook].ts
+- [ ] T028 [US3] Implement [utility] in src/utils/[utility].ts
 
 **Checkpoint**: All user stories should now be independently functional
 
