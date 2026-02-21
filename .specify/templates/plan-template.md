@@ -62,22 +62,24 @@ specs/[###-feature]/
 
 ```text
 src/
-├── components/          # React components with co-located tests
-│   ├── ComponentName/
-│   │   ├── ComponentName.tsx
-│   │   ├── ComponentName.types.ts
-│   │   ├── ComponentName.test.tsx
+├── components/         # React components with co-located tests
+│   ├── App/            # Main application component
+│   │   ├── App.tsx
+│   │   ├── App.types.ts
+│   │   ├── App.test.tsx
 │   │   └── index.ts
-├── types/              # TypeScript type definitions
-├── utils/              # Utility functions
-├── hooks/              # Custom React hooks
-└── App.tsx             # Main application component
+│   └── ComponentName/
+│       ├── ComponentName.tsx
+│       ├── ComponentName.types.ts
+│       ├── ComponentName.test.tsx
+│       └── index.ts
+├── types/              # TypeScript type definitions (add as needed)
+├── utils/              # Utility functions (add as needed)
+├── hooks/              # Custom React hooks (add as needed)
+├── main.tsx            # Application entry point
+└── setupTests.ts       # Test configuration
 
-tests/
-├── integration/        # Integration tests
-└── setup.ts            # Test configuration
-
-public/                  # Static assets
+public/                 # Static assets
 dist/                   # Production build output
 ```
 
