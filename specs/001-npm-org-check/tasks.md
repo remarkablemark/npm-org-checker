@@ -50,7 +50,6 @@ description: 'Task list for NPM Organization Name Availability Checker implement
 - [x] T006 [P] Create utility functions directory structure in src/utils/
 - [x] T007 [P] Create custom hooks directory structure in src/hooks/
 - [x] T008 [P] Create component directory structure per plan.md
-- [ ] T009 Setup global error boundaries and error handling patterns
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -64,9 +63,10 @@ description: 'Task list for NPM Organization Name Availability Checker implement
 
 ### Tests for User Story 1 (TDD - Write First, Ensure They Fail) ⚠️
 
-- [ ] T010 [P] [US1] Component test for OrgNameChecker in src/components/OrgNameChecker/OrgNameChecker.test.tsx
-- [ ] T011 [P] [US1] Component test for AvailabilityIndicator in src/components/AvailabilityIndicator/AvailabilityIndicator.test.tsx
-- [ ] T012 [P] [US1] Component test for ErrorMessage in src/components/ErrorMessage/ErrorMessage.test.tsx
+- [x] T009 Setup global error boundaries and error handling patterns
+- [x] T010 [P] [US1] Component test for OrgNameChecker in src/components/OrgNameChecker/OrgNameChecker.test.tsx
+- [x] T011 [P] [US1] Component test for AvailabilityIndicator in src/components/AvailabilityIndicator/AvailabilityIndicator.test.tsx
+- [x] T012 [P] [US1] Component test for ErrorMessage in src/components/ErrorMessage/ErrorMessage.test.tsx
 - [x] T013 [P] [US1] Hook test for useOrgNameValidator in src/hooks/useOrgNameValidator.test.ts
 - [x] T014 [P] [US1] Hook test for useAvailabilityChecker in src/hooks/useAvailabilityChecker.test.ts
 - [x] T015 [P] [US1] Utility test for validation in src/utils/validation.test.ts
@@ -78,15 +78,15 @@ description: 'Task list for NPM Organization Name Availability Checker implement
 - [x] T018 [P] [US1] Create npm registry API utility in src/utils/npmRegistry.ts
 - [x] T019 [P] [US1] Create useOrgNameValidator hook in src/hooks/useOrgNameValidator.ts
 - [x] T020 [P] [US1] Create useAvailabilityChecker hook in src/hooks/useAvailabilityChecker.ts
-- [ ] T021 [P] [US1] Create AvailabilityIndicator component in src/components/AvailabilityIndicator/AvailabilityIndicator.tsx
-- [ ] T022 [P] [US1] Create AvailabilityIndicator types in src/components/AvailabilityIndicator/AvailabilityIndicator.types.ts
-- [ ] T023 [P] [US1] Create ErrorMessage component in src/components/ErrorMessage/ErrorMessage.tsx
-- [ ] T024 [P] [US1] Create ErrorMessage types in src/components/ErrorMessage/ErrorMessage.types.ts
-- [ ] T025 [US1] Create OrgNameChecker component in src/components/OrgNameChecker/OrgNameChecker.tsx
-- [ ] T026 [US1] Create OrgNameChecker types in src/components/OrgNameChecker/OrgNameChecker.types.ts
-- [ ] T027 [US1] Update App component to use OrgNameChecker in src/components/App/App.tsx
-- [ ] T028 [US1] Add accessibility features (ARIA labels, keyboard navigation) to all components
-- [ ] T029 [US1] Add responsive design with Tailwind CSS (mobile-first, 600px max desktop)
+- [x] T021 [P] [US1] Create AvailabilityIndicator component in src/components/AvailabilityIndicator/AvailabilityIndicator.tsx
+- [x] T022 [P] [US1] Create AvailabilityIndicator types in src/components/AvailabilityIndicator/AvailabilityIndicator.types.ts
+- [x] T023 [P] [US1] Create ErrorMessage component in src/components/ErrorMessage/ErrorMessage.tsx
+- [x] T024 [P] [US1] Create ErrorMessage types in src/components/ErrorMessage/ErrorMessage.types.ts
+- [x] T025 [US1] Create OrgNameChecker component in src/components/OrgNameChecker/OrgNameChecker.tsx
+- [x] T026 [US1] Create OrgNameChecker types in src/components/OrgNameChecker/OrgNameChecker.types.ts
+- [x] T027 [US1] Update App component to use OrgNameChecker in src/components/App/App.tsx
+- [x] T028 [US1] Add accessibility features (ARIA labels, keyboard navigation) to all components
+- [x] T029 [US1] Add responsive design with Tailwind CSS (mobile-first, 600px max desktop)
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
