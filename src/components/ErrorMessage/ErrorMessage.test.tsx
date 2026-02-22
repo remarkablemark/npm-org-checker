@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ApiError, ApiErrorType } from 'src/types';
-import { describe, expect, it, vi } from 'vitest';
 
 import { ErrorMessage } from './ErrorMessage';
 

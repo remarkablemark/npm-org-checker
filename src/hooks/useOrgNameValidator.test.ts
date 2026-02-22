@@ -1,6 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
 import { ValidationErrorType } from 'src/types';
-import { describe, expect } from 'vitest';
 
 import { useOrgNameValidator } from './useOrgNameValidator';
 

@@ -1,5 +1,4 @@
 import { ValidationErrorType } from 'src/types';
-import { describe, expect } from 'vitest';
 
 import { validateOrganizationName } from './validation';
 

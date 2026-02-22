@@ -1,5 +1,4 @@
 import { ApiErrorType } from 'src/types';
-import { describe, expect, vi } from 'vitest';
 
 import { checkAvailability, createApiError } from './npmRegistry';
 
