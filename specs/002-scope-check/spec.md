@@ -90,14 +90,14 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 
 ### Functional Requirements
 
-- **FR-001**: System MUST validate unified name input using both organization name and scope validation rules
+- **FR-001**: System MUST validate unified name input using existing validateOrganizationName function for all name types (user, scope, organization)
 - **FR-002**: System MUST automatically detect input format (organization name vs scope) based on @ prefix
-- **FR-003**: System MUST enforce organization name validation rules for inputs without @ prefix
-- **FR-004**: System MUST enforce scope validation rules for inputs with @ prefix
-- **FR-005**: System MUST enforce minimum length requirement for names (at least 1 character)
-- **FR-006**: System MUST enforce maximum length requirement for names (no more than 214 characters total)
-- **FR-007**: System MUST only allow alphanumeric characters, hyphens, and underscores in name parts
-- **FR-008**: System MUST prevent names from starting or ending with hyphens or underscores
+- **FR-003**: System MUST enforce organization name validation rules for inputs without @ prefix using existing validateOrganizationName
+- **FR-004**: System MUST enforce scope validation rules for inputs with @ prefix using existing validateOrganizationName (after stripping @ prefix)
+- **FR-005**: System MUST enforce minimum length requirement for names (at least 1 character) using existing validation
+- **FR-006**: System MUST enforce maximum length requirement for names (no more than 214 characters total) using existing validation
+- **FR-007**: System MUST only allow alphanumeric characters, hyphens, and underscores in name parts using existing validation
+- **FR-008**: System MUST prevent names from starting or ending with hyphens or underscores using existing validation
 - **FR-009**: System MUST display specific error messages for different validation failures
 - **FR-010**: System MUST provide real-time validation feedback as user types
 - **FR-011**: System MUST clear validation errors when user corrects invalid input
@@ -143,6 +143,7 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - Q: CORS handling for replicate endpoint → A: Use corsmirror proxy for npm replicate endpoint calls
 - Q: Validation sequence → A: 1. check user name, 2. check npm scope, 3. check npm org
 - Q: Implementation approach → A: Consolidate the 3 step validation sequence in existing `checkNameAvailability` function
+- Q: Scope validation rules → A: Reuse user and org name validation rules for scope validation
 
 ## Consolidation Notice
 
