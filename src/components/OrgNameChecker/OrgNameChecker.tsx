@@ -129,7 +129,7 @@ export function OrgNameChecker({
       {orgUrl && (
         <div className="text-center text-sm text-gray-600">
           <p>
-            {isAvailable ? 'Check organization: ' : 'See organization: '}
+            {'See user/organization: '}
             <a
               href={orgUrl}
               target="_blank"

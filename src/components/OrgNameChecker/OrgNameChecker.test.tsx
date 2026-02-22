@@ -243,7 +243,7 @@ describe('OrgNameChecker', () => {
     expect(screen.getByText('❌')).toBeInTheDocument();
   });
 
-  it('displays "Check organization" text when org is available', async () => {
+  it('displays "See user/organization" text when org is available', async () => {
     const { useOrgNameValidator } =
       await import('src/hooks/useOrgNameValidator');
     const { useAvailabilityChecker } =
@@ -270,13 +270,13 @@ describe('OrgNameChecker', () => {
 
     render(<OrgNameChecker />);
 
-    expect(screen.getByText('Check organization:')).toBeInTheDocument();
+    expect(screen.getByText('See user/organization:')).toBeInTheDocument();
     expect(
       screen.getByText('https://www.npmjs.com/org/available-org'),
     ).toBeInTheDocument();
   });
 
-  it('displays "See organization" text when org is unavailable', async () => {
+  it('displays "See user/organization" text when org is unavailable', async () => {
     const { useOrgNameValidator } =
       await import('src/hooks/useOrgNameValidator');
     const { useAvailabilityChecker } =
@@ -303,7 +303,7 @@ describe('OrgNameChecker', () => {
 
     render(<OrgNameChecker />);
 
-    expect(screen.getByText('See organization:')).toBeInTheDocument();
+    expect(screen.getByText('See user/organization:')).toBeInTheDocument();
     expect(
       screen.getByText('https://www.npmjs.com/org/taken-org'),
     ).toBeInTheDocument();
