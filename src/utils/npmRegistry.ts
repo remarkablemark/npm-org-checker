@@ -6,11 +6,43 @@ const CORS_PROXY_URL = 'https://corsmirror.com/v1?url=';
 
 /**
  * Checks if an npm organization name is available by making a HEAD request
- * to the npm registry via a CORS proxy
+ * to the npm registry via a CORS proxy.
  *
- * @param orgName - The organization name to check
- * @returns Promise<boolean> - true if available, false if taken
- * @throws Error - For network or API errors
+ * This function handles the complexity of checking npm organization availability:
+ *
+ * Technical Implementation:
+ * - Uses corsmirror.com as CORS proxy to bypass browser restrictions
+ * - Makes HTTP HEAD requests to npmjs.com/org/\{orgName\}
+ * - 200 status = organization exists (not available)
+ * - 404 status = organization doesn't exist (available)
+ * - Other status codes indicate server/network issues
+ *
+ * Error Handling:
+ * - Network timeouts (10 second limit)
+ * - CORS proxy failures
+ * - npm registry server errors
+ * - Invalid organization names
+ *
+ * Performance Considerations:
+ * - HEAD requests are lightweight (no body transfer)
+ * - Timeout prevents hanging requests
+ * - Proper error cleanup and resource management
+ *
+ * @example
+ * ```typescript
+ * import { checkAvailability } from './npmRegistry';
+ *
+ * try {
+ *   const isAvailable = await checkAvailability('my-org');
+ *   console.log(isAvailable ? 'Available!' : 'Not available');
+ * } catch (error) {
+ *   console.error('Failed to check availability:', error);
+ * }
+ * ```
+ *
+ * @param orgName - The organization name to check (must be valid npm org name)
+ * @returns Promise that resolves to boolean: true if available, false if taken
+ * @throws ApiError for network, timeout, or server errors with detailed error information
  */
 export async function checkAvailability(orgName: string): Promise<boolean> {
   const controller = new AbortController();

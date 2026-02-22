@@ -1,8 +1,34 @@
 import type { AvailabilityIndicatorProps } from './AvailabilityIndicator.types';
 
 /**
- * Component that displays the availability status of an npm organization name
- * Shows visual indicators (✅/❌/spinner) with appropriate colors and text
+ * Visual indicator component for npm organization name availability status.
+ *
+ * This component provides clear visual feedback about availability status:
+ * - ✅ Green checkmark for available names
+ * - ❌ Red X for unavailable names
+ * - 🔄 Loading spinner during availability checks
+ * - No display when status is unknown (null) and not checking
+ *
+ * Features:
+ * - Fully accessible with ARIA live regions for screen readers
+ * - High contrast colors for visibility
+ * - Smooth transitions between states
+ * - Responsive design with proper touch targets
+ *
+ * @example
+ * ```tsx
+ * <AvailabilityIndicator
+ *   isAvailable={true}
+ *   isChecking={false}
+ *   className="custom-styles"
+ * />
+ * ```
+ *
+ * @param isAvailable - Availability status (true=available, false=unavailable, null=unknown)
+ * @param isChecking - Whether an availability check is currently in progress
+ * @param className - Additional CSS class names for custom styling
+ *
+ * @returns Visual status indicator or empty fragment when no status to display
  */
 export function AvailabilityIndicator({
   isAvailable,

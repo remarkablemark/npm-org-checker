@@ -7,7 +7,37 @@ const ORG_NAME_PATTERN = /^[a-z][a-z0-9-]*[a-z0-9]$/;
 const RESERVED_WORDS = ['npm', 'node', 'package', 'module'];
 
 /**
- * Validates an npm organization name according to npm naming rules
+ * Validates an npm organization name according to npm's official naming rules.
+ *
+ * This function implements comprehensive validation for npm organization names
+ * based on npm's documentation and best practices:
+ *
+ * Validation Rules:
+ * - Length: Must be between 1-214 characters
+ * - Pattern: Must start with lowercase letter, contain only lowercase letters, numbers, and hyphens
+ * - Hyphens: No consecutive hyphens allowed
+ * - Endings: Must end with lowercase letter or number (not hyphen)
+ * - Reserved: Cannot use npm reserved words (npm, node, package, module)
+ *
+ * The function returns a ValidationResult containing:
+ * - isValid: Boolean indicating if name passes all validation
+ * - errors: Array of ValidationError objects for failed rules
+ * - warnings: Array of ValidationError objects for non-critical issues
+ *
+ * @example
+ * ```typescript
+ * import { validateOrganizationName } from './validation';
+ *
+ * const result = validateOrganizationName('my-org');
+ * if (result.isValid) {
+ *   console.log('Name is valid!');
+ * } else {
+ *   console.log('Errors:', result.errors.map(e => e.message));
+ * }
+ * ```
+ *
+ * @param name - The organization name to validate
+ * @returns ValidationResult with validation status and detailed error information
  */
 export function validateOrganizationName(name: string): ValidationResult {
   const errors: ValidationError[] = [];

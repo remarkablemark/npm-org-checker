@@ -1,8 +1,40 @@
 import type { ErrorMessageProps } from './ErrorMessage.types';
 
 /**
- * Component that displays validation and API errors with proper accessibility
- * Prioritizes validation errors over API errors and provides retry functionality
+ * Comprehensive error display component for validation and API errors.
+ *
+ * This component handles both user input validation errors and API-related errors:
+ * - Validation errors: Real-time feedback on input format issues
+ * - API errors: Network, server, or npm registry problems
+ * - Retry functionality for recoverable errors
+ * - Technical details for debugging (optional)
+ *
+ * Display Priority:
+ * 1. Validation errors (shown first, multiple errors supported)
+ * 2. API errors (shown only if no validation errors)
+ *
+ * Accessibility Features:
+ * - ARIA live region for screen reader announcements
+ * - Semantic HTML structure
+ * - High contrast error indicators
+ * - Keyboard navigation support
+ *
+ * @example
+ * ```tsx
+ * <ErrorMessage
+ *   validationErrors={['Name too short', 'Invalid characters']}
+ *   apiError={networkError}
+ *   showTechnicalDetails={true}
+ *   onRetry={() => retryCheck()}
+ * />
+ * ```
+ *
+ * @param validationErrors - Array of validation error message strings
+ * @param apiError - API error object with type, message, and metadata
+ * @param showTechnicalDetails - Whether to show technical error details (default: false)
+ * @param onRetry - Optional callback for retry action on recoverable errors
+ *
+ * @returns Error display component or null if no errors present
  */
 export function ErrorMessage({
   validationErrors = [],

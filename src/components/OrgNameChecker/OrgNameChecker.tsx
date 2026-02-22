@@ -7,8 +7,31 @@ import { ErrorMessage } from '../ErrorMessage';
 import type { OrgNameCheckerProps } from './OrgNameChecker.types';
 
 /**
- * Component for checking npm organization name availability
- * Provides real-time validation and availability checking with visual feedback
+ * Main component for checking npm organization name availability.
+ *
+ * This component provides a complete interface for:
+ * - Real-time input validation with immediate feedback
+ * - Debounced availability checking via npm registry API
+ * - Visual status indicators (available/unavailable/checking)
+ * - Comprehensive error handling and display
+ * - Full accessibility support (keyboard navigation, screen readers)
+ *
+ * @example
+ * ```tsx
+ * <OrgNameChecker
+ *   onAvailabilityChange={(isAvailable) => console.log(isAvailable)}
+ *   onValidationError={(errors) => console.log(errors)}
+ *   placeholder="Enter your org name"
+ *   autoFocus={true}
+ * />
+ * ```
+ *
+ * @param onAvailabilityChange - Optional callback fired when availability status changes
+ * @param onValidationError - Optional callback fired when validation errors occur
+ * @param placeholder - Placeholder text for the input field (default: "Enter npm organization name")
+ * @param autoFocus - Whether the input should be auto-focused on mount (default: false)
+ *
+ * @returns A complete form interface with input, validation, and availability feedback
  */
 export function OrgNameChecker({
   onAvailabilityChange,

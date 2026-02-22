@@ -3,23 +3,52 @@ import type { ApiError } from 'src/types';
 import { checkAvailability, createApiError } from 'src/utils/npmRegistry';
 
 interface UseAvailabilityCheckerOptions {
+  /** Debounce delay in milliseconds for availability checks (default: 300) */
   debounceMs?: number;
 }
 
 interface UseAvailabilityCheckerReturn {
+  /** Whether the organization name is available (null = not checked yet) */
   isAvailable: boolean | null;
+  /** Whether an availability check is currently in progress */
   isChecking: boolean;
+  /** API error from last check (null = no error) */
   apiError: ApiError | null;
+  /** Timestamp of the last successful availability check */
   lastChecked: Date | null;
+  /** Function to trigger availability check for an organization name */
   checkAvailability: (orgName: string) => void;
+  /** Function to reset the hook to initial state */
   reset: () => void;
 }
 
 const DEFAULT_DEBOUNCE_MS = 300;
 
 /**
- * Hook for checking npm organization name availability with debouncing
- * Provides loading states and error handling
+ * React hook for checking npm organization name availability with debouncing.
+ *
+ * This hook handles the complex logic of checking organization name availability
+ * against the npm registry while providing a smooth user experience.
+ *
+ * Key Features:
+ * - Debounced API calls (300ms default) to prevent excessive requests
+ * - Automatic cancellation of pending requests on new input
+ * - Comprehensive error handling for network issues, timeouts, and server errors
+ * - Loading state management for UI feedback
+ * - Timestamp tracking for cache invalidation
+ *
+ * API Integration:
+ * - Uses corsmirror.com as CORS proxy for npm registry access
+ * - Makes HTTP HEAD requests to npmjs.com/org/\{name\}
+ * - Handles various error scenarios gracefully
+ *
+ * Performance Optimizations:
+ * - Debouncing prevents API spam during rapid typing
+ * - Request cancellation prevents race conditions
+ * - Efficient state management with React hooks
+ *
+ * @param options - Configuration options for the hook
+ * @returns Object containing availability state and control functions
  */
 export function useAvailabilityChecker(
   options: UseAvailabilityCheckerOptions = {},
