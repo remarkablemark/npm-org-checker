@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
+import { DEFAULT_DEBOUNCE_MS } from 'src/constants';
 import type { ApiError } from 'src/types';
 import { checkNameAvailability, createApiError } from 'src/utils/npmRegistry';
 
@@ -21,8 +22,6 @@ interface UseAvailabilityCheckerReturn {
   /** Function to reset the hook to initial state */
   reset: () => void;
 }
-
-const DEFAULT_DEBOUNCE_MS = 300;
 
 /**
  * React hook for checking npm organization name availability with debouncing.
