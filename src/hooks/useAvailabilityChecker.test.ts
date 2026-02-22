@@ -321,4 +321,36 @@ describe('useAvailabilityChecker', () => {
 
     expect(mockCheckAvailability).toHaveBeenCalledWith('test-org');
   });
+
+  test('should handle error in performCheck function correctly', async () => {
+    const mockCheckAvailability = vi.mocked(checkAvailability);
+    const mockCreateApiError = vi.mocked(createApiError);
+    const testError = new Error('Test error');
+    const apiError = {
+      type: ApiErrorType.NETWORK_ERROR,
+      message: 'Test error',
+      timestamp: new Date(),
+    };
+
+    mockCheckAvailability.mockRejectedValueOnce(testError);
+    mockCreateApiError.mockReturnValueOnce(apiError);
+
+    const { result } = renderHook(() =>
+      useAvailabilityChecker({ debounceMs: 0 }),
+    );
+
+    act(() => {
+      result.current.checkAvailability('test-org');
+    });
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    expect(result.current.isChecking).toBe(false);
+    expect(result.current.isAvailable).toBeNull();
+    expect(result.current.apiError).toEqual(apiError);
+    expect(result.current.lastChecked).toBeNull();
+    expect(mockCreateApiError).toHaveBeenCalledWith(testError);
+  });
 });

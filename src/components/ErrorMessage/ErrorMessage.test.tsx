@@ -69,6 +69,20 @@ describe('ErrorMessage', () => {
     expect(screen.getByText(/2023-01-01/)).toBeInTheDocument();
   });
 
+  it('shows technical details without status code when statusCode is not provided', () => {
+    const apiError: ApiError = {
+      type: 'NETWORK_ERROR' as ApiErrorType,
+      message: 'Network error occurred',
+      timestamp: new Date('2023-01-01T00:00:00Z'),
+    };
+    render(<ErrorMessage apiError={apiError} showTechnicalDetails />);
+
+    expect(screen.getByText('Network error occurred')).toBeInTheDocument();
+    expect(screen.getByText(/NETWORK_ERROR/)).toBeInTheDocument();
+    expect(screen.queryByText(/Status Code:/)).not.toBeInTheDocument();
+    expect(screen.getByText(/2023-01-01/)).toBeInTheDocument();
+  });
+
   it('hides technical details when disabled', () => {
     const apiError: ApiError = {
       type: 'NETWORK_ERROR' as ApiErrorType,

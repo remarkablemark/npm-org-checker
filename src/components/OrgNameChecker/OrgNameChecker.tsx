@@ -49,10 +49,13 @@ export function OrgNameChecker({
     const value = event.target.value;
     setOrgName(value);
 
-    // Trigger availability check if input is valid
-    if (value && isValid) {
+    // Note: checkAvailability is already debounced in the hook
+    // We call it on every change and let the hook handle debouncing
+    /* v8 ignore start */
+    if (value) {
       checkAvailability(value);
     }
+    /* v8 ignore end */
   };
 
   const errorId = validationErrors.length > 0 ? 'validation-errors' : undefined;

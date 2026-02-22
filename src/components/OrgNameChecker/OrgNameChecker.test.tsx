@@ -37,6 +37,20 @@ describe('OrgNameChecker', () => {
     expect(input).toHaveAttribute('placeholder', 'Enter npm organization name');
   });
 
+  it('does not auto-focus when autoFocus prop is false', () => {
+    render(<OrgNameChecker autoFocus={false} />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).not.toHaveFocus();
+  });
+
+  it('does not auto-focus when autoFocus prop is not provided (default)', () => {
+    render(<OrgNameChecker />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).not.toHaveFocus();
+  });
+
   it('renders with custom placeholder when provided', () => {
     render(<OrgNameChecker placeholder="Custom placeholder" />);
 
@@ -316,6 +330,52 @@ describe('OrgNameChecker', () => {
     expect(mockCheckAvailability).toHaveBeenCalledWith('test-org');
   });
 
+  it('does not call checkAvailability when input is empty', async () => {
+    const { useOrgNameValidator } =
+      await import('src/hooks/useOrgNameValidator');
+    const { useAvailabilityChecker } =
+      await import('src/hooks/useAvailabilityChecker');
+
+    const mockCheckAvailability = vi.fn();
+
+    vi.mocked(useOrgNameValidator).mockReturnValue({
+      value: '',
+      isValid: false,
+      validationErrors: [],
+      isDirty: true,
+      setValue: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    vi.mocked(useAvailabilityChecker).mockReturnValue({
+      isAvailable: null,
+      isChecking: false,
+      apiError: null,
+      lastChecked: null,
+      checkAvailability: mockCheckAvailability,
+      reset: vi.fn(),
+    });
+
+    const user = userEvent.setup();
+    render(<OrgNameChecker />);
+
+    const input = screen.getByLabelText(/organization name/i);
+
+    // Type something and then clear it to trigger the empty value branch
+    await user.type(input, 'test');
+
+    // Should have called checkAvailability during typing
+    expect(mockCheckAvailability).toHaveBeenCalledTimes(4);
+
+    // Clear the mock to test the empty branch
+    mockCheckAvailability.mockClear();
+
+    // Clear the input - this should not call checkAvailability
+    await user.clear(input);
+
+    expect(mockCheckAvailability).not.toHaveBeenCalled();
+  });
+
   it('does not call checkAvailability when retry clicked but orgName is empty', async () => {
     const { useOrgNameValidator } =
       await import('src/hooks/useOrgNameValidator');
@@ -353,5 +413,63 @@ describe('OrgNameChecker', () => {
     await user.click(retryButton);
 
     expect(mockCheckAvailability).not.toHaveBeenCalled();
+  });
+
+  it('does not call callbacks when they are not provided', async () => {
+    const { useOrgNameValidator } =
+      await import('src/hooks/useOrgNameValidator');
+    const { useAvailabilityChecker } =
+      await import('src/hooks/useAvailabilityChecker');
+
+    vi.mocked(useOrgNameValidator).mockReturnValue({
+      value: 'test-org',
+      isValid: true,
+      validationErrors: [],
+      isDirty: true,
+      setValue: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    vi.mocked(useAvailabilityChecker).mockReturnValue({
+      isAvailable: true,
+      isChecking: false,
+      apiError: null,
+      lastChecked: new Date(),
+      checkAvailability: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    // Render without providing callback props
+    expect(() => render(<OrgNameChecker />)).not.toThrow();
+  });
+
+  it('handles null apiError correctly', async () => {
+    const { useOrgNameValidator } =
+      await import('src/hooks/useOrgNameValidator');
+    const { useAvailabilityChecker } =
+      await import('src/hooks/useAvailabilityChecker');
+
+    vi.mocked(useOrgNameValidator).mockReturnValue({
+      value: 'test-org',
+      isValid: true,
+      validationErrors: [],
+      isDirty: true,
+      setValue: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    vi.mocked(useAvailabilityChecker).mockReturnValue({
+      isAvailable: null,
+      isChecking: false,
+      apiError: null,
+      lastChecked: null,
+      checkAvailability: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    render(<OrgNameChecker />);
+
+    // Should render without errors when apiError is null
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 });

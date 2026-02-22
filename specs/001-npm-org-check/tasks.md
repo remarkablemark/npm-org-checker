@@ -100,15 +100,15 @@ description: 'Task list for NPM Organization Name Availability Checker implement
 
 ### Tests for User Story 2 (TDD - Write First, Ensure They Fail) ⚠️
 
-- [ ] T030 [P] [US2] Integration test for real-time validation in src/integration/realtime-validation.test.tsx
-- [ ] T031 [P] [US2] Component test for debounced input in src/components/OrgNameChecker/OrgNameChecker.debounce.test.tsx
+- [x] T030 [P] [US2] Integration test for real-time validation in src/integration/realtime-validation.test.tsx
+- [x] T031 [P] [US2] Component test for debounced input in src/components/OrgNameChecker/OrgNameChecker.debounce.test.tsx
 
 ### Implementation for User Story 2
 
-- [ ] T032 [P] [US2] Implement 300ms debouncing in useAvailabilityChecker hook in src/hooks/useAvailabilityChecker.ts
-- [ ] T033 [US2] Add real-time validation feedback to OrgNameChecker component in src/components/OrgNameChecker/OrgNameChecker.tsx
-- [ ] T034 [US2] Enhance validation error display in ErrorMessage component in src/components/ErrorMessage/ErrorMessage.tsx
-- [ ] T035 [US2] Add loading state management during debounced API calls in src/hooks/useAvailabilityChecker.ts
+- [x] T032 [P] [US2] Implement 300ms debouncing in useAvailabilityChecker hook in src/hooks/useAvailabilityChecker.ts
+- [x] T033 [US2] Add real-time validation feedback to OrgNameChecker component in src/components/OrgNameChecker/OrgNameChecker.tsx
+- [x] T034 [US2] Enhance validation error display in ErrorMessage component in src/components/ErrorMessage/ErrorMessage.tsx
+- [x] T035 [US2] Add loading state management during debounced API calls in src/hooks/useAvailabilityChecker.ts
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
