@@ -35,8 +35,8 @@ export async function checkScopeExists(scopeName: string): Promise<boolean> {
 
   try {
     // Build replicate endpoint URL
-    const replicateUrl = `https://replicate.npmjs.org/_all_docs?startkey=%22@${encodeURIComponent(scopeName)}/%22&endkey=%22@${encodeURIComponent(scopeName)}/\ufff0%22`;
-    const proxyUrl = `${CORS_PROXY_URL}${encodeURIComponent(replicateUrl)}`;
+    const replicateUrl = `https://replicate.npmjs.com/_all_docs?startkey=%22@${scopeName}/%22&endkey=%22@${scopeName}/\ufff0%22`;
+    const proxyUrl = `${CORS_PROXY_URL}${replicateUrl}`;
 
     const response = await fetch(proxyUrl, {
       method: 'GET',
