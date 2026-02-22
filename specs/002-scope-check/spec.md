@@ -142,6 +142,7 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - Q: Replicate response interpretation → A: Scope or org name is taken when rows.length > 0 in the JSON response
 - Q: CORS handling for replicate endpoint → A: Use corsmirror proxy for npm replicate endpoint calls
 - Q: Validation sequence → A: 1. check user name, 2. check npm scope, 3. check npm org
+- Q: Implementation approach → A: Consolidate the 3 step validation sequence in existing `checkNameAvailability` function
 
 ## Consolidation Notice
 
@@ -159,10 +160,11 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 
 **Implementation**:
 
-- Scope checking will be handled within the existing `checkNameAvailability` function in `npmRegistry.ts`
-- The main component will use `useAvailabilityChecker` with the enhanced consolidated function
+- Scope checking will be handled by extending the existing `checkNameAvailability` function in `npmRegistry.ts`
+- The main component will continue to use `useAvailabilityChecker` with the enhanced consolidated function
 - No separate scope validation UI will be displayed to users, but the logic will be preserved
 - Input field will automatically detect format (@org vs @user) and apply appropriate validation
+- The 3-step validation sequence (user → scope → organization) will be consolidated within the single `checkNameAvailability` function
 
 **Impact**:
 
