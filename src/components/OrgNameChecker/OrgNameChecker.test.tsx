@@ -21,6 +21,7 @@ vi.mock('src/hooks/useAvailabilityChecker', () => ({
     isChecking: false,
     apiError: null,
     lastChecked: null,
+    orgUrl: null,
     checkAvailability: vi.fn(),
     reset: vi.fn(),
   })),
@@ -87,6 +88,7 @@ describe('OrgNameChecker', () => {
       isChecking: false,
       apiError: null,
       lastChecked: new Date(),
+      orgUrl: 'https://www.npmjs.com/org/test-org',
       checkAvailability: vi.fn(),
       reset: vi.fn(),
     });
@@ -170,6 +172,7 @@ describe('OrgNameChecker', () => {
       lastChecked: null,
       checkAvailability: vi.fn(),
       reset: vi.fn(),
+      orgUrl: null,
     });
 
     render(<OrgNameChecker />);
@@ -200,6 +203,7 @@ describe('OrgNameChecker', () => {
       lastChecked: new Date(),
       checkAvailability: vi.fn(),
       reset: vi.fn(),
+      orgUrl: null,
     });
 
     render(<OrgNameChecker />);
@@ -230,6 +234,7 @@ describe('OrgNameChecker', () => {
       lastChecked: new Date(),
       checkAvailability: vi.fn(),
       reset: vi.fn(),
+      orgUrl: null,
     });
 
     render(<OrgNameChecker />);
@@ -317,6 +322,7 @@ describe('OrgNameChecker', () => {
         timestamp: new Date(),
       },
       lastChecked: null,
+      orgUrl: null,
       checkAvailability: mockCheckAvailability,
       reset: vi.fn(),
     });
@@ -357,6 +363,7 @@ describe('OrgNameChecker', () => {
         timestamp: new Date(),
       },
       lastChecked: null,
+      orgUrl: null,
       checkAvailability: mockCheckAvailability,
       reset: vi.fn(),
     });
@@ -393,6 +400,7 @@ describe('OrgNameChecker', () => {
       lastChecked: new Date(),
       checkAvailability: vi.fn(),
       reset: vi.fn(),
+      orgUrl: null,
     });
 
     // Render without providing callback props
@@ -421,6 +429,7 @@ describe('OrgNameChecker', () => {
       lastChecked: null,
       checkAvailability: vi.fn(),
       reset: vi.fn(),
+      orgUrl: null,
     });
 
     render(<OrgNameChecker />);
