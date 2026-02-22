@@ -147,6 +147,7 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - Q: UI component integration → A: Integrate with existing UI components
 - Q: Input format detection → A: No need to detect if user input starts with @
 - Q: Success criteria reuse → A: Reuse existing measurable outcomes
+- Q: Debounce strategy → A: Reuse existing 300ms debounce pattern
 
 ## Consolidation Notice
 
