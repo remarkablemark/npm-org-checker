@@ -33,18 +33,9 @@ export function ErrorMessage({
       {showValidationErrors ? (
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
-            <svg
-              className="h-4 w-4 flex-shrink-0"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <span className="text-lg" aria-hidden="true">
+              ⚠️
+            </span>
             <h3 className="text-sm font-medium">Validation Errors</h3>
           </div>
           <ul className="ml-6 list-inside list-disc space-y-1">
@@ -59,18 +50,9 @@ export function ErrorMessage({
         currentError && (
           <div className="space-y-3">
             <div className="flex items-center space-x-2">
-              <svg
-                className="h-4 w-4 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <span className="text-lg" aria-hidden="true">
+                ❌
+              </span>
               <span className="text-sm font-medium">Error</span>
             </div>
             <div className="text-sm">{currentError.message}</div>
