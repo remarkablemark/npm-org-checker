@@ -1,6 +1,6 @@
 # Implementation Plan: Check User Name First
 
-**Branch**: `001-check-user-name` | **Date**: 2025-02-22 | **Spec**: [spec.md](spec.md)
+**Branch**: `001-check-user-name` | **Date**: 2026-02-22 | **Spec**: [spec.md](spec.md)
 **Input**: Feature specification from `/specs/001-check-user-name/spec.md`
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/plan-template.md` for the execution workflow.
