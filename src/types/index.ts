@@ -45,22 +45,9 @@ export interface ApiError {
   timestamp: Date;
 }
 
-export interface AvailabilityStatus {
-  isAvailable: boolean;
-  checkedAt: Date;
-  source: 'npm-registry';
-}
-
-export interface OrganizationName {
-  value: string;
-  isValid: boolean;
-  validationErrors: ValidationError[];
+export interface AvailabilityIndicatorProps {
   isAvailable: boolean | null;
   isChecking: boolean;
-  lastChecked: Date | null;
-}
-
-export interface ComponentProps {
   'aria-label'?: string;
   'aria-describedby'?: string;
   'aria-invalid'?: boolean;
@@ -69,34 +56,27 @@ export interface ComponentProps {
   role?: string;
 }
 
-export interface InputProps extends ComponentProps {
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  disabled?: boolean;
-  required?: boolean;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
-}
-
-export interface AvailabilityIndicatorProps extends ComponentProps {
-  isAvailable: boolean | null;
-  isChecking: boolean;
-}
-
-export interface ErrorMessageProps extends ComponentProps {
+export interface ErrorMessageProps {
   errors: ValidationError[];
   apiError?: ApiError | null;
+  'aria-label'?: string;
+  'aria-describedby'?: string;
+  'aria-invalid'?: boolean;
+  'aria-live'?: 'polite' | 'assertive' | 'off';
+  'aria-atomic'?: boolean;
+  role?: string;
 }
 
-export interface OrgNameCheckerProps extends ComponentProps {
+export interface OrgNameCheckerProps {
   onAvailabilityChange?: (isAvailable: boolean | null) => void;
+  onValidationError?: (errors: string[]) => void;
   debounceMs?: number;
+  autoFocus?: boolean;
+  placeholder?: string;
+  'aria-label'?: string;
+  'aria-describedby'?: string;
+  'aria-invalid'?: boolean;
+  'aria-live'?: 'polite' | 'assertive' | 'off';
+  'aria-atomic'?: boolean;
+  role?: string;
 }
-
-export type CheckAvailabilityFunction = (orgName: string) => Promise<boolean>;
-
-export type ValidateOrganizationNameFunction = (
-  name: string,
-) => ValidationResult;
