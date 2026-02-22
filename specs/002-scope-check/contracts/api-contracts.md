@@ -52,10 +52,18 @@ try {
 export async function checkScopeExists(scopeName: string): Promise<boolean> {
   // 1. Validate input using existing validateOrganizationName()
   // 2. Build replicate endpoint URL with startkey/endkey
-  // 3. Use corsmirror proxy for CORS handling
+  // 3. Use corsmirror proxy for CORS handling with full URL encoding
   // 4. Parse response and check rows.length > 0
   // 5. Handle errors and timeouts appropriately
 }
+```
+
+**URL Encoding Contract**:
+
+```typescript
+// The replicate endpoint URL must be fully encoded before passing to corsmirror
+const replicateUrl = `https://replicate.npmjs.com/_all_docs?startkey="@${scopeName}/"&endkey="@${scopeName}/\ufff0"`;
+const proxyUrl = `https://corsmirror.com/v1?url=${encodeURIComponent(replicateUrl)}`;
 ```
 
 ### Enhanced checkNameAvailability()
@@ -212,6 +220,11 @@ describe('checkScopeExists', () => {
     // Mock replicate response with rows
     const result = await checkScopeExists('existing-scope');
     expect(result).toBe(true);
+    // Verify URL is properly encoded with encodeURIComponent
+    expect(mockFetch).toHaveBeenCalledWith(
+      'https://corsmirror.com/v1?url=https%3A%2F%2Freplicate.npmjs.com%2F_all_docs%3Fstartkey%3D%22%40existing-scope%2F%22%26endkey%3D%22%40existing-scope%2F%EF%BF%B0%22',
+      expect.any(Object),
+    );
   });
 
   it('should return false when scope does not exist', async () => {
@@ -223,6 +236,15 @@ describe('checkScopeExists', () => {
   it('should handle network errors', async () => {
     // Mock network failure
     await expect(checkScopeExists('scope')).rejects.toThrow();
+  });
+
+  it('should properly encode Unicode characters in URL', async () => {
+    // Verify that \ufff0 gets properly encoded to %EF%BF%B0
+    const result = await checkScopeExists('test-scope');
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('%EF%BF%B0'), // UTF-8 encoded \ufff0
+      expect.any(Object),
+    );
   });
 });
 ```

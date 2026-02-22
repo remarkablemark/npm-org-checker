@@ -456,7 +456,7 @@ describe('checkScopeExists', () => {
 
     expect(result).toBe(true);
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://replicate.npmjs.com/_all_docs?startkey="@angular/"&endkey="@angular/\ufff0"',
+      'https://corsmirror.com/v1?url=https%3A%2F%2Freplicate.npmjs.com%2F_all_docs%3Fstartkey%3D%22%40angular%2F%22%26endkey%3D%22%40angular%2F%EF%BF%B0%22',
       {
         method: 'GET',
         signal: expect.any(AbortSignal) as AbortSignal,
@@ -484,7 +484,7 @@ describe('checkScopeExists', () => {
     await checkScopeExists('scope_name-test');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://replicate.npmjs.com/_all_docs?startkey="@scope_name-test/"&endkey="@scope_name-test/\ufff0"',
+      'https://corsmirror.com/v1?url=https%3A%2F%2Freplicate.npmjs.com%2F_all_docs%3Fstartkey%3D%22%40scope_name-test%2F%22%26endkey%3D%22%40scope_name-test%2F%EF%BF%B0%22',
       {
         method: 'GET',
         signal: expect.any(AbortSignal) as AbortSignal,

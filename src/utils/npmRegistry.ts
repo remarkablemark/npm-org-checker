@@ -260,7 +260,7 @@ export async function checkScopeExists(scopeName: string): Promise<boolean> {
     // Build replicate endpoint URL for scope checking
     // E.g., https://replicate.npmjs.com/_all_docs?startkey="@angular/"&endkey="@angular/\ufff0"
     const replicateUrl = `https://replicate.npmjs.com/_all_docs?startkey="@${scopeName}/"&endkey="@${scopeName}/\ufff0"`;
-    const proxyUrl = `${CORS_PROXY_URL}${replicateUrl}`;
+    const proxyUrl = `${CORS_PROXY_URL}${encodeURIComponent(replicateUrl)}`;
 
     const response = await fetch(proxyUrl, {
       method: 'GET',

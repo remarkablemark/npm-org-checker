@@ -80,6 +80,7 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - What happens when npm registry returns unexpected response format?
 - How does system handle scopes that conflict with reserved npm names?
 - What happens when checking scopes that are organization names vs user names?
+- How does system handle Unicode characters in URLs when passing through CORS proxy? (RESOLVED: Use encodeURIComponent to properly encode the entire replicate endpoint URL)
 
 ## Requirements _(mandatory)_
 
@@ -103,9 +104,9 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - **FR-011**: System MUST clear validation errors when user corrects invalid input
 - **FR-012**: System MUST prevent form submission when validation fails
 - **FR-013**: System MUST use the npm registry organization endpoint to check for existing organizations
-- **FR-014**: System MUST use the npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` via corsmirror proxy to check for existing packages with scopes
-- **FR-015**: System MUST replace `<scope>` placeholder in replicate endpoint URL with the URL-encoded actual scope name (without @ prefix)
-- **FR-016**: System MUST use corsmirror.com proxy URL format: `https://corsmirror.com/v1?url=` followed by the encoded replicate endpoint URL
+- **FR-014**: System MUST use the npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` via corsmirror proxy to check for existing packages with scopes, with proper URL encoding of the entire endpoint URL
+- **FR-015**: System MUST replace `<scope>` placeholder in replicate endpoint URL with the actual scope name (without @ prefix) and URL-encode the complete URL before passing to corsmirror proxy
+- **FR-016**: System MUST use corsmirror.com proxy URL format: `https://corsmirror.com/v1?url=` followed by the URL-encoded replicate endpoint URL (using encodeURIComponent)
 - **FR-017**: System MUST determine name is not available when either organization exists or packages exist with that scope
 - **FR-018**: System MUST display clear message indicating why name is unavailable (organization taken vs scope taken)
 - **FR-019**: System MUST proceed to indicate name availability only when neither organization nor scope exists
@@ -160,9 +161,9 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 ### Session 2026-02-22
 
 - Q: UI Integration Approach → A: Unified Input Field - Single input that accepts organization names and scope names (without @ prefix), checking availability across all types
-- Q: Scope checking API endpoint → A: Use npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` with replaced `<scope>`
+- Q: Scope checking API endpoint → A: Use npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` with replaced `<scope>`, properly URL-encoding the entire URL with encodeURIComponent before passing to corsmirror proxy
 - Q: Replicate response interpretation → A: Scope or org name is taken when rows.length > 0 in the JSON response
-- Q: CORS handling for replicate endpoint → A: Use corsmirror proxy for npm replicate endpoint calls
+- Q: CORS handling for replicate endpoint → A: Use corsmirror proxy for npm replicate endpoint calls, with full URL encoding using encodeURIComponent to handle Unicode characters like \ufff0
 - Q: Validation sequence → A: 1. check user name, 2. check npm scope, 3. check npm org
 - Q: Implementation approach → A: Consolidate the 3 step validation sequence in existing `checkNameAvailability` function
 - Q: Scope validation rules → A: Reuse user and org name validation rules for scope validation
