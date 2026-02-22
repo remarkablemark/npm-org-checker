@@ -35,7 +35,10 @@ description: 'Task list for NPM Scope Checker feature implementation'
 - [ ] T006 [P] Verify existing validation utilities in src/utils/validation.ts
 - [ ] T007 [P] Review existing useAvailabilityChecker hook implementation
 - [ ] T008 [P] Verify existing OrgNameChecker component structure
-- [ ] T009 Review existing error handling patterns and timeout configuration
+- [ ] T009 [P] Verify validateOrganizationName function exists in src/utils/validation.ts
+- [ ] T010 [P] Document validateOrganizationName validation rules in src/utils/validation.ts
+- [ ] T011 [P] Test validateOrganizationName with scope names in src/utils/validation.test.ts
+- [ ] T012 Review existing error handling patterns and timeout configuration
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -51,17 +54,19 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T010 [P] [US1] Test unified validation with valid organization names in src/utils/validation.test.ts
-- [ ] T011 [P] [US1] Test unified validation with valid scope names in src/utils/validation.test.ts
-- [ ] T012 [P] [US1] Test unified validation with invalid formats in src/utils/validation.test.ts
-- [ ] T013 [P] [US1] Test validation edge cases (length, special characters) in src/utils/validation.test.ts
+- [ ] T013 [P] [US1] Test unified validation with valid organization names in src/utils/validation.test.ts
+- [ ] T014 [P] [US1] Test unified validation with valid scope names in src/utils/validation.test.ts
+- [ ] T015 [P] [US1] Test unified validation with invalid formats in src/utils/validation.test.ts
+- [ ] T016 [P] [US1] Test validation edge cases (length, special characters) in src/utils/validation.test.ts
 
 ### Implementation for User Story 1
 
-- [ ] T014 [US1] Verify existing validateOrganizationName function handles all name types in src/utils/validation.ts
-- [ ] T015 [US1] Update validation documentation to reflect unified approach in src/utils/validation.ts
-- [ ] T016 [US1] Add validation type definitions for unified name checking in src/types/index.ts
-- [ ] T017 [US1] Update validation error messages to be name-type agnostic in src/utils/validation.ts
+- [ ] T017 [US1] Verify existing validateOrganizationName function handles all name types in src/utils/validation.ts
+- [ ] T018 [US1] Confirm unified validation applies to all input types in src/utils/validation.ts
+- [ ] T019 [US1] Remove any format detection logic from validation flow in src/utils/validation.ts
+- [ ] T020 [US1] Update validation documentation to reflect unified approach in src/utils/validation.ts
+- [ ] T021 [US1] Add validation type definitions for unified name checking in src/types/index.ts
+- [ ] T022 [US1] Update validation error messages to be name-type agnostic in src/utils/validation.ts
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -75,26 +80,26 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 ### Tests for User Story 2 ⚠️
 
-- [ ] T018 [P] [US2] Test checkScopeExists function with existing scope in src/utils/npmRegistry.test.ts
-- [ ] T019 [P] [US2] Test checkScopeExists function with available scope in src/utils/npmRegistry.test.ts
-- [ ] T020 [P] [US2] Test checkScopeExists function with network errors in src/utils/npmRegistry.test.ts
-- [ ] T021 [P] [US2] Test checkScopeExists function with timeout errors in src/utils/npmRegistry.test.ts
-- [ ] T022 [P] [US2] Test enhanced checkNameAvailability with user conflict in src/utils/npmRegistry.test.ts
-- [ ] T023 [P] [US2] Test enhanced checkNameAvailability with scope conflict in src/utils/npmRegistry.test.ts
-- [ ] T024 [P] [US2] Test enhanced checkNameAvailability with organization conflict in src/utils/npmRegistry.test.ts
-- [ ] T025 [P] [US2] Test enhanced checkNameAvailability with no conflicts in src/utils/npmRegistry.test.ts
+- [ ] T023 [P] [US2] Test checkScopeExists function with existing scope in src/utils/npmRegistry.test.ts
+- [ ] T024 [P] [US2] Test checkScopeExists function with available scope in src/utils/npmRegistry.test.ts
+- [ ] T025 [P] [US2] Test checkScopeExists function with network errors in src/utils/npmRegistry.test.ts
+- [ ] T026 [P] [US2] Test checkScopeExists function with timeout errors in src/utils/npmRegistry.test.ts
+- [ ] T027 [P] [US2] Test enhanced checkNameAvailability with user conflict in src/utils/npmRegistry.test.ts
+- [ ] T028 [P] [US2] Test enhanced checkNameAvailability with scope conflict in src/utils/npmRegistry.test.ts
+- [ ] T029 [P] [US2] Test enhanced checkNameAvailability with organization conflict in src/utils/npmRegistry.test.ts
+- [ ] T030 [P] [US2] Test enhanced checkNameAvailability with no conflicts in src/utils/npmRegistry.test.ts
 
 ### Implementation for User Story 2
 
-- [ ] T026 [P] [US2] Add ScopeCheckResponse interface in src/utils/npmRegistry.ts
-- [ ] T027 [US2] Implement checkScopeExists function in src/utils/npmRegistry.ts
-- [ ] T028 [US2] Add npm replicate endpoint URL construction logic in src/utils/npmRegistry.ts
-- [ ] T029 [US2] Add corsmirror proxy integration for scope checking in src/utils/npmRegistry.ts
-- [ ] T030 [US2] Implement scope existence parsing (rows.length > 0) in src/utils/npmRegistry.ts
-- [ ] T031 [US2] Add comprehensive error handling for scope checking in src/utils/npmRegistry.ts
-- [ ] T032 [US2] Enhance checkNameAvailability function with scope checking step in src/utils/npmRegistry.ts
-- [ ] T033 [US2] Add timeout handling for scope checking API calls in src/utils/npmRegistry.ts
-- [ ] T034 [US2] Update error handling to include scope-specific context in src/utils/npmRegistry.ts
+- [ ] T031 [P] [US2] Add ScopeCheckResponse interface in src/utils/npmRegistry.ts
+- [ ] T032 [US2] Implement checkScopeExists function in src/utils/npmRegistry.ts
+- [ ] T033 [US2] Add npm replicate endpoint URL construction logic in src/utils/npmRegistry.ts
+- [ ] T034 [US2] Add corsmirror proxy integration for scope checking in src/utils/npmRegistry.ts
+- [ ] T035 [US2] Implement scope existence parsing (rows.length > 0) in src/utils/npmRegistry.ts
+- [ ] T036 [US2] Add comprehensive error handling for scope checking in src/utils/npmRegistry.ts
+- [ ] T037 [US2] Enhance checkNameAvailability function with scope checking step in src/utils/npmRegistry.ts
+- [ ] T038 [US2] Add timeout handling for scope checking API calls in src/utils/npmRegistry.ts
+- [ ] T039 [US2] Update error handling to include scope-specific context in src/utils/npmRegistry.ts
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -108,17 +113,17 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 ### Tests for User Story 3 ⚠️
 
-- [ ] T035 [P] [US3] Test real-time validation feedback for organization names in src/hooks/useAvailabilityChecker.test.ts
-- [ ] T036 [P] [US3] Test real-time validation feedback for scope names in src/hooks/useAvailabilityChecker.test.ts
-- [ ] T034 [P] [US3] Test validation feedback clearing on input correction in src/hooks/useAvailabilityChecker.test.ts
-- [ ] T037 [P] [US3] Test debouncing behavior with enhanced validation in src/hooks/useAvailabilityChecker.test.ts
+- [ ] T040 [P] [US3] Test real-time validation feedback for organization names in src/hooks/useAvailabilityChecker.test.ts
+- [ ] T041 [P] [US3] Test real-time validation feedback for scope names in src/hooks/useAvailabilityChecker.test.ts
+- [ ] T042 [P] [US3] Test validation feedback clearing on input correction in src/hooks/useAvailabilityChecker.test.ts
+- [ ] T043 [P] [US3] Test debouncing behavior with enhanced validation in src/hooks/useAvailabilityChecker.test.ts
 
 ### Implementation for User Story 3
 
-- [ ] T038 [US3] Verify useAvailabilityChecker hook works with enhanced validation in src/hooks/useAvailabilityChecker.ts
-- [ ] T039 [US3] Test real-time validation feedback for all name types in src/hooks/useAvailabilityChecker.ts
-- [ ] T040 [US3] Verify 300ms debounce works with scope checking in src/hooks/useAvailabilityChecker.ts
-- [ ] T041 [US3] Update error message handling for scope conflicts in src/hooks/useAvailabilityChecker.ts
+- [ ] T044 [US3] Verify useAvailabilityChecker hook works with enhanced validation in src/hooks/useAvailabilityChecker.ts
+- [ ] T045 [US3] Test real-time validation feedback for all name types in src/hooks/useAvailabilityChecker.ts
+- [ ] T046 [US3] Verify 300ms debounce works with scope checking in src/hooks/useAvailabilityChecker.ts
+- [ ] T047 [US3] Update error message handling for scope conflicts in src/hooks/useAvailabilityChecker.ts
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -128,14 +133,14 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T042 [P] Update npmRegistry.ts documentation with scope checking functionality
-- [ ] T043 [P] Run comprehensive test suite with 100% coverage verification
-- [ ] T044 [P] Performance testing of enhanced validation sequence
-- [ ] T045 [P] Update component documentation to reflect unified checking
-- [ ] T046 [P] Verify error handling consistency across all name types
-- [ ] T047 [P] Manual testing in browser with various name scenarios
-- [ ] T048 [P] Code cleanup and refactoring for maintainability
-- [ ] T049 [P] Update README.md with scope checking information
+- [ ] T048 [P] Update npmRegistry.ts documentation with scope checking functionality
+- [ ] T049 [P] Run comprehensive test suite with 100% coverage verification
+- [ ] T050 [P] Performance testing of enhanced validation sequence
+- [ ] T051 [P] Update component documentation to reflect unified checking
+- [ ] T052 [P] Verify error handling consistency across all name types
+- [ ] T053 [P] Manual testing in browser with various name scenarios
+- [ ] T054 [P] Code cleanup and refactoring for maintainability
+- [ ] T055 [P] Update README.md with scope checking information
 
 ---
 

@@ -119,6 +119,14 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - **FR-027**: System MUST handle npm replicate API responses and parse scope existence from the results
 - **FR-028**: System MUST determine scope is taken when replicate response rows.length > 0
 - **FR-029**: System MUST determine scope is available when replicate response rows.length = 0
+- **FR-030**: System MUST verify that `validateOrganizationName` function exists in `src/utils/validation.ts` before implementation
+- **FR-031**: System MUST document the exact validation rules enforced by `validateOrganizationName` function
+- **FR-032**: System MUST confirm that `validateOrganizationName` handles scope names (with @ prefix) correctly
+- **FR-033**: System MUST use unified validation approach - all inputs (user names, scopes, organizations) use same `validateOrganizationName` function
+- **FR-034**: System MUST NOT detect input format based on @ prefix - validation is format-agnostic
+- **FR-035**: System MUST apply same validation rules to all input types: alphanumeric characters, hyphens, underscores only
+- **FR-036**: System MUST enforce same length constraints (1-214 characters) for all input types
+- **FR-037**: System MUST prevent names from starting/ending with hyphens or underscores for all input types
 
 ### Key Entities
 
@@ -132,6 +140,20 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - **Name Availability**: Final determination of whether name is available for use
 - **API Response**: Response data from npm registry endpoints (organization endpoint and replicate endpoint), including rows array for scope checking
 - **Replicate Response**: JSON response from npm replicate endpoint with total_rows, offset, and rows array structure
+
+### Input Format Handling
+
+**Unified Validation Approach**: The system uses a format-agnostic validation strategy where all input types (user names, organization names, and scopes) are processed through the same `validateOrganizationName` function. This eliminates the need for format detection and ensures consistent validation rules across all name types.
+
+**Validation Rules Applied to All Input Types**:
+
+- Minimum length: 1 character
+- Maximum length: 214 characters total
+- Allowed characters: alphanumeric, hyphens, underscores only
+- Cannot start or end with hyphens or underscores
+- Same validation function processes all inputs regardless of @ prefix presence
+
+**Scope Name Handling**: When a scope name includes the @ prefix, the validation function processes the entire string including the @ symbol, ensuring scope-specific requirements are met through the unified validation approach.
 
 ## Clarifications
 
