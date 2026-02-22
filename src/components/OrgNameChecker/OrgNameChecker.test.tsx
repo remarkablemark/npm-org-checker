@@ -243,6 +243,72 @@ describe('OrgNameChecker', () => {
     expect(screen.getByText('❌')).toBeInTheDocument();
   });
 
+  it('displays "Check organization" text when org is available', async () => {
+    const { useOrgNameValidator } =
+      await import('src/hooks/useOrgNameValidator');
+    const { useAvailabilityChecker } =
+      await import('src/hooks/useAvailabilityChecker');
+
+    vi.mocked(useOrgNameValidator).mockReturnValue({
+      value: 'available-org',
+      isValid: true,
+      validationErrors: [],
+      isDirty: true,
+      setValue: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    vi.mocked(useAvailabilityChecker).mockReturnValue({
+      isAvailable: true,
+      isChecking: false,
+      apiError: null,
+      lastChecked: new Date(),
+      orgUrl: 'https://www.npmjs.com/org/available-org',
+      checkAvailability: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    render(<OrgNameChecker />);
+
+    expect(screen.getByText('Check organization:')).toBeInTheDocument();
+    expect(
+      screen.getByText('https://www.npmjs.com/org/available-org'),
+    ).toBeInTheDocument();
+  });
+
+  it('displays "See organization" text when org is unavailable', async () => {
+    const { useOrgNameValidator } =
+      await import('src/hooks/useOrgNameValidator');
+    const { useAvailabilityChecker } =
+      await import('src/hooks/useAvailabilityChecker');
+
+    vi.mocked(useOrgNameValidator).mockReturnValue({
+      value: 'taken-org',
+      isValid: true,
+      validationErrors: [],
+      isDirty: true,
+      setValue: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    vi.mocked(useAvailabilityChecker).mockReturnValue({
+      isAvailable: false,
+      isChecking: false,
+      apiError: null,
+      lastChecked: new Date(),
+      orgUrl: 'https://www.npmjs.com/org/taken-org',
+      checkAvailability: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    render(<OrgNameChecker />);
+
+    expect(screen.getByText('See organization:')).toBeInTheDocument();
+    expect(
+      screen.getByText('https://www.npmjs.com/org/taken-org'),
+    ).toBeInTheDocument();
+  });
+
   it('handles keyboard navigation properly', async () => {
     render(<OrgNameChecker />);
 

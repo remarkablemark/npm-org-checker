@@ -17,8 +17,8 @@ As a user checking npm organization name availability, I want to see the potenti
 
 **Acceptance Scenarios**:
 
-1. **Given** a user enters a valid organization name, **When** the availability check completes, **Then** the system displays a clickable link to the potential npm organization page
-2. **Given** a user enters an organization name that conflicts with existing users or scopes, **When** the check shows "unavailable", **Then** the system still displays the organization URL link
+1. **Given** a user enters a valid organization name, **When** the availability check completes, **Then** the system displays "Check organization: <url>" when the name is available
+2. **Given** a user enters an organization name that conflicts with existing users or scopes, **When** the check shows "unavailable", **Then** the system displays "See organization: <url>"
 3. **Given** a user clicks on the organization URL link, **When** the link is clicked, **Then** it opens in a new browser tab
 
 ---
@@ -53,7 +53,7 @@ As a user checking organization name availability, I want faster response times 
 - **FR-002**: System MUST continue to check for user name conflicts via npm registry
 - **FR-003**: System MUST continue to check for scope conflicts via npm registry
 - **FR-004**: System MUST generate and display the potential npm organization URL for any checked name
-- **FR-005**: System MUST display the organization URL as a clickable link that opens in a new tab
+- **FR-005**: System MUST display the organization URL as a clickable link that opens in a new tab with contextual text ("Check organization:" for available names, "See organization:" for unavailable names)
 - **FR-006**: System MUST return availability status based only on user and scope conflicts
 - **FR-007**: System MUST maintain all existing error handling and validation functionality
 
