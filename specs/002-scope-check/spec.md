@@ -91,9 +91,9 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 ### Functional Requirements
 
 - **FR-001**: System MUST validate unified name input using existing validateOrganizationName function for all name types (user, scope, organization)
-- **FR-002**: System MUST automatically detect input format (organization name vs scope) based on @ prefix
-- **FR-003**: System MUST enforce organization name validation rules for inputs without @ prefix using existing validateOrganizationName
-- **FR-004**: System MUST enforce scope validation rules for inputs with @ prefix using existing validateOrganizationName (after stripping @ prefix)
+- **FR-002**: System MUST check name availability across all three types without requiring input format detection
+- **FR-003**: System MUST enforce organization name validation rules for all inputs using existing validateOrganizationName
+- **FR-004**: System MUST apply same validation rules to user names, scopes, and organizations using existing validation
 - **FR-005**: System MUST enforce minimum length requirement for names (at least 1 character) using existing validation
 - **FR-006**: System MUST enforce maximum length requirement for names (no more than 214 characters total) using existing validation
 - **FR-007**: System MUST only allow alphanumeric characters, hyphens, and underscores in name parts using existing validation
@@ -145,6 +145,7 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - Q: Implementation approach → A: Consolidate the 3 step validation sequence in existing `checkNameAvailability` function
 - Q: Scope validation rules → A: Reuse user and org name validation rules for scope validation
 - Q: UI component integration → A: Integrate with existing UI components
+- Q: Input format detection → A: No need to detect if user input starts with @
 
 ## Consolidation Notice
 
@@ -165,7 +166,7 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - Scope checking will be handled by extending the existing `checkNameAvailability` function in `npmRegistry.ts`
 - The main component will continue to use `useAvailabilityChecker` with the enhanced consolidated function
 - No separate scope validation UI will be displayed to users, but the logic will be preserved
-- Input field will automatically detect format (@org vs @user) and apply appropriate validation
+- Input field will check name availability across all three types: user, scope, and organization without requiring format detection
 - The 3-step validation sequence (user → scope → organization) will be consolidated within the single `checkNameAvailability` function
 - Integration will extend existing OrgNameChecker component to support scope checking without UI changes
 
