@@ -18,7 +18,7 @@
 - Third-party npm API services (additional dependencies, potential costs)
 - Web scraping (unreliable, against terms of service)
 
-**Implementation**: `https://corsmirror.com/v1?url=https://npmjs.org/org/<name>`
+**Implementation**: `https://corsmirror.com/v1?url=https://www.npmjs.com/org/<name>`
 
 ## Organization Name Validation Rules
 

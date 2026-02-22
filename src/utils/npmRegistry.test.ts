@@ -26,7 +26,7 @@ describe('checkAvailability', () => {
 
     expect(result).toBe(true);
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://npmjs.org/org/available-org',
+      'https://corsmirror.com/v1?url=https://www.npmjs.com/org/available-org',
       {
         method: 'HEAD',
         signal: expect.any(AbortSignal) as AbortSignal,
@@ -116,7 +116,7 @@ describe('checkAvailability', () => {
     await checkAvailability('my-test-org');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://npmjs.org/org/my-test-org',
+      'https://corsmirror.com/v1?url=https://www.npmjs.com/org/my-test-org',
       {
         method: 'HEAD',
         signal: expect.any(AbortSignal) as AbortSignal,
@@ -134,7 +134,7 @@ describe('checkAvailability', () => {
     await checkAvailability('org-with-123');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://npmjs.org/org/org-with-123',
+      'https://corsmirror.com/v1?url=https://www.npmjs.com/org/org-with-123',
       {
         method: 'HEAD',
         signal: expect.any(AbortSignal) as AbortSignal,

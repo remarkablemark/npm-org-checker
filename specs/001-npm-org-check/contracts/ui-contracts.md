@@ -112,7 +112,7 @@ interface AvailabilityResult {
   source: 'npm-registry';
 }
 
-// Implementation uses: https://corsmirror.com/v1?url=https://npmjs.org/org/<name>
+// Implementation uses: https://corsmirror.com/v1?url=https://www.npmjs.com/org/<name>
 ```
 
 ### Error Handling

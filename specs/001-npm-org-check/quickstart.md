@@ -84,7 +84,7 @@ const RESERVED_WORDS = ['npm', 'node', 'package', 'module'];
 // Availability check endpoint
 const checkAvailability = async (orgName: string) => {
   const response = await fetch(
-    `https://corsmirror.com/v1?url=https://npmjs.org/org/${orgName}`,
+    `https://corsmirror.com/v1?url=https://www.npmjs.com/org/${orgName}`,
     {
       method: 'HEAD',
     },

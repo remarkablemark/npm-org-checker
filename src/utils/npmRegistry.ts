@@ -21,7 +21,7 @@ export async function checkAvailability(orgName: string): Promise<boolean> {
   /* v8 ignore end */
 
   try {
-    const url = `${CORS_PROXY_URL}https://npmjs.org/org/${encodeURIComponent(orgName)}`;
+    const url = `${CORS_PROXY_URL}https://www.npmjs.com/org/${encodeURIComponent(orgName)}`;
 
     const response = await fetch(url, {
       method: 'HEAD',

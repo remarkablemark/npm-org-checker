@@ -21,7 +21,7 @@ This feature provides a web-based tool for developers to check npm organization 
 **Constraints**: Responsive design, accessibility compliant, network connectivity required  
 **Scale/Scope**: Single-page tool for npm org name checking  
 **External Dependencies**: https://corsmirror.com/ for CORS proxy, npm registry API  
-**API Integration**: HTTP HEAD requests to `https://corsmirror.com/v1?url=https://npmjs.org/org/<name>`
+**API Integration**: HTTP HEAD requests to `https://corsmirror.com/v1?url=https://www.npmjs.com/org/<name>`
 
 ## Constitution Check
 
