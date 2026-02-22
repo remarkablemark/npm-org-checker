@@ -118,6 +118,17 @@ As a user, I want to see real-time validation feedback as I type a user name, so
   These must be technology-agnostic and measurable.
 -->
 
+## Clarifications
+
+### Session 2025-02-22
+
+- Q: Code reuse strategy for existing validation and API utilities → A: Extend existing utilities to handle both organization and user name validation, and add user existence checking to npmRegistry utilities
+- Q: User name validation rules specificity → A: Use same rules as organization names (lowercase letters, numbers, hyphens only)
+- Q: Real-time API call debouncing strategy → A: Reuse existing 300ms debounce pattern from useAvailabilityChecker
+- Q: User existence API response handling → A: User exists if JSON response objects array length > 0
+- Q: Integration with existing UI components → A: Extend existing OrgNameChecker to add user name validation step before organization checking
+- Q: CORS proxy for npm search API → A: Use corsmirror.com proxy for npm registry search API calls (same as existing organization checks)
+
 ### Measurable Outcomes
 
 - **SC-001**: Users receive validation feedback within 100ms of typing or form submission
