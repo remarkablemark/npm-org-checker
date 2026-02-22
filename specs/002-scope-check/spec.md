@@ -103,17 +103,18 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - **FR-011**: System MUST clear validation errors when user corrects invalid input
 - **FR-012**: System MUST prevent form submission when validation fails
 - **FR-013**: System MUST use the npm registry organization endpoint to check for existing organizations
-- **FR-014**: System MUST use the npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` to check for existing packages with scopes
+- **FR-014**: System MUST use the npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` via corsmirror proxy to check for existing packages with scopes
 - **FR-015**: System MUST replace `<scope>` placeholder in replicate endpoint URL with the actual scope name (without @ prefix)
-- **FR-016**: System MUST determine name is not available when either organization exists or packages exist with that scope
-- **FR-017**: System MUST display clear message indicating why name is unavailable (organization taken vs scope taken)
-- **FR-018**: System MUST proceed to indicate name availability only when neither organization nor scope exists
-- **FR-019**: System MUST handle npm registry API errors gracefully with user-friendly messages
-- **FR-020**: System MUST implement timeout handling for npm registry API calls
-- **FR-021**: System MUST check both organization availability and scope availability in the appropriate sequence
-- **FR-022**: System MUST handle npm replicate API responses and parse scope existence from the results
-- **FR-023**: System MUST determine scope is taken when replicate response rows.length > 0
-- **FR-024**: System MUST determine scope is available when replicate response rows.length = 0
+- **FR-016**: System MUST use corsmirror.com proxy URL format: `https://corsmirror.com/v1?url=` followed by the encoded replicate endpoint URL
+- **FR-017**: System MUST determine name is not available when either organization exists or packages exist with that scope
+- **FR-018**: System MUST display clear message indicating why name is unavailable (organization taken vs scope taken)
+- **FR-019**: System MUST proceed to indicate name availability only when neither organization nor scope exists
+- **FR-020**: System MUST handle npm registry API errors gracefully with user-friendly messages
+- **FR-021**: System MUST implement timeout handling for npm registry API calls
+- **FR-022**: System MUST check both organization availability and scope availability in the appropriate sequence
+- **FR-023**: System MUST handle npm replicate API responses and parse scope existence from the results
+- **FR-024**: System MUST determine scope is taken when replicate response rows.length > 0
+- **FR-025**: System MUST determine scope is available when replicate response rows.length = 0
 
 ### Key Entities
 
@@ -135,6 +136,7 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - Q: UI Integration Approach → A: Unified Input Field - Single input that accepts both organization names (@org) and scopes (@user), automatically detecting format and checking appropriate availability
 - Q: Scope checking API endpoint → A: Use npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` with replaced `<scope>`
 - Q: Replicate response interpretation → A: Scope or org name is taken when rows.length > 0 in the JSON response
+- Q: CORS handling for replicate endpoint → A: Use corsmirror proxy for npm replicate endpoint calls
 
 ## Consolidation Notice
 
