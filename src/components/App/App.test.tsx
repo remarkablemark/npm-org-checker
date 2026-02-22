@@ -30,11 +30,15 @@ describe('App component', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const input = screen.getByRole('textbox', { name: 'Organization name' });
-    expect(input).toHaveValue('');
+    // First need to fill in user name to enable org input
+    const userInput = screen.getByRole('textbox', { name: 'User name' });
+    await user.type(userInput, 'validuser');
 
-    await user.type(input, 'test-org');
-    expect(input).toHaveValue('test-org');
+    const orgInput = screen.getByRole('textbox', { name: 'Organization name' });
+    expect(orgInput).toHaveValue('');
+
+    await user.type(orgInput, 'test-org');
+    expect(orgInput).toHaveValue('test-org');
   });
 
   it('has proper accessibility attributes', () => {

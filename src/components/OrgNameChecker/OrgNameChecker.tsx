@@ -1,7 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useAvailabilityChecker } from '../../hooks/useAvailabilityChecker';
 import { useOrgNameValidator } from '../../hooks/useOrgNameValidator';
+import { useUserExistenceChecker } from '../../hooks/useUserExistenceChecker';
+import { validateUserName } from '../../utils/validation';
 import { AvailabilityIndicator } from '../AvailabilityIndicator';
 import { ErrorMessage } from '../ErrorMessage';
 import type { OrgNameCheckerProps } from './OrgNameChecker.types';
@@ -36,6 +38,9 @@ import type { OrgNameCheckerProps } from './OrgNameChecker.types';
 export function OrgNameChecker({
   onAvailabilityChange,
   onValidationError,
+  onUserExistenceChange,
+  onUserValidationError,
+  userPlaceholder = 'Enter npm user name',
   placeholder = 'Enter npm organization name',
   autoFocus = false,
 }: OrgNameCheckerProps) {
@@ -50,6 +55,19 @@ export function OrgNameChecker({
 
   const { isAvailable, isChecking, apiError, checkAvailability } =
     useAvailabilityChecker({ debounceMs: 300 });
+
+  const {
+    userExists,
+    isChecking: isCheckingUser,
+    apiError: userApiError,
+    checkUserExists: checkUserExistsFunc,
+  } = useUserExistenceChecker({ debounceMs: 300 });
+
+  // User validation state
+  const [userName, setUserName] = useState('');
+  const [userValidation, setUserValidation] = useState(() =>
+    validateUserName(''),
+  );
 
   // Handle auto-focus
   useEffect(() => {
@@ -68,6 +86,33 @@ export function OrgNameChecker({
     onValidationError?.(validationErrors.map((error) => error.message));
   }, [validationErrors, onValidationError]);
 
+  // Notify parent of user existence changes
+  useEffect(() => {
+    onUserExistenceChange?.(userExists);
+  }, [userExists, onUserExistenceChange]);
+
+  // Notify parent of user validation errors
+  useEffect(() => {
+    onUserValidationError?.(
+      userValidation.errors.map((error) => error.message),
+    );
+  }, [userValidation.errors, onUserValidationError]);
+
+  // Handle user name input change
+  const handleUserInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const value = event.target.value;
+    setUserName(value);
+    const validation = validateUserName(value);
+    setUserValidation(validation);
+
+    // If user validation passes, check user existence
+    if (validation.isValid) {
+      checkUserExistsFunc(value);
+    }
+  };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setOrgName(value);
@@ -83,9 +128,54 @@ export function OrgNameChecker({
 
   const errorId = validationErrors.length > 0 ? 'validation-errors' : undefined;
   const hasError = validationErrors.length > 0;
+  const userErrorId =
+    userValidation.errors.length > 0 ? 'user-validation-errors' : undefined;
+  const hasUserError = userValidation.errors.length > 0;
 
   return (
     <div className="w-full space-y-4">
+      {/* User Name Input */}
+      <div className="flex flex-col space-y-2">
+        <label
+          htmlFor="user-name-input"
+          className="text-sm font-medium text-gray-700"
+        >
+          NPM User Name
+        </label>
+
+        <input
+          ref={inputRef}
+          id="user-name-input"
+          type="text"
+          value={userName}
+          onChange={handleUserInputChange}
+          placeholder={userPlaceholder}
+          aria-label="User name"
+          aria-describedby={userErrorId}
+          aria-invalid={hasUserError}
+          className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 text-lg transition-colors focus:border-blue-500 focus:outline-none md:max-w-[600px]"
+        />
+      </div>
+
+      {/* User Validation Errors */}
+      <ErrorMessage
+        validationErrors={userValidation.errors.map((error) => error.message)}
+        apiError={userApiError ?? undefined}
+        showTechnicalDetails
+        onRetry={() => {
+          if (userName && userValidation.isValid) {
+            checkUserExistsFunc(userName);
+          }
+        }}
+      />
+
+      {/* User Existence Status */}
+      <AvailabilityIndicator
+        isAvailable={userExists === false ? true : null}
+        isChecking={isCheckingUser}
+      />
+
+      {/* Organization Name Input */}
       <div className="flex flex-col space-y-2">
         <label
           htmlFor="org-name-input"
@@ -95,7 +185,6 @@ export function OrgNameChecker({
         </label>
 
         <input
-          ref={inputRef}
           id="org-name-input"
           type="text"
           value={orgName}
@@ -105,10 +194,11 @@ export function OrgNameChecker({
           aria-describedby={errorId}
           aria-invalid={hasError}
           className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 text-lg transition-colors focus:border-blue-500 focus:outline-none md:max-w-[600px]"
+          disabled={!userValidation.isValid || userExists === true}
         />
       </div>
 
-      {/* Validation Errors */}
+      {/* Organization Validation Errors */}
       <ErrorMessage
         validationErrors={validationErrors.map((error) => error.message)}
         apiError={apiError ?? undefined}
@@ -120,7 +210,7 @@ export function OrgNameChecker({
         }}
       />
 
-      {/* Availability Status */}
+      {/* Organization Availability Status */}
       <AvailabilityIndicator
         isAvailable={isAvailable}
         isChecking={isChecking}
