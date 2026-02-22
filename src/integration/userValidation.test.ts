@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { useUserExistenceChecker } from 'src/hooks/useUserExistenceChecker';
 import { checkUserExists } from 'src/utils/npmRegistry';
-import { validateUserName } from 'src/utils/validation';
+import { validateOrganizationName } from 'src/utils/validation';
 import { afterEach, beforeEach, describe, expect, vi } from 'vitest';
 
 // Mock the npm registry utilities
@@ -40,7 +40,7 @@ describe('User Validation Integration Tests', () => {
       ];
 
       for (const input of invalidInputs) {
-        const validation = validateUserName(input);
+        const validation = validateOrganizationName(input);
         expect(validation.isValid).toBe(false);
         expect(mockCheckUserExists).not.toHaveBeenCalled();
       }
@@ -68,7 +68,7 @@ describe('User Validation Integration Tests', () => {
       ];
 
       for (const input of validInputs) {
-        const validation = validateUserName(input);
+        const validation = validateOrganizationName(input);
         expect(validation.isValid).toBe(true);
 
         // Reset mock before each API call

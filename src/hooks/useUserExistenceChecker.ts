@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import type { ApiError } from 'src/types';
 import { checkUserExists, createApiError } from 'src/utils/npmRegistry';
-import { validateUserName } from 'src/utils/validation';
+import { validateOrganizationName } from 'src/utils/validation';
 
 interface UseUserExistenceCheckerOptions {
   /** Debounce delay in milliseconds for user existence checks (default: 300) */
@@ -73,7 +73,7 @@ export function useUserExistenceChecker(
     /* v8 ignore end */
 
     // Validate user name before making API call
-    const validation = validateUserName(userName);
+    const validation = validateOrganizationName(userName);
     if (!validation.isValid) {
       return;
     }

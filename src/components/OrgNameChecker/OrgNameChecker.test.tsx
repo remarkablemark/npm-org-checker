@@ -484,7 +484,9 @@ describe('OrgNameChecker', () => {
     // Check that the callback was called with user validation errors at some point
     expect(mockOnUserValidationError).toHaveBeenCalledWith(
       expect.arrayContaining([
-        expect.stringContaining('User name must start with a lowercase letter'),
+        expect.stringContaining(
+          'Organization name must start with a lowercase letter',
+        ),
       ]),
     );
   });

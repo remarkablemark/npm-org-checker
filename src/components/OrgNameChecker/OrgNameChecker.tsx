@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAvailabilityChecker } from '../../hooks/useAvailabilityChecker';
 import { useOrgNameValidator } from '../../hooks/useOrgNameValidator';
 import { useUserExistenceChecker } from '../../hooks/useUserExistenceChecker';
-import { validateUserName } from '../../utils/validation';
+import { validateOrganizationName } from '../../utils/validation';
 import { AvailabilityIndicator } from '../AvailabilityIndicator';
 import { ErrorMessage } from '../ErrorMessage';
 import type { OrgNameCheckerProps } from './OrgNameChecker.types';
@@ -68,7 +68,7 @@ export function OrgNameChecker({
 
   // User validation state
   const [userValidation, setUserValidation] = useState(() =>
-    validateUserName(''),
+    validateOrganizationName(''),
   );
 
   // Handle auto-focus
@@ -105,7 +105,7 @@ export function OrgNameChecker({
     setOrgName(value);
 
     // Validate as user name
-    const validation = validateUserName(value);
+    const validation = validateOrganizationName(value);
     setUserValidation(validation);
 
     // Check user existence if user validation passes
