@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
+import { useAvailabilityChecker } from 'src/hooks/useAvailabilityChecker';
 
-import { useAvailabilityChecker } from '../../hooks/useAvailabilityChecker';
 import { useOrgNameValidator } from '../../hooks/useOrgNameValidator';
 import { AvailabilityIndicator } from '../AvailabilityIndicator';
 import { ErrorMessage } from '../ErrorMessage';
@@ -11,7 +11,7 @@ import type { OrgNameCheckerProps } from './OrgNameChecker.types';
  *
  * This component provides a complete interface for:
  * - Real-time input validation with immediate feedback
- * - Debounced availability checking via npm registry API
+ * - Organization name availability checking via npm registry API
  * - Visual status indicators (available/unavailable/checking)
  * - Comprehensive error handling and display
  * - Full accessibility support (keyboard navigation, screen readers)
@@ -26,7 +26,7 @@ import type { OrgNameCheckerProps } from './OrgNameChecker.types';
  * />
  * ```
  *
- * @param onAvailabilityChange - Optional callback fired when availability status changes
+ * @param onAvailabilityChange - Optional callback fired when organization availability status changes
  * @param onValidationError - Optional callback fired when validation errors occur
  * @param placeholder - Placeholder text for the input field (default: "Enter npm organization name")
  * @param autoFocus - Whether the input should be auto-focused on mount (default: false)
@@ -71,15 +71,14 @@ export function OrgNameChecker({
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setOrgName(value);
-
-    // Note: checkAvailability is already debounced in the hook
-    // We call it on every change and let the hook handle debouncing
-    /* v8 ignore start */
-    if (value) {
-      checkAvailability(value);
-    }
-    /* v8 ignore end */
   };
+
+  // Check organization availability only if validation passes
+  useEffect(() => {
+    if (orgName && isValid) {
+      checkAvailability(orgName);
+    }
+  }, [orgName, isValid, checkAvailability]);
 
   const errorId = validationErrors.length > 0 ? 'validation-errors' : undefined;
   const hasError = validationErrors.length > 0;
@@ -88,7 +87,7 @@ export function OrgNameChecker({
     <div className="w-full space-y-4">
       <div className="flex flex-col space-y-2">
         <label
-          htmlFor="org-name-input"
+          htmlFor="name-input"
           className="text-sm font-medium text-gray-700"
         >
           NPM Organization Name
@@ -96,19 +95,19 @@ export function OrgNameChecker({
 
         <input
           ref={inputRef}
-          id="org-name-input"
+          id="name-input"
           type="text"
           value={orgName}
           onChange={handleInputChange}
           placeholder={placeholder}
           aria-label="Organization name"
-          aria-describedby={errorId}
+          aria-describedby={errorId ?? undefined}
           aria-invalid={hasError}
           className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 text-lg transition-colors focus:border-blue-500 focus:outline-none md:max-w-[600px]"
         />
       </div>
 
-      {/* Validation Errors */}
+      {/* Organization Validation Errors */}
       <ErrorMessage
         validationErrors={validationErrors.map((error) => error.message)}
         apiError={apiError ?? undefined}
@@ -120,7 +119,7 @@ export function OrgNameChecker({
         }}
       />
 
-      {/* Availability Status */}
+      {/* Organization Availability Status */}
       <AvailabilityIndicator
         isAvailable={isAvailable}
         isChecking={isChecking}

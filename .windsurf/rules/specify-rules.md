@@ -4,6 +4,8 @@ Auto-generated from all feature plans. Last updated: 2026-02-21
 
 ## Active Technologies
 
+- N/A (client-side application) (001-check-user-name)
+
 - TypeScript 5 (strict mode) + React 19, Vite 7, Vitest 4, Tailwind CSS 4 (001-npm-org-check)
 
 ## Project Structure
@@ -23,6 +25,8 @@ npm test && npm run lint
 TypeScript 5 (strict mode): Follow standard conventions
 
 ## Recent Changes
+
+- 001-check-user-name: Added TypeScript 5 (strict mode) + React 19, Vite 7, Vitest 4, Tailwind CSS 4
 
 - 001-npm-org-check: Added TypeScript 5 (strict mode) + React 19, Vite 7, Vitest 4, Tailwind CSS 4
 

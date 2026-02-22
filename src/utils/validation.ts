@@ -3,7 +3,7 @@ import { ValidationErrorType, type ValidationResult } from 'src/types';
 
 const MIN_LENGTH = 1;
 const MAX_LENGTH = 214;
-const ORG_NAME_PATTERN = /^[a-z][a-z0-9-]*[a-z0-9]$/;
+const ORG_NAME_PATTERN = /^[a-z][a-z0-9-_]*[a-z0-9]$/;
 const RESERVED_WORDS = ['npm', 'node', 'package', 'module'];
 
 /**
@@ -100,11 +100,11 @@ export function validateOrganizationName(name: string): ValidationResult {
       });
     }
 
-    if (/[A-Z]/.test(trimmedName) || /[^a-z0-9-]/.test(trimmedName)) {
+    if (/[A-Z]/.test(trimmedName) || /[^a-z0-9-_]/.test(trimmedName)) {
       errors.push({
         type: ValidationErrorType.INVALID_CHARACTERS,
         message:
-          'Organization name can only contain lowercase letters, numbers, and hyphens',
+          'Organization name can only contain lowercase letters, numbers, hyphens, and underscores',
       });
     }
   }

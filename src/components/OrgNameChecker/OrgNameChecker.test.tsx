@@ -30,7 +30,7 @@ describe('OrgNameChecker', () => {
   it('renders input field with proper attributes', () => {
     render(<OrgNameChecker />);
 
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).toBeInTheDocument();
     expect(input).toHaveAttribute('aria-label', 'Organization name');
     expect(input).toHaveAttribute('placeholder', 'Enter npm organization name');
@@ -39,28 +39,29 @@ describe('OrgNameChecker', () => {
   it('does not auto-focus when autoFocus prop is false', () => {
     render(<OrgNameChecker autoFocus={false} />);
 
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).not.toHaveFocus();
   });
 
-  it('does not auto-focus when autoFocus prop is not provided (default)', () => {
+  it('does not auto-focus input by default', () => {
     render(<OrgNameChecker />);
 
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).not.toHaveFocus();
   });
 
   it('renders with custom placeholder when provided', () => {
     render(<OrgNameChecker placeholder="Custom placeholder" />);
 
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).toHaveAttribute('placeholder', 'Custom placeholder');
   });
 
   it('auto-focuses input when autoFocus prop is true', () => {
     render(<OrgNameChecker autoFocus />);
 
-    const input = screen.getByRole('textbox');
+    // The organization name input should be focused (it has the ref)
+    const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).toHaveFocus();
   });
 
@@ -240,7 +241,7 @@ describe('OrgNameChecker', () => {
   it('handles keyboard navigation properly', async () => {
     render(<OrgNameChecker />);
 
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).toBeInTheDocument();
 
     // Should be keyboard accessible
@@ -329,7 +330,7 @@ describe('OrgNameChecker', () => {
     expect(mockCheckAvailability).toHaveBeenCalledWith('test-org');
   });
 
-  it('does not call checkAvailability when input is empty', async () => {
+  it('does not call checkAvailability when retry button is clicked with empty input', async () => {
     const { useOrgNameValidator } =
       await import('src/hooks/useOrgNameValidator');
     const { useAvailabilityChecker } =
@@ -337,56 +338,11 @@ describe('OrgNameChecker', () => {
 
     const mockCheckAvailability = vi.fn();
 
+    // Start with empty input and API error to show retry button
     vi.mocked(useOrgNameValidator).mockReturnValue({
-      value: '',
+      value: '', // Empty input
       isValid: false,
-      validationErrors: [],
-      isDirty: true,
-      setValue: vi.fn(),
-      reset: vi.fn(),
-    });
-
-    vi.mocked(useAvailabilityChecker).mockReturnValue({
-      isAvailable: null,
-      isChecking: false,
-      apiError: null,
-      lastChecked: null,
-      checkAvailability: mockCheckAvailability,
-      reset: vi.fn(),
-    });
-
-    const user = userEvent.setup();
-    render(<OrgNameChecker />);
-
-    const input = screen.getByLabelText(/organization name/i);
-
-    // Type something and then clear it to trigger the empty value branch
-    await user.type(input, 'test');
-
-    // Should have called checkAvailability during typing
-    expect(mockCheckAvailability).toHaveBeenCalledTimes(4);
-
-    // Clear the mock to test the empty branch
-    mockCheckAvailability.mockClear();
-
-    // Clear the input - this should not call checkAvailability
-    await user.clear(input);
-
-    expect(mockCheckAvailability).not.toHaveBeenCalled();
-  });
-
-  it('does not call checkAvailability when retry clicked but orgName is empty', async () => {
-    const { useOrgNameValidator } =
-      await import('src/hooks/useOrgNameValidator');
-    const { useAvailabilityChecker } =
-      await import('src/hooks/useAvailabilityChecker');
-
-    const mockCheckAvailability = vi.fn();
-
-    vi.mocked(useOrgNameValidator).mockReturnValue({
-      value: '',
-      isValid: true,
-      validationErrors: [],
+      validationErrors: [], // No validation errors for empty input initially
       isDirty: true,
       setValue: vi.fn(),
       reset: vi.fn(),
@@ -408,6 +364,7 @@ describe('OrgNameChecker', () => {
     const user = userEvent.setup();
     render(<OrgNameChecker />);
 
+    // Retry button should be visible since there are no validation errors but there's an API error
     const retryButton = screen.getByRole('button', { name: /retry/i });
     await user.click(retryButton);
 
@@ -468,7 +425,9 @@ describe('OrgNameChecker', () => {
 
     render(<OrgNameChecker />);
 
-    // Should render without errors when apiError is null
-    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    // Should render single input that handles org validation
+    expect(
+      screen.getByRole('textbox', { name: 'Organization name' }),
+    ).toBeInTheDocument();
   });
 });

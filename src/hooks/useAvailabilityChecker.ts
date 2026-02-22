@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
+import { DEFAULT_DEBOUNCE_MS } from 'src/constants';
 import type { ApiError } from 'src/types';
-import { checkAvailability, createApiError } from 'src/utils/npmRegistry';
+import { checkNameAvailability, createApiError } from 'src/utils/npmRegistry';
 
 interface UseAvailabilityCheckerOptions {
   /** Debounce delay in milliseconds for availability checks (default: 300) */
@@ -21,8 +22,6 @@ interface UseAvailabilityCheckerReturn {
   /** Function to reset the hook to initial state */
   reset: () => void;
 }
-
-const DEFAULT_DEBOUNCE_MS = 300;
 
 /**
  * React hook for checking npm organization name availability with debouncing.
@@ -75,7 +74,7 @@ export function useAvailabilityChecker(
     setApiError(null);
 
     try {
-      const available = await checkAvailability(orgName);
+      const available = await checkNameAvailability(orgName);
       setIsAvailable(available);
       setLastChecked(new Date());
       setApiError(null);
