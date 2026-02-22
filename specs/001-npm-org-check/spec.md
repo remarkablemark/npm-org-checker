@@ -48,21 +48,6 @@ As a developer, I want to receive real-time feedback as I type an organization n
 
 ---
 
-### User Story 3 - Batch Name Checking (Priority: P3)
-
-As a developer, I want to check multiple organization names at once so that I can efficiently evaluate several naming options.
-
-**Why this priority**: Enhances productivity for users considering multiple organization name options.
-
-**Independent Test**: Can be fully tested by submitting multiple names and receiving a comprehensive results table, delivering bulk checking capability.
-
-**Acceptance Scenarios**:
-
-1. **Given** I have multiple organization names to check, **When** I submit them as a list, **Then** the system returns availability status for each name
-2. **Given** I am viewing batch results, **When** some names are available, **Then** the system highlights available options for easy selection
-
----
-
 ### Edge Cases
 
 - What happens when the npm registry API is temporarily unavailable?
