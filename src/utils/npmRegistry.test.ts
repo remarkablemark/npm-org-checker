@@ -1,6 +1,7 @@
 import { ApiErrorType } from 'src/types';
 
 import {
+  checkNameAvailability,
   checkOrgAvailability,
   checkUserExists,
   createApiError,
@@ -414,5 +415,265 @@ describe('checkUserExists', () => {
     } as unknown as Response);
 
     await expect(checkUserExists('test-user')).rejects.toThrow('Invalid JSON');
+  });
+});
+
+// User Story 2: Scope Checking Tests
+// These tests verify the new checkScopeExists function
+describe('checkScopeExists', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('should return true when scope exists (packages found)', async () => {
+    const mockFetch = vi.mocked(fetch);
+    const mockResponse = {
+      total_rows: 100,
+      offset: 0,
+      rows: [
+        {
+          id: '@scope/package1',
+          key: '@scope/package1',
+          value: { rev: '1-abc' },
+        },
+        {
+          id: '@scope/package2',
+          key: '@scope/package2',
+          value: { rev: '2-def' },
+        },
+      ],
+    };
+
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce(mockResponse),
+    } as unknown as Response);
+
+    // Import checkScopeExists after mocking is set up
+    const { checkScopeExists } = await import('./npmRegistry');
+    const result = await checkScopeExists('angular');
+
+    expect(result).toBe(true);
+    expect(mockFetch).toHaveBeenCalledWith(
+      'https://corsmirror.com/v1?url=https://replicate.npmjs.org/_all_docs?startkey=%22@angular/%22&endkey=%22@angular/\ufff0%22',
+      {
+        method: 'GET',
+        signal: expect.any(AbortSignal) as AbortSignal,
+      },
+    );
+  });
+
+  it('should return false when scope does not exist (no packages)', async () => {
+    const mockFetch = vi.mocked(fetch);
+    const mockResponse = {
+      total_rows: 0,
+      offset: 0,
+      rows: [],
+    };
+
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce(mockResponse),
+    } as unknown as Response);
+
+    const { checkScopeExists } = await import('./npmRegistry');
+    const result = await checkScopeExists('available-scope');
+
+    expect(result).toBe(false);
+  });
+
+  it('should handle network errors', async () => {
+    const mockFetch = vi.mocked(fetch);
+    mockFetch.mockRejectedValueOnce(new Error('Network error'));
+
+    const { checkScopeExists } = await import('./npmRegistry');
+    await expect(checkScopeExists('test-scope')).rejects.toThrow(
+      'Network error',
+    );
+  });
+
+  it('should handle timeout errors', async () => {
+    const mockFetch = vi.mocked(fetch);
+    mockFetch.mockRejectedValueOnce(new DOMException('Timeout', 'AbortError'));
+
+    const { checkScopeExists } = await import('./npmRegistry');
+    await expect(checkScopeExists('test-scope')).rejects.toThrow('Timeout');
+  });
+
+  it('should handle server errors (500)', async () => {
+    const mockFetch = vi.mocked(fetch);
+    mockFetch.mockResolvedValueOnce({
+      status: 500,
+      ok: false,
+      statusText: 'Internal Server Error',
+    } as unknown as Response);
+
+    const { checkScopeExists } = await import('./npmRegistry');
+    await expect(checkScopeExists('test-scope')).rejects.toThrow(
+      'Internal Server Error',
+    );
+  });
+
+  it('should use correct URL encoding for special characters', async () => {
+    const mockFetch = vi.mocked(fetch);
+    const mockResponse = {
+      total_rows: 0,
+      offset: 0,
+      rows: [],
+    };
+
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce(mockResponse),
+    } as unknown as Response);
+
+    const { checkScopeExists } = await import('./npmRegistry');
+    await checkScopeExists('scope_name-test');
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      'https://corsmirror.com/v1?url=https://replicate.npmjs.org/_all_docs?startkey=%22@scope_name-test/%22&endkey=%22@scope_name-test/\ufff0%22',
+      {
+        method: 'GET',
+        signal: expect.any(AbortSignal) as AbortSignal,
+      },
+    );
+  });
+});
+
+// User Story 2: Enhanced checkNameAvailability Tests
+// These tests verify the enhanced checkNameAvailability function with scope checking
+describe('checkNameAvailability with scope checking (User Story 2)', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('should stop at user check if user exists', async () => {
+    const mockFetch = vi.mocked(fetch);
+    // Mock user exists
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce({
+        objects: [{ package: { name: 'test-package' } }],
+        total: 1,
+        time: '2026-02-22T00:00:00.000Z',
+      }),
+    } as unknown as Response);
+
+    const result = await checkNameAvailability('taken-username');
+
+    expect(result).toBe(false);
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('should stop at scope check if scope exists', async () => {
+    const mockFetch = vi.mocked(fetch);
+    // Mock user doesn't exist
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce({
+        objects: [],
+        total: 0,
+        time: '2026-02-22T00:00:00.000Z',
+      }),
+    } as unknown as Response);
+
+    // Mock scope exists
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce({
+        total_rows: 10,
+        offset: 0,
+        rows: [
+          {
+            id: '@scope/package',
+            key: '@scope/package',
+            value: { rev: '1-abc' },
+          },
+        ],
+      }),
+    } as unknown as Response);
+
+    const result = await checkNameAvailability('taken-scope');
+
+    expect(result).toBe(false);
+    expect(mockFetch).toHaveBeenCalledTimes(2);
+  });
+
+  it('should check all three when none exist', async () => {
+    const mockFetch = vi.mocked(fetch);
+    // Mock user doesn't exist
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce({
+        objects: [],
+        total: 0,
+        time: '2026-02-22T00:00:00.000Z',
+      }),
+    } as unknown as Response);
+
+    // Mock scope doesn't exist
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce({
+        total_rows: 0,
+        offset: 0,
+        rows: [],
+      }),
+    } as unknown as Response);
+
+    // Mock org is available
+    mockFetch.mockResolvedValueOnce({
+      status: 404,
+      ok: false,
+    } as unknown as Response);
+
+    const result = await checkNameAvailability('available-name');
+
+    expect(result).toBe(true);
+    expect(mockFetch).toHaveBeenCalledTimes(3);
+  });
+
+  it('should handle organization conflicts after user and scope checks pass', async () => {
+    const mockFetch = vi.mocked(fetch);
+    // Mock user doesn't exist
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce({
+        objects: [],
+        total: 0,
+        time: '2026-02-22T00:00:00.000Z',
+      }),
+    } as unknown as Response);
+
+    // Mock scope doesn't exist
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce({
+        total_rows: 0,
+        offset: 0,
+        rows: [],
+      }),
+    } as unknown as Response);
+
+    // Mock org is taken
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+    } as unknown as Response);
+
+    const result = await checkNameAvailability('taken-org');
+
+    expect(result).toBe(false);
+    expect(mockFetch).toHaveBeenCalledTimes(3);
   });
 });

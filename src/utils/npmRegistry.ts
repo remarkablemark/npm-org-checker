@@ -25,6 +25,16 @@ interface NpmSearchResponse {
   time: string;
 }
 
+interface ScopeCheckResponse {
+  total_rows: number;
+  offset: number;
+  rows: {
+    id: string;
+    key: string;
+    value: { rev: string };
+  }[];
+}
+
 /**
  * Checks if an npm organization name is available by making a HEAD request
  * to the npm registry via a CORS proxy.
@@ -67,7 +77,8 @@ interface NpmSearchResponse {
  */
 export async function checkOrgAvailability(orgName: string): Promise<boolean> {
   const controller = new AbortController();
-  /* v8 ignore start */ // Coverage: Timeout callback is hard to test reliably
+
+  /* v8 ignore start */
   const timeoutId = setTimeout(() => {
     controller.abort();
   }, TIMEOUT_MS);
@@ -154,7 +165,8 @@ export async function checkOrgAvailability(orgName: string): Promise<boolean> {
  */
 export async function checkUserExists(userName: string): Promise<boolean> {
   const controller = new AbortController();
-  /* v8 ignore start */ // Coverage: Timeout callback is hard to test reliably
+
+  /* v8 ignore start */
   const timeoutId = setTimeout(() => {
     controller.abort();
   }, TIMEOUT_MS);
@@ -198,15 +210,102 @@ export async function checkUserExists(userName: string): Promise<boolean> {
 }
 
 /**
- * Checks name availability with sequential user and organization validation.
+ * Checks if a scope exists on npm registry via the replicate endpoint.
+ *
+ * This function handles the complexity of checking npm scope availability:
+ *
+ * Technical Implementation:
+ * - Uses corsmirror.com as CORS proxy to bypass browser restrictions
+ * - Makes GET requests to npm replicate endpoint with scope-specific queries
+ * - Uses startkey/endkey pattern to find all packages in a scope
+ * - Scope exists if any packages are found (rows.length \> 0)
+ *
+ * Error Handling:
+ * - Network timeouts (10 second limit)
+ * - CORS proxy failures
+ * - npm registry server errors
+ * - Invalid response format parsing
+ *
+ * Performance Considerations:
+ * - GET requests with minimal data transfer
+ * - Timeout prevents hanging requests
+ * - Proper error cleanup and resource management
+ *
+ * @example
+ * ```typescript
+ * import { checkScopeExists } from './npmRegistry';
+ *
+ * try {
+ *   const exists = await checkScopeExists('angular');
+ *   console.log(exists ? 'Scope exists' : 'Scope available');
+ * } catch (error) {
+ *   console.error('Failed to check scope:', error);
+ * }
+ * ```
+ *
+ * @param scopeName - The scope name to check (without \@ prefix)
+ * @returns Promise that resolves to boolean: true if scope exists, false if available
+ * @throws Error for network, timeout, or server errors
+ */
+export async function checkScopeExists(scopeName: string): Promise<boolean> {
+  const controller = new AbortController();
+
+  /* v8 ignore start */
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, TIMEOUT_MS);
+  /* v8 ignore end */
+
+  try {
+    // Build replicate endpoint URL for scope checking
+    const replicateUrl = `https://replicate.npmjs.org/_all_docs?startkey=%22@${scopeName}/%22&endkey=%22@${scopeName}/\ufff0%22`;
+    const proxyUrl = `${CORS_PROXY_URL}${replicateUrl}`;
+
+    const response = await fetch(proxyUrl, {
+      method: 'GET',
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(
+        `HTTP ${response.status.toString()}: ${response.statusText}`,
+      );
+    }
+
+    const data = (await response.json()) as ScopeCheckResponse;
+
+    // Scope exists if any packages found
+    return data.rows.length > 0;
+  } catch (error) {
+    clearTimeout(timeoutId);
+
+    // Handle AbortError (timeout)
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw new Error(error.message || 'Request timeout');
+    }
+
+    // Re-throw the error to be handled by the caller
+    if (error instanceof Error) {
+      throw error;
+    }
+
+    throw new Error('Unknown error occurred');
+  }
+}
+
+/**
+ * Checks name availability with sequential user, scope, and organization validation.
  *
  * This function implements the complete validation flow:
  * 1. First checks if user exists on npm registry
- * 2. Only checks organization availability if user doesn't exist
- * 3. Returns true only if both user doesn't exist AND organization is available
+ * 2. Then checks if scope exists on npm registry
+ * 3. Finally checks organization availability
+ * 4. Returns true only if all three checks pass
  *
- * This approach optimizes API calls by avoiding unnecessary organization checks
- * when the user name already exists (which would make the organization unavailable).
+ * This approach optimizes API calls by avoiding unnecessary checks
+ * when a conflict is found at any step (early termination).
  *
  * @example
  * ```typescript
@@ -220,20 +319,24 @@ export async function checkUserExists(userName: string): Promise<boolean> {
  * }
  * ```
  *
- * @param name - The name to check for both user existence and organization availability
- * @returns Promise<boolean> - true if name is available, false if not available
- * @throws ApiError for network, timeout, or server errors
+ * @param name - The name to check for user, scope, and organization availability
+ * @returns Promise<boolean> - true if name is available for all uses, false if not available
+ * @throws Error for network, timeout, or server errors
  */
 export async function checkNameAvailability(name: string): Promise<boolean> {
   // Step 1: Check if user exists
   const userExists = await checkUserExists(name);
-
-  // Step 2: If user exists, name is not available
   if (userExists) {
-    return false;
+    return false; // Early termination - user conflict
   }
 
-  // Step 3: User doesn't exist, check organization availability
+  // Step 2: Check if scope exists
+  const scopeExists = await checkScopeExists(name);
+  if (scopeExists) {
+    return false; // Early termination - scope conflict
+  }
+
+  // Step 3: Check organization availability
   const orgAvailable = await checkOrgAvailability(name);
   return orgAvailable;
 }

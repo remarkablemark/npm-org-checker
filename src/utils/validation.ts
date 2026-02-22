@@ -7,14 +7,18 @@ const ORG_NAME_PATTERN = /^[a-z][a-z0-9-_]*[a-z0-9]$/;
 const RESERVED_WORDS = ['npm', 'node', 'package', 'module'];
 
 /**
- * Validates an npm organization name according to npm's official naming rules.
+ * Validates a unified name according to npm's naming rules.
  *
- * This function implements comprehensive validation for npm organization names
- * based on npm's documentation and best practices:
+ * This function provides comprehensive validation for all npm name types:
+ * 1. User names (e.g., "username")
+ * 2. Scope names (e.g., "angular", "types")
+ * 3. Organization names (e.g., "my-org")
+ *
+ * The same validation rules apply to all name types - no format detection needed.
  *
  * Validation Rules:
  * - Length: Must be between 1-214 characters
- * - Pattern: Must start with lowercase letter, contain only lowercase letters, numbers, and hyphens
+ * - Pattern: Must start with lowercase letter, contain only lowercase letters, numbers, hyphens, and underscores
  * - Hyphens: No consecutive hyphens allowed
  * - Endings: Must end with lowercase letter or number (not hyphen)
  * - Reserved: Cannot use npm reserved words (npm, node, package, module)
@@ -28,15 +32,19 @@ const RESERVED_WORDS = ['npm', 'node', 'package', 'module'];
  * ```typescript
  * import { validateOrganizationName } from './validation';
  *
- * const result = validateOrganizationName('my-org');
- * if (result.isValid) {
- *   console.log('Name is valid!');
+ * // Works for all name types - organizations, scopes, and users
+ * const userResult = validateOrganizationName('username');
+ * const scopeResult = validateOrganizationName('angular');
+ * const orgResult = validateOrganizationName('my-org');
+ *
+ * if (orgResult.isValid) {
+ *   console.log('Organization name is valid!');
  * } else {
- *   console.log('Errors:', result.errors.map(e => e.message));
+ *   console.log('Errors:', orgResult.errors.map(e => e.message));
  * }
  * ```
  *
- * @param name - The organization name to validate
+ * @param name - The name to validate (works for users, scopes, or organizations)
  * @returns ValidationResult with validation status and detailed error information
  */
 export function validateOrganizationName(name: string): ValidationResult {
@@ -44,34 +52,34 @@ export function validateOrganizationName(name: string): ValidationResult {
   const warnings: ValidationError[] = [];
 
   // Check if empty
-  /* v8 ignore start */ // Coverage: Empty string case is tested in multiple test cases
   if (!name || name.trim() === '') {
     errors.push({
       type: ValidationErrorType.EMPTY,
-      message: 'Organization name is required',
+      message: 'Name is required',
     });
     errors.push({
       type: ValidationErrorType.TOO_SHORT,
-      message: `Organization name must be at least ${MIN_LENGTH.toString()} character long`,
+      message: `Name must be at least ${MIN_LENGTH.toString()} character long`,
     });
     return { isValid: false, errors, warnings };
   }
-  /* v8 ignore end */
 
   const trimmedName = name.trim();
 
   // Check length
+  /* v8 ignore start */
   if (trimmedName.length < MIN_LENGTH) {
     errors.push({
       type: ValidationErrorType.TOO_SHORT,
-      message: `Organization name must be at least ${MIN_LENGTH.toString()} character long`,
+      message: `Name must be at least ${MIN_LENGTH.toString()} character long`,
     });
   }
+  /* v8 ignore end */
 
   if (trimmedName.length > MAX_LENGTH) {
     errors.push({
       type: ValidationErrorType.TOO_LONG,
-      message: `Organization name cannot exceed ${MAX_LENGTH.toString()} characters`,
+      message: `Name cannot exceed ${MAX_LENGTH.toString()} characters`,
     });
   }
 
@@ -79,7 +87,7 @@ export function validateOrganizationName(name: string): ValidationResult {
   if (trimmedName.includes('--')) {
     errors.push({
       type: ValidationErrorType.CONSECUTIVE_HYPHENS,
-      message: 'Organization name cannot contain consecutive hyphens',
+      message: 'Name cannot contain consecutive hyphens',
     });
   }
 
@@ -89,14 +97,14 @@ export function validateOrganizationName(name: string): ValidationResult {
     if (!/^[a-z]/.test(trimmedName)) {
       errors.push({
         type: ValidationErrorType.INVALID_START,
-        message: 'Organization name must start with a lowercase letter',
+        message: 'Name must start with a lowercase letter',
       });
     }
 
     if (!/[a-z0-9]$/.test(trimmedName)) {
       errors.push({
         type: ValidationErrorType.INVALID_END,
-        message: 'Organization name must end with a lowercase letter or number',
+        message: 'Name must end with a lowercase letter or number',
       });
     }
 
@@ -104,7 +112,7 @@ export function validateOrganizationName(name: string): ValidationResult {
       errors.push({
         type: ValidationErrorType.INVALID_CHARACTERS,
         message:
-          'Organization name can only contain lowercase letters, numbers, hyphens, and underscores',
+          'Name can only contain lowercase letters, numbers, hyphens, and underscores',
       });
     }
   }
@@ -113,7 +121,7 @@ export function validateOrganizationName(name: string): ValidationResult {
   if (RESERVED_WORDS.some((word) => word === trimmedName)) {
     errors.push({
       type: ValidationErrorType.RESERVED_WORD,
-      message: `"${trimmedName}" is a reserved word and cannot be used as an organization name`,
+      message: `"${trimmedName}" is a reserved word and cannot be used as a name`,
     });
   }
 
