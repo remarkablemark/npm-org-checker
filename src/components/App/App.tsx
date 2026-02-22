@@ -2,7 +2,7 @@ import { OrgNameChecker } from '../OrgNameChecker';
 
 export default function App() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4 py-8">
+    <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8">
       <div className="w-full max-w-2xl space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 md:text-4xl">
