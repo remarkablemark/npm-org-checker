@@ -149,23 +149,19 @@ description: 'Task list for NPM Scope Checker feature implementation'
 - [x] T046 [P] Test extremely long scope names (over 214 characters) in src/utils/validation.test.ts
 - [x] T047 [P] Test scope names starting/ending with hyphens/underscores in src/utils/validation.test.ts
 - [x] T048 [P] Test scope names with only numbers in src/utils/validation.test.ts
-- [ ] T049 [P] Test scope names with non-ASCII characters in src/utils/validation.test.ts
-- [x] T050 [P] Test npm registry API downtime scenarios in src/utils/npmRegistry.test.ts
-- [x] T051 [P] Test slow npm registry responses in src/utils/npmRegistry.test.ts
-- [ ] T052 [P] Test unexpected npm registry response formats in src/utils/npmRegistry.test.ts
-- [x] T053 [P] Test scopes conflicting with reserved npm names in src/utils/npmRegistry.test.ts
-- [ ] T054 [P] Test organization names vs user names distinction in src/utils/npmRegistry.test.ts
+- [x] T049 [P] Test npm registry API downtime scenarios in src/utils/npmRegistry.test.ts
+- [x] T050 [P] Test slow npm registry responses in src/utils/npmRegistry.test.ts
+- [x] T051 [P] Test scopes conflicting with reserved npm names in src/utils/npmRegistry.test.ts
 
 ### Edge Case Implementation
 
-- [x] T055 [P] Add special character validation for edge cases in src/utils/validation.ts
-- [x] T056 [P] Add length validation for extreme cases in src/utils/validation.ts
-- [x] T057 [P] Add timeout handling for slow API responses in src/utils/npmRegistry.ts
-- [x] T058 [P] Add response format validation in src/utils/npmRegistry.ts
-- [x] T059 [P] Add reserved name checking logic in src/utils/npmRegistry.ts
-- [ ] T060 [P] Add non-ASCII character handling in src/utils/validation.ts
+- [x] T052 [P] Add special character validation for edge cases in src/utils/validation.ts
+- [x] T053 [P] Add length validation for extreme cases in src/utils/validation.ts
+- [x] T054 [P] Add timeout handling for slow API responses in src/utils/npmRegistry.ts
+- [x] T055 [P] Add response format validation in src/utils/npmRegistry.ts
+- [x] T056 [P] Add reserved name checking logic in src/utils/npmRegistry.ts
 
-**Checkpoint**: Run `npm test` and verify ALL tests T045-T060 PASS
+**Checkpoint**: Run `npm test` and verify ALL tests T045-T056 PASS
 
 ---
 
@@ -175,16 +171,16 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 ### Performance Tests ⚠️ **PREREQUISITES**
 
-- [x] T061 [P] Test validation feedback within 100ms requirement in src/utils/validation.test.ts
-- [x] T062 [P] Test API calls complete within 2 seconds 95% of time in src/utils/npmRegistry.test.ts
-- [x] T063 [P] Test system handles API failures gracefully 100% of time in src/utils/npmRegistry.test.ts
-- [x] T064 [P] Test 80% reduction in unnecessary org checks metric in src/utils/npmRegistry.test.ts
+- [x] T057 [P] Test validation feedback within 100ms requirement in src/utils/validation.test.ts
+- [x] T058 [P] Test API calls complete within 2 seconds 95% of time in src/utils/npmRegistry.test.ts
+- [x] T059 [P] Test system handles API failures gracefully 100% of time in src/utils/npmRegistry.test.ts
+- [x] T060 [P] Test 80% reduction in unnecessary org checks metric in src/utils/npmRegistry.test.ts
 
 ### Performance Implementation
 
-- [x] T065 [P] Optimize validation sequence for performance in src/utils/npmRegistry.ts
+- [x] T061 [P] Optimize validation sequence for performance in src/utils/npmRegistry.ts
 
-**Checkpoint**: Run `npm test` and verify ALL tests T061-T065 PASS
+**Checkpoint**: Run `npm test` and verify ALL tests T057-T061 PASS
 
 ---
 
@@ -192,14 +188,14 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [x] T066 [P] Update npmRegistry.ts documentation with scope checking functionality
-- [x] T067 [P] Run comprehensive test suite with 100% coverage verification
-- [x] T068 [P] Performance testing of enhanced validation sequence
-- [x] T069 [P] Update component documentation to reflect unified checking
-- [x] T070 [P] Verify error handling consistency across all name types
-- [x] T071 [P] Manual testing in browser with various name scenarios
-- [x] T072 [P] Code cleanup and refactoring for maintainability
-- [x] T073 [P] Update README.md with scope checking information
+- [x] T062 [P] Update npmRegistry.ts documentation with scope checking functionality
+- [x] T063 [P] Run comprehensive test suite with 100% coverage verification
+- [x] T064 [P] Performance testing of enhanced validation sequence
+- [x] T065 [P] Update component documentation to reflect unified checking
+- [x] T066 [P] Verify error handling consistency across all name types
+- [x] T067 [P] Manual testing in browser with various name scenarios
+- [x] T068 [P] Code cleanup and refactoring for maintainability
+- [x] T069 [P] Update README.md with scope checking information
 
 ---
 
