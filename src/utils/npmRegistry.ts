@@ -85,7 +85,8 @@ export async function checkOrgAvailability(orgName: string): Promise<boolean> {
   /* v8 ignore end */
 
   try {
-    const url = `${CORS_PROXY_URL}https://www.npmjs.com/org/${encodeURIComponent(orgName)}`;
+    const orgUrl = `https://www.npmjs.com/org/${orgName}`;
+    const url = `${CORS_PROXY_URL}${encodeURIComponent(orgUrl)}`;
 
     const response = await fetch(url, {
       method: 'HEAD',
@@ -173,7 +174,8 @@ export async function checkUserExists(userName: string): Promise<boolean> {
   /* v8 ignore end */
 
   try {
-    const url = `${CORS_PROXY_URL}https://registry.npmjs.com/-/v1/search?text=author:${encodeURIComponent(userName)}&size=1`;
+    const registryUrl = `https://registry.npmjs.com/-/v1/search?text=author:${userName}&size=1`;
+    const url = `${CORS_PROXY_URL}${encodeURIComponent(registryUrl)}`;
 
     const response = await fetch(url, {
       method: 'GET',

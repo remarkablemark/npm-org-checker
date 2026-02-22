@@ -30,7 +30,7 @@ describe('checkOrgAvailability', () => {
 
     expect(result).toBe(true);
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://www.npmjs.com/org/available-org',
+      'https://corsmirror.com/v1?url=https%3A%2F%2Fwww.npmjs.com%2Forg%2Favailable-org',
       {
         method: 'HEAD',
         signal: expect.any(AbortSignal) as AbortSignal,
@@ -107,7 +107,7 @@ describe('checkOrgAvailability', () => {
     await checkOrgAvailability('my-test-org');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://www.npmjs.com/org/my-test-org',
+      'https://corsmirror.com/v1?url=https%3A%2F%2Fwww.npmjs.com%2Forg%2Fmy-test-org',
       {
         method: 'HEAD',
         signal: expect.any(AbortSignal) as AbortSignal,
@@ -125,7 +125,7 @@ describe('checkOrgAvailability', () => {
     await checkOrgAvailability('org-with-123');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://www.npmjs.com/org/org-with-123',
+      'https://corsmirror.com/v1?url=https%3A%2F%2Fwww.npmjs.com%2Forg%2Forg-with-123',
       {
         method: 'HEAD',
         signal: expect.any(AbortSignal) as AbortSignal,
@@ -223,7 +223,7 @@ describe('checkUserExists', () => {
 
     expect(result).toBe(true);
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://registry.npmjs.com/-/v1/search?text=author:existing-user&size=1',
+      'https://corsmirror.com/v1?url=https%3A%2F%2Fregistry.npmjs.com%2F-%2Fv1%2Fsearch%3Ftext%3Dauthor%3Aexisting-user%26size%3D1',
       {
         method: 'GET',
         signal: expect.any(AbortSignal) as AbortSignal,
@@ -352,7 +352,7 @@ describe('checkUserExists', () => {
     await checkUserExists('my-test-user');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://registry.npmjs.com/-/v1/search?text=author:my-test-user&size=1',
+      'https://corsmirror.com/v1?url=https%3A%2F%2Fregistry.npmjs.com%2F-%2Fv1%2Fsearch%3Ftext%3Dauthor%3Amy-test-user%26size%3D1',
       {
         method: 'GET',
         signal: expect.any(AbortSignal) as AbortSignal,
@@ -375,7 +375,7 @@ describe('checkUserExists', () => {
     await checkUserExists('user-with-123');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://registry.npmjs.com/-/v1/search?text=author:user-with-123&size=1',
+      'https://corsmirror.com/v1?url=https%3A%2F%2Fregistry.npmjs.com%2F-%2Fv1%2Fsearch%3Ftext%3Dauthor%3Auser-with-123%26size%3D1',
       {
         method: 'GET',
         signal: expect.any(AbortSignal) as AbortSignal,
@@ -398,7 +398,7 @@ describe('checkUserExists', () => {
     await checkUserExists('user_name_test');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https://registry.npmjs.com/-/v1/search?text=author:user_name_test&size=1',
+      'https://corsmirror.com/v1?url=https%3A%2F%2Fregistry.npmjs.com%2F-%2Fv1%2Fsearch%3Ftext%3Dauthor%3Auser_name_test%26size%3D1',
       {
         method: 'GET',
         signal: expect.any(AbortSignal) as AbortSignal,
