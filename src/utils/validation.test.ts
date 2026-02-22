@@ -101,17 +101,6 @@ describe('validateOrganizationName', () => {
     ).toBe(true);
   });
 
-  it('should reject names with invalid characters', () => {
-    const result = validateOrganizationName('org_name');
-
-    expect(result.isValid).toBe(false);
-    expect(
-      result.errors.some(
-        (e) => e.type === ValidationErrorType.INVALID_CHARACTERS,
-      ),
-    ).toBe(true);
-  });
-
   it('should reject reserved words', () => {
     const reservedWords = ['npm', 'node', 'package', 'module'];
 

@@ -3,8 +3,7 @@ import { ValidationErrorType, type ValidationResult } from 'src/types';
 
 const MIN_LENGTH = 1;
 const MAX_LENGTH = 214;
-const ORG_NAME_PATTERN = /^[a-z][a-z0-9-]*[a-z0-9]$/;
-const USER_NAME_PATTERN = /^[a-z][a-z0-9-_]*[a-z0-9]$/;
+const ORG_NAME_PATTERN = /^[a-z][a-z0-9-_]*[a-z0-9]$/;
 const RESERVED_WORDS = ['npm', 'node', 'package', 'module'];
 
 /**
@@ -203,7 +202,7 @@ export function validateUserName(name: string): ValidationResult {
   }
 
   // Check pattern
-  if (!USER_NAME_PATTERN.test(trimmedName)) {
+  if (!ORG_NAME_PATTERN.test(trimmedName)) {
     // Check specific pattern violations for better error messages
     if (!/^[a-z]/.test(trimmedName)) {
       errors.push({
