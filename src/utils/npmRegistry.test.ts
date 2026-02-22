@@ -1,5 +1,5 @@
 import { ApiErrorType } from 'src/types';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, vi } from 'vitest';
 
 import { checkAvailability, createApiError } from './npmRegistry';
 
@@ -15,7 +15,7 @@ describe('checkAvailability', () => {
     vi.clearAllMocks();
   });
 
-  test('should return true when organization name is available (404)', async () => {
+  it('should return true when organization name is available (404)', async () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockResolvedValueOnce({
       status: 404,
@@ -34,7 +34,7 @@ describe('checkAvailability', () => {
     );
   });
 
-  test('should return false when organization name is taken (200)', async () => {
+  it('should return false when organization name is taken (200)', async () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockResolvedValueOnce({
       status: 200,
@@ -46,7 +46,7 @@ describe('checkAvailability', () => {
     expect(result).toBe(false);
   });
 
-  test('should handle network errors', async () => {
+  it('should handle network errors', async () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
@@ -55,7 +55,7 @@ describe('checkAvailability', () => {
     );
   });
 
-  test('should handle CORS errors', async () => {
+  it('should handle CORS errors', async () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockRejectedValueOnce(new TypeError('Failed to fetch'));
 
@@ -64,14 +64,14 @@ describe('checkAvailability', () => {
     );
   });
 
-  test('should handle timeout errors', async () => {
+  it('should handle timeout errors', async () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockRejectedValueOnce(new DOMException('Timeout', 'AbortError'));
 
     await expect(checkAvailability('test-org')).rejects.toThrow('Timeout');
   });
 
-  test('should handle server errors (500)', async () => {
+  it('should handle server errors (500)', async () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockResolvedValueOnce({
       status: 500,
@@ -84,7 +84,7 @@ describe('checkAvailability', () => {
     );
   });
 
-  test('should handle unknown errors', async () => {
+  it('should handle unknown errors', async () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockRejectedValueOnce('string error');
 
@@ -93,7 +93,7 @@ describe('checkAvailability', () => {
     );
   });
 
-  test('should use correct URL format', async () => {
+  it('should use correct URL format', async () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockResolvedValueOnce({
       status: 404,
@@ -111,7 +111,7 @@ describe('checkAvailability', () => {
     );
   });
 
-  test('should handle special characters in organization name', async () => {
+  it('should handle special characters in organization name', async () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockResolvedValueOnce({
       status: 404,
@@ -131,7 +131,7 @@ describe('checkAvailability', () => {
 });
 
 describe('createApiError', () => {
-  test('should create network error', () => {
+  it('should create network error', () => {
     const error = new Error('Network connection failed');
     const apiError = createApiError(error);
 
@@ -141,7 +141,7 @@ describe('createApiError', () => {
     expect(apiError.timestamp).toBeInstanceOf(Date);
   });
 
-  test('should create CORS error', () => {
+  it('should create CORS error', () => {
     const error = new TypeError('Failed to fetch');
     const apiError = createApiError(error);
 
@@ -151,7 +151,7 @@ describe('createApiError', () => {
     expect(apiError.timestamp).toBeInstanceOf(Date);
   });
 
-  test('should create timeout error', () => {
+  it('should create timeout error', () => {
     const error = new DOMException('Request timeout', 'AbortError');
     const apiError = createApiError(error);
 
@@ -161,7 +161,7 @@ describe('createApiError', () => {
     expect(apiError.timestamp).toBeInstanceOf(Date);
   });
 
-  test('should create server error with status code', () => {
+  it('should create server error with status code', () => {
     const error = new Error('Internal Server Error') as Error & {
       status: number;
     };
@@ -174,7 +174,7 @@ describe('createApiError', () => {
     expect(apiError.timestamp).toBeInstanceOf(Date);
   });
 
-  test('should create unknown error for unhandled cases', () => {
+  it('should create unknown error for unhandled cases', () => {
     const error = new Error('Unknown error occurred');
     const apiError = createApiError(error);
 

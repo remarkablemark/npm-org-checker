@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { ApiErrorType } from 'src/types';
 import { checkAvailability, createApiError } from 'src/utils/npmRegistry';
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, vi } from 'vitest';
 
 import { useAvailabilityChecker } from './useAvailabilityChecker';
 
@@ -21,7 +21,7 @@ describe('useAvailabilityChecker', () => {
     vi.useRealTimers();
   });
 
-  test('should initialize with correct default state', () => {
+  it('should initialize with correct default state', () => {
     const { result } = renderHook(() => useAvailabilityChecker());
 
     expect(result.current.isAvailable).toBeNull();
@@ -30,7 +30,7 @@ describe('useAvailabilityChecker', () => {
     expect(result.current.lastChecked).toBeNull();
   });
 
-  test('should check availability for valid organization name', async () => {
+  it('should check availability for valid organization name', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
     mockCheckAvailability.mockResolvedValueOnce(true);
 
@@ -56,7 +56,7 @@ describe('useAvailabilityChecker', () => {
     expect(mockCheckAvailability).toHaveBeenCalledWith('test-org');
   });
 
-  test('should handle taken organization name', async () => {
+  it('should handle taken organization name', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
     mockCheckAvailability.mockResolvedValueOnce(false);
 
@@ -76,7 +76,7 @@ describe('useAvailabilityChecker', () => {
     expect(result.current.lastChecked).toBeInstanceOf(Date);
   });
 
-  test('should handle network errors', async () => {
+  it('should handle network errors', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
     const mockCreateApiError = vi.mocked(createApiError);
     const networkError = new Error('Network error');
@@ -106,7 +106,7 @@ describe('useAvailabilityChecker', () => {
     expect(mockCreateApiError).toHaveBeenCalledWith(networkError);
   });
 
-  test('should debounce availability checks', async () => {
+  it('should debounce availability checks', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
     mockCheckAvailability.mockResolvedValueOnce(true);
 
@@ -136,7 +136,7 @@ describe('useAvailabilityChecker', () => {
     expect(result.current.isAvailable).toBe(true);
   });
 
-  test('should cancel previous debounced check when new check is called', async () => {
+  it('should cancel previous debounced check when new check is called', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
     mockCheckAvailability.mockResolvedValueOnce(true);
 
@@ -166,7 +166,7 @@ describe('useAvailabilityChecker', () => {
     expect(mockCheckAvailability).toHaveBeenCalledWith('second-org');
   });
 
-  test('should not check availability for empty string', async () => {
+  it('should not check availability for empty string', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
 
     const { result } = renderHook(() => useAvailabilityChecker());
@@ -185,7 +185,7 @@ describe('useAvailabilityChecker', () => {
     expect(result.current.isAvailable).toBeNull();
   });
 
-  test('should not check availability for whitespace-only string', async () => {
+  it('should not check availability for whitespace-only string', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
 
     const { result } = renderHook(() =>
@@ -205,7 +205,7 @@ describe('useAvailabilityChecker', () => {
     expect(result.current.isAvailable).toBeNull();
   });
 
-  test('should reset state correctly', async () => {
+  it('should reset state correctly', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
     mockCheckAvailability.mockResolvedValueOnce(true);
 
@@ -234,7 +234,7 @@ describe('useAvailabilityChecker', () => {
     expect(result.current.lastChecked).toBeNull();
   });
 
-  test('should handle multiple rapid calls correctly', async () => {
+  it('should handle multiple rapid calls correctly', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
     mockCheckAvailability.mockResolvedValue(true);
 
@@ -261,7 +261,7 @@ describe('useAvailabilityChecker', () => {
     expect(mockCheckAvailability).toHaveBeenCalledWith('org3');
   });
 
-  test('should clear previous error when new check succeeds', async () => {
+  it('should clear previous error when new check succeeds', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
     const mockCreateApiError = vi.mocked(createApiError);
 
@@ -300,7 +300,7 @@ describe('useAvailabilityChecker', () => {
     expect(result.current.isAvailable).toBe(true);
   });
 
-  test('should use default debounce time when not specified', async () => {
+  it('should use default debounce time when not specified', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
     mockCheckAvailability.mockResolvedValueOnce(true);
 
@@ -322,7 +322,7 @@ describe('useAvailabilityChecker', () => {
     expect(mockCheckAvailability).toHaveBeenCalledWith('test-org');
   });
 
-  test('should handle error in performCheck function correctly', async () => {
+  it('should handle error in performCheck function correctly', async () => {
     const mockCheckAvailability = vi.mocked(checkAvailability);
     const mockCreateApiError = vi.mocked(createApiError);
     const testError = new Error('Test error');

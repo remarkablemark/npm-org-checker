@@ -1,11 +1,11 @@
 import { act, renderHook } from '@testing-library/react';
 import { ValidationErrorType } from 'src/types';
-import { describe, expect, test } from 'vitest';
+import { describe, expect } from 'vitest';
 
 import { useOrgNameValidator } from './useOrgNameValidator';
 
 describe('useOrgNameValidator', () => {
-  test('should initialize with empty state', () => {
+  it('should initialize with empty state', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     expect(result.current.value).toBe('');
@@ -14,7 +14,7 @@ describe('useOrgNameValidator', () => {
     expect(result.current.isDirty).toBe(false);
   });
 
-  test('should validate a correct organization name', () => {
+  it('should validate a correct organization name', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
@@ -27,7 +27,7 @@ describe('useOrgNameValidator', () => {
     expect(result.current.isDirty).toBe(true);
   });
 
-  test('should validate empty string and show too short error', () => {
+  it('should validate empty string and show too short error', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
@@ -45,7 +45,7 @@ describe('useOrgNameValidator', () => {
     ).toBe(true);
   });
 
-  test('should validate name that is too long', () => {
+  it('should validate name that is too long', () => {
     const { result } = renderHook(() => useOrgNameValidator());
     const longName = 'a'.repeat(215);
 
@@ -61,7 +61,7 @@ describe('useOrgNameValidator', () => {
     ).toBe(true);
   });
 
-  test('should validate name starting with number', () => {
+  it('should validate name starting with number', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
@@ -76,7 +76,7 @@ describe('useOrgNameValidator', () => {
     ).toBe(true);
   });
 
-  test('should validate name starting with hyphen', () => {
+  it('should validate name starting with hyphen', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
@@ -91,7 +91,7 @@ describe('useOrgNameValidator', () => {
     ).toBe(true);
   });
 
-  test('should validate name ending with hyphen', () => {
+  it('should validate name ending with hyphen', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
@@ -106,7 +106,7 @@ describe('useOrgNameValidator', () => {
     ).toBe(true);
   });
 
-  test('should validate name with consecutive hyphens', () => {
+  it('should validate name with consecutive hyphens', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
@@ -121,7 +121,7 @@ describe('useOrgNameValidator', () => {
     ).toBe(true);
   });
 
-  test('should validate name with uppercase letters', () => {
+  it('should validate name with uppercase letters', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
@@ -136,7 +136,7 @@ describe('useOrgNameValidator', () => {
     ).toBe(true);
   });
 
-  test('should validate reserved words', () => {
+  it('should validate reserved words', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
@@ -151,7 +151,7 @@ describe('useOrgNameValidator', () => {
     ).toBe(true);
   });
 
-  test('should clear validation errors when valid name is set', () => {
+  it('should clear validation errors when valid name is set', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     // Set invalid name first
@@ -171,7 +171,7 @@ describe('useOrgNameValidator', () => {
     expect(result.current.validationErrors).toHaveLength(0);
   });
 
-  test('should handle whitespace correctly', () => {
+  it('should handle whitespace correctly', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
@@ -182,7 +182,7 @@ describe('useOrgNameValidator', () => {
     expect(result.current.isValid).toBe(true); // Should trim for validation
   });
 
-  test('should reset state correctly', () => {
+  it('should reset state correctly', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     // Set a value first
@@ -204,7 +204,7 @@ describe('useOrgNameValidator', () => {
     expect(result.current.isDirty).toBe(false);
   });
 
-  test('should validate single character names', () => {
+  it('should validate single character names', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
@@ -215,7 +215,7 @@ describe('useOrgNameValidator', () => {
     expect(result.current.validationErrors).toHaveLength(0);
   });
 
-  test('should validate names with numbers', () => {
+  it('should validate names with numbers', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
