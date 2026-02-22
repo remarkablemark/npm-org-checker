@@ -31,8 +31,8 @@ As a user, I want the system to validate both organization name and scope input 
 **Acceptance Scenarios**:
 
 1. **Given** I have entered a valid organization name format (e.g., "my-org"), **When** the input becomes valid, **Then** the system should proceed to check if the organization name exists on npm registry
-2. **Given** I have entered a valid scope format (e.g., "@username"), **When** the input becomes valid, **Then** the system should proceed to check if the scope exists on npm registry
-3. **Given** I have entered an invalid format (missing @ for scope, empty, or contains invalid characters), **When** the input is invalid, **Then** the system should display specific validation error messages and not proceed to any API calls
+2. **Given** I have entered a valid scope name (e.g., "username"), **When** the input becomes valid, **Then** the system should proceed to check if the scope exists on npm registry
+3. **Given** I have entered an invalid format (empty, or contains invalid characters), **When** the input is invalid, **Then** the system should display specific validation error messages and not proceed to any API calls
 
 ---
 
@@ -70,10 +70,10 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 
 ### Edge Cases
 
-- What happens when scope contains special characters like @, #, $, etc. beyond the required @ prefix?
+- What happens when scope contains special characters like #, $, etc.?
 - How does system handle extremely long scope names (over 214 characters)?
-- What happens when scope starts or ends with hyphens or underscores after the @ prefix?
-- How does system handle scope names with only numbers after the @ prefix?
+- What happens when scope starts or ends with hyphens or underscores?
+- How does system handle scope names with only numbers?
 - What happens when scope contains non-ASCII characters?
 - What happens when npm registry API is down or unreachable?
 - How does system handle slow responses from npm registry search API?
@@ -104,7 +104,7 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - **FR-012**: System MUST prevent form submission when validation fails
 - **FR-013**: System MUST use the npm registry organization endpoint to check for existing organizations
 - **FR-014**: System MUST use the npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` via corsmirror proxy to check for existing packages with scopes
-- **FR-015**: System MUST replace `<scope>` placeholder in replicate endpoint URL with the actual scope name (without @ prefix)
+- **FR-015**: System MUST replace `<scope>` placeholder in replicate endpoint URL with the URL-encoded actual scope name (without @ prefix)
 - **FR-016**: System MUST use corsmirror.com proxy URL format: `https://corsmirror.com/v1?url=` followed by the encoded replicate endpoint URL
 - **FR-017**: System MUST determine name is not available when either organization exists or packages exist with that scope
 - **FR-018**: System MUST display clear message indicating why name is unavailable (organization taken vs scope taken)
@@ -121,7 +121,7 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - **FR-029**: System MUST determine scope is available when replicate response rows.length = 0
 - **FR-030**: System MUST verify that `validateOrganizationName` function exists in `src/utils/validation.ts` before implementation
 - **FR-031**: System MUST document the exact validation rules enforced by `validateOrganizationName` function
-- **FR-032**: System MUST confirm that `validateOrganizationName` handles scope names (with @ prefix) correctly
+- **FR-032**: System MUST confirm that `validateOrganizationName` handles scope names (without @ prefix) correctly
 - **FR-033**: System MUST use unified validation approach - all inputs (user names, scopes, organizations) use same `validateOrganizationName` function
 - **FR-034**: System MUST NOT detect input format based on @ prefix - validation is format-agnostic
 - **FR-035**: System MUST apply same validation rules to all input types: alphanumeric characters, hyphens, underscores only
@@ -131,9 +131,9 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 ### Key Entities
 
 - **Name**: Text input representing npm name (either organization name or scope), used for unified availability checking
-- **Name Type**: Detected type of input (organization vs scope) based on @ prefix presence
-- **Organization Name**: Name part without @ prefix, follows organization validation rules
-- **Scope Name**: Name part with @ prefix, follows scope validation rules
+- **Name Type**: Input category (organization vs scope) for internal processing, not based on @ prefix detection
+- **Organization Name**: Name for organization checking, follows unified validation rules
+- **Scope Name**: Name for scope checking (without @ prefix), follows unified validation rules
 - **Validation State**: Current validation status of name (valid, invalid, pending)
 - **Error Message**: Specific feedback indicating why validation failed
 - **Name Existence Result**: Result from npm registry APIs indicating if name exists (organization or scope) or not
@@ -153,13 +153,13 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - Cannot start or end with hyphens or underscores
 - Same validation function processes all inputs regardless of @ prefix presence
 
-**Scope Name Handling**: When a scope name includes the @ prefix, the validation function processes the entire string including the @ symbol, ensuring scope-specific requirements are met through the unified validation approach.
+**Scope Name Handling**: When checking scope availability, the @ prefix is added by the system for API calls but user input should NOT include the @ symbol. Users enter scope names without the @ prefix (e.g., "username" not "@username"), and the system handles the @ prefix addition internally when making API calls.
 
 ## Clarifications
 
 ### Session 2026-02-22
 
-- Q: UI Integration Approach → A: Unified Input Field - Single input that accepts both organization names (@org) and scopes (@user), automatically detecting format and checking appropriate availability
+- Q: UI Integration Approach → A: Unified Input Field - Single input that accepts organization names and scope names (without @ prefix), checking availability across all types
 - Q: Scope checking API endpoint → A: Use npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` with replaced `<scope>`
 - Q: Replicate response interpretation → A: Scope or org name is taken when rows.length > 0 in the JSON response
 - Q: CORS handling for replicate endpoint → A: Use corsmirror proxy for npm replicate endpoint calls

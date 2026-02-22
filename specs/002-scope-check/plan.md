@@ -7,7 +7,7 @@
 
 ## Summary
 
-This feature extends the existing npm organization name checker to include scope availability checking. The implementation will consolidate scope checking into the existing `checkNameAvailability` function following a 3-step validation sequence: user → scope → organization. The approach leverages existing UI components, validation rules, and infrastructure while adding npm replicate endpoint integration for scope checking via corsmirror proxy.
+This feature extends the existing npm organization name checker to include scope availability checking. The implementation will consolidate scope checking into the existing `checkNameAvailability` function following a 3-step validation sequence: user → scope → organization. Users enter names without @ prefix, and the system handles @ prefix addition internally for scope API calls. The approach leverages existing UI components, validation rules, and infrastructure while adding npm replicate endpoint integration for scope checking via corsmirror proxy.
 
 ## Technical Context
 
