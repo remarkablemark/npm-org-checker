@@ -59,7 +59,7 @@ description: 'Task list for NPM Scope Checker feature implementation'
 - [ ] T012 [P] [US1] Test unified validation with invalid formats in src/utils/validation.test.ts
 - [ ] T013 [P] [US1] Test validation edge cases (length, special characters) in src/utils/validation.test.ts
 
-**⚠️ PREREQUISITE CHECKPOINT**: All tests T010-T013 must FAIL before proceeding to implementation
+**⚠️ PREREQUISITE CHECKPOINT**: Run `npm test src/utils/validation.test.ts` and verify ALL tests T010-T013 FAIL before proceeding to implementation
 
 ### Implementation for User Story 1
 
@@ -70,7 +70,7 @@ description: 'Task list for NPM Scope Checker feature implementation'
 - [ ] T018 [US1] Add validation type definitions for unified name checking in src/types/index.ts
 - [ ] T019 [US1] Update validation error messages to be name-type agnostic in src/utils/validation.ts
 
-**Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
+**Checkpoint**: Run `npm test src/utils/validation.test.ts` and verify ALL tests T010-T019 PASS
 
 ---
 
@@ -93,7 +93,7 @@ description: 'Task list for NPM Scope Checker feature implementation'
 - [ ] T026 [P] [US2] Test enhanced checkNameAvailability with organization conflict in src/utils/npmRegistry.test.ts
 - [ ] T027 [P] [US2] Test enhanced checkNameAvailability with no conflicts in src/utils/npmRegistry.test.ts
 
-**⚠️ PREREQUISITE CHECKPOINT**: All tests T020-T027 must FAIL before proceeding to implementation
+**⚠️ PREREQUISITE CHECKPOINT**: Run `npm test src/utils/npmRegistry.test.ts` and verify ALL tests T020-T027 FAIL before proceeding to implementation
 
 ### Implementation for User Story 2
 
@@ -107,7 +107,7 @@ description: 'Task list for NPM Scope Checker feature implementation'
 - [ ] T035 [US2] Add timeout handling for scope checking API calls in src/utils/npmRegistry.ts
 - [ ] T036 [US2] Update error handling to include scope-specific context in src/utils/npmRegistry.ts
 
-**Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
+**Checkpoint**: Run `npm test src/utils/npmRegistry.test.ts` and verify ALL tests T020-T036 PASS
 
 ---
 
@@ -126,7 +126,7 @@ description: 'Task list for NPM Scope Checker feature implementation'
 - [ ] T039 [P] [US3] Test validation feedback clearing on input correction in src/hooks/useAvailabilityChecker.test.ts
 - [ ] T040 [P] [US3] Test debouncing behavior with enhanced validation in src/hooks/useAvailabilityChecker.test.ts
 
-**⚠️ PREREQUISITE CHECKPOINT**: All tests T037-T040 must FAIL before proceeding to implementation
+**⚠️ PREREQUISITE CHECKPOINT**: Run `npm test src/hooks/useAvailabilityChecker.test.ts` and verify ALL tests T037-T040 FAIL before proceeding to implementation
 
 ### Implementation for User Story 3
 
@@ -135,7 +135,7 @@ description: 'Task list for NPM Scope Checker feature implementation'
 - [ ] T043 [US3] Verify 300ms debounce works with scope checking in src/hooks/useAvailabilityChecker.ts
 - [ ] T044 [US3] Update error message handling for scope conflicts in src/hooks/useAvailabilityChecker.ts
 
-**Checkpoint**: All user stories should now be independently functional
+**Checkpoint**: Run `npm test src/hooks/useAvailabilityChecker.test.ts` and verify ALL tests T037-T044 PASS
 
 ---
 
@@ -163,6 +163,9 @@ description: 'Task list for NPM Scope Checker feature implementation'
 - [ ] T057 [P] Add timeout handling for slow API responses in src/utils/npmRegistry.ts
 - [ ] T058 [P] Add response format validation in src/utils/npmRegistry.ts
 - [ ] T059 [P] Add reserved name checking logic in src/utils/npmRegistry.ts
+- [ ] T060 [P] Add non-ASCII character handling in src/utils/validation.ts
+
+**Checkpoint**: Run `npm test` and verify ALL tests T045-T060 PASS
 
 ---
 
@@ -172,15 +175,19 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 ### Performance Tests ⚠️ **PREREQUISITES**
 
-- [ ] T060 [P] Test validation feedback within 100ms requirement in src/utils/validation.test.ts
-- [ ] T061 [P] Test API calls complete within 2 seconds 95% of time in src/utils/npmRegistry.test.ts
-- [ ] T062 [P] Test system handles API failures gracefully 100% of time in src/utils/npmRegistry.test.ts
+- [ ] T061 [P] Test validation feedback within 100ms requirement in src/utils/validation.test.ts
+- [ ] T062 [P] Test API calls complete within 2 seconds 95% of time in src/utils/npmRegistry.test.ts
+- [ ] T063 [P] Test system handles API failures gracefully 100% of time in src/utils/npmRegistry.test.ts
+- [ ] T064 [P] Test 80% reduction in unnecessary org checks metric in src/utils/npmRegistry.test.ts
 
 ### Performance Implementation
 
-- [ ] T063 [P] Add performance monitoring for validation timing in src/utils/validation.ts
-- [ ] T064 [P] Add API response time tracking in src/utils/npmRegistry.ts
-- [ ] T065 [P] Optimize validation sequence for performance in src/utils/npmRegistry.ts
+- [ ] T065 [P] Add performance monitoring for validation timing in src/utils/validation.ts
+- [ ] T066 [P] Add API response time tracking in src/utils/npmRegistry.ts
+- [ ] T067 [P] Optimize validation sequence for performance in src/utils/npmRegistry.ts
+- [ ] T068 [P] Implement performance metrics collection for SC-004 validation in src/utils/npmRegistry.ts
+
+**Checkpoint**: Run `npm test` and verify ALL tests T061-T068 PASS
 
 ---
 
@@ -188,14 +195,14 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T066 [P] Update npmRegistry.ts documentation with scope checking functionality
-- [ ] T067 [P] Run comprehensive test suite with 100% coverage verification
-- [ ] T068 [P] Performance testing of enhanced validation sequence
-- [ ] T069 [P] Update component documentation to reflect unified checking
-- [ ] T070 [P] Verify error handling consistency across all name types
-- [ ] T071 [P] Manual testing in browser with various name scenarios
-- [ ] T072 [P] Code cleanup and refactoring for maintainability
-- [ ] T073 [P] Update README.md with scope checking information
+- [ ] T069 [P] Update npmRegistry.ts documentation with scope checking functionality
+- [ ] T070 [P] Run comprehensive test suite with 100% coverage verification
+- [ ] T071 [P] Performance testing of enhanced validation sequence
+- [ ] T072 [P] Update component documentation to reflect unified checking
+- [ ] T073 [P] Verify error handling consistency across all name types
+- [ ] T074 [P] Manual testing in browser with various name scenarios
+- [ ] T075 [P] Code cleanup and refactoring for maintainability
+- [ ] T076 [P] Update README.md with scope checking information
 
 ---
 
@@ -222,12 +229,44 @@ description: 'Task list for NPM Scope Checker feature implementation'
 **Within Each User Story**:
 
 1. **Tests MUST be written and FAIL before implementation** (TDD approach)
-2. **Prerequisite checkpoint**: All test tasks must be completed and verified to FAIL before any implementation tasks
-3. **Implementation after failing tests**: Only after T010-T013, T020-T027, T037-T040 are failing
+2. **Prerequisite checkpoint**: Run specific test command and verify tests FAIL before any implementation tasks
+3. **Implementation after failing tests**: Only after verified failure
 4. **Models before services**
 5. **Services before endpoints**
 6. **Core implementation before integration**
 7. **Story complete before moving to next priority**
+
+### TDD Verification Commands **CONSTITUTION REQUIREMENT**
+
+**User Story 1**:
+
+```bash
+# After T010-T013: Verify tests fail
+npm test src/utils/validation.test.ts
+
+# After T014-T019: Verify tests pass
+npm test src/utils/validation.test.ts
+```
+
+**User Story 2**:
+
+```bash
+# After T020-T027: Verify tests fail
+npm test src/utils/npmRegistry.test.ts
+
+# After T028-T036: Verify tests pass
+npm test src/utils/npmRegistry.test.ts
+```
+
+**User Story 3**:
+
+```bash
+# After T037-T040: Verify tests fail
+npm test src/hooks/useAvailabilityChecker.test.ts
+
+# After T041-T044: Verify tests pass
+npm test src/hooks/useAvailabilityChecker.test.ts
+```
 
 ### Parallel Opportunities
 
@@ -249,6 +288,7 @@ Task: "Test checkScopeExists function with network errors in src/utils/npmRegist
 Task: "Test checkScopeExists function with timeout errors in src/utils/npmRegistry.test.ts"
 
 # Verify ALL TESTS FAIL before proceeding
+npm test src/utils/npmRegistry.test.ts
 
 # Launch core implementation tasks for User Story 2 together:
 Task: "Implement checkScopeExists function in src/utils/npmRegistry.ts"
@@ -325,3 +365,5 @@ Due to shared utility functions and consolidated approach:
 - No UI changes required - all enhancements in utility layer
 - **Edge cases are critical for complete coverage**
 - **Performance validation is required for success criteria**
+- **Non-ASCII character support added for comprehensive edge case coverage**
+- **Performance measurement task added for SC-004 validation**
