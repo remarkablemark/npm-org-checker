@@ -2,7 +2,7 @@
 
 **Feature Branch**: `001-npm-org-check`  
 **Created**: 2026-02-21  
-**Status**: Draft  
+**Status**: Implemented
 **Input**: User description: "check if npm org name is available"
 
 ## Clarifications
