@@ -102,15 +102,18 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - **FR-010**: System MUST provide real-time validation feedback as user types
 - **FR-011**: System MUST clear validation errors when user corrects invalid input
 - **FR-012**: System MUST prevent form submission when validation fails
-- **FR-013**: System MUST check if name exists on npm registry using appropriate API endpoints for both organizations and scopes
-- **FR-014**: System MUST use the npm registry search endpoint to check for existing packages with scopes
-- **FR-015**: System MUST use the npm registry organization endpoint to check for existing organizations
+- **FR-013**: System MUST use the npm registry organization endpoint to check for existing organizations
+- **FR-014**: System MUST use the npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` to check for existing packages with scopes
+- **FR-015**: System MUST replace `<scope>` placeholder in replicate endpoint URL with the actual scope name (without @ prefix)
 - **FR-016**: System MUST determine name is not available when either organization exists or packages exist with that scope
 - **FR-017**: System MUST display clear message indicating why name is unavailable (organization taken vs scope taken)
 - **FR-018**: System MUST proceed to indicate name availability only when neither organization nor scope exists
 - **FR-019**: System MUST handle npm registry API errors gracefully with user-friendly messages
 - **FR-020**: System MUST implement timeout handling for npm registry API calls
 - **FR-021**: System MUST check both organization availability and scope availability in the appropriate sequence
+- **FR-022**: System MUST handle npm replicate API responses and parse scope existence from the results
+- **FR-023**: System MUST determine scope is taken when replicate response rows.length > 0
+- **FR-024**: System MUST determine scope is available when replicate response rows.length = 0
 
 ### Key Entities
 
@@ -122,13 +125,16 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - **Error Message**: Specific feedback indicating why validation failed
 - **Name Existence Result**: Result from npm registry APIs indicating if name exists (organization or scope) or not
 - **Name Availability**: Final determination of whether name is available for use
-- **API Response**: Response data from npm registry endpoints (organization and scope search)
+- **API Response**: Response data from npm registry endpoints (organization endpoint and replicate endpoint), including rows array for scope checking
+- **Replicate Response**: JSON response from npm replicate endpoint with total_rows, offset, and rows array structure
 
 ## Clarifications
 
 ### Session 2026-02-22
 
 - Q: UI Integration Approach → A: Unified Input Field - Single input that accepts both organization names (@org) and scopes (@user), automatically detecting format and checking appropriate availability
+- Q: Scope checking API endpoint → A: Use npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` with replaced `<scope>`
+- Q: Replicate response interpretation → A: Scope or org name is taken when rows.length > 0 in the JSON response
 
 ## Consolidation Notice
 
