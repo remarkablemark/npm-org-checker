@@ -7,14 +7,14 @@
 
 ### User Name Validation Rules
 
-**Decision**: Use same validation rules as organization names from existing `validation.ts`
+**Decision**: Use same validation rules as organization names from existing `validation.ts` with underscore support
 
 **Rationale**:
 
 - Consistency across the application
 - Existing validation infrastructure already tested and proven
 - User names and organization names follow similar npm naming conventions
-- Clarified in specification: "Use same rules as organization names (lowercase letters, numbers, hyphens only)"
+- Clarified in specification: "Use same rules as organization names (lowercase letters, numbers, hyphens only)" with underscore support per FR-004
 
 **Implementation**: Extend `validateOrganizationName` function to handle both user and organization names, or create `validateUserName` that reuses the same logic.
 

@@ -17,12 +17,12 @@ Add user name validation function:
 
 ```typescript
 /**
- * Validates a user name according to npm naming rules (same as organization names)
+ * Validates a user name according to npm naming rules (same as organization names with underscore support)
  * @param name - The user name to validate
  * @returns ValidationResult with validation status and errors
  */
 export function validateUserName(name: string): ValidationResult {
-  // Reuse same logic as validateOrganizationName
+  // Reuse same logic as validateOrganizationName with underscore support
   return validateOrganizationName(name);
 }
 ```

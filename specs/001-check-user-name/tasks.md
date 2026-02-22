@@ -1,7 +1,7 @@
 # Implementation Tasks: Check User Name First
 
 **Branch**: `001-check-user-name` | **Date**: 2026-02-22 | **Spec**: [spec.md](spec.md)
-**Total Tasks**: 18 | **MVP Tasks**: 8 (User Story 1 only)
+**Total Tasks**: 41 | **MVP Tasks**: 9 (User Story 1 only)
 
 ## Phase 1: Setup
 
@@ -41,6 +41,7 @@
 - [ ] T016 [US1] Implement real-time validation feedback in OrgNameChecker component
 - [ ] T017 [US1] Add error message display for validation failures
 - [ ] T018 [US1] Update OrgNameChecker tests in src/components/OrgNameChecker/OrgNameChecker.test.tsx
+- [ ] T041 [US1] Implement form submission prevention when user name validation fails
 
 ## Phase 4: User Story 2 - Check User Name Availability Impact on Organization (Priority: P1)
 
@@ -77,7 +78,7 @@
 - [ ] T030 [US3] Implement debounced validation updates in OrgNameChecker component
 - [ ] T031 [US3] Add smooth transitions for validation state changes
 - [ ] T032 [US3] Optimize validation performance for real-time feedback
-- [ ] T033 [US3] Update OrgNameKeeper tests for real-time validation behavior
+- [ ] T033 [US3] Update OrgNameChecker tests for real-time validation behavior
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 

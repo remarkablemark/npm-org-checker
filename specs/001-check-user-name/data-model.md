@@ -21,7 +21,7 @@ type UserValidationState = 'valid' | 'invalid' | 'pending';
 
 **Validation Rules**:
 
-- Same as organization names: lowercase letters, numbers, hyphens only
+- Same as organization names: lowercase letters, numbers, hyphens, and underscores
 - Length: 1-100 characters
 - Pattern: Must start with lowercase letter, end with letter/number
 - No consecutive hyphens
@@ -183,7 +183,7 @@ interface OrgNameCheckerState {
 
 ### Test Cases for User Validation
 
-- Valid: "user", "test-user", "user123", "my-test-org"
+- Valid: "user", "test-user", "user123", "my_test_org", "test_user-123"
 - Invalid: "", "User", "user@", "-user", "user-", "user--name", "npm"
 
 ### Test Cases for User Existence
