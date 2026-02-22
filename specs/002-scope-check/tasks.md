@@ -182,12 +182,9 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 ### Performance Implementation
 
-- [ ] T065 [P] Add performance monitoring for validation timing in src/utils/validation.ts
-- [ ] T066 [P] Add API response time tracking in src/utils/npmRegistry.ts
-- [x] T067 [P] Optimize validation sequence for performance in src/utils/npmRegistry.ts
-- [ ] T068 [P] Implement performance metrics collection for SC-004 validation in src/utils/npmRegistry.ts
+- [x] T065 [P] Optimize validation sequence for performance in src/utils/npmRegistry.ts
 
-**Checkpoint**: Run `npm test` and verify ALL tests T061-T068 PASS
+**Checkpoint**: Run `npm test` and verify ALL tests T061-T065 PASS
 
 ---
 
@@ -195,14 +192,14 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [x] T069 [P] Update npmRegistry.ts documentation with scope checking functionality
-- [x] T070 [P] Run comprehensive test suite with 100% coverage verification
-- [x] T071 [P] Performance testing of enhanced validation sequence
-- [x] T072 [P] Update component documentation to reflect unified checking
-- [x] T073 [P] Verify error handling consistency across all name types
-- [x] T074 [P] Manual testing in browser with various name scenarios
-- [x] T075 [P] Code cleanup and refactoring for maintainability
-- [x] T076 [P] Update README.md with scope checking information
+- [x] T066 [P] Update npmRegistry.ts documentation with scope checking functionality
+- [x] T067 [P] Run comprehensive test suite with 100% coverage verification
+- [x] T068 [P] Performance testing of enhanced validation sequence
+- [x] T069 [P] Update component documentation to reflect unified checking
+- [x] T070 [P] Verify error handling consistency across all name types
+- [x] T071 [P] Manual testing in browser with various name scenarios
+- [x] T072 [P] Code cleanup and refactoring for maintainability
+- [x] T073 [P] Update README.md with scope checking information
 
 ---
 
