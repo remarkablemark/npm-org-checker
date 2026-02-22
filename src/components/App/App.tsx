@@ -19,8 +19,8 @@ export default function App() {
 
         <div className="text-center text-sm text-gray-500">
           <p>
-            Enter an organization name to check if it's available on npm
-            registry
+            Enter an organization name to check if it's available as an npm
+            scope
           </p>
           <p className="mt-1">
             Names must be 1-214 characters, lowercase, and can contain hyphens

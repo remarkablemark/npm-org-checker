@@ -31,7 +31,7 @@
 
 **API Details**:
 
-- Endpoint: `https://registry.npmjs.org/-/v1/search?text=author:<user>&size=1`
+- Endpoint: `https://registry.npmjs.com/-/v1/search?text=author:<user>&size=1`
 - Proxy URL: `https://corsmirror.com/v1?url=` + encoded endpoint
 - Response: JSON with `objects` array
 - User exists if `objects.length > 0`

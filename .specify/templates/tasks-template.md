@@ -19,7 +19,7 @@ description: 'Task list template for feature implementation'
 
 ## Path Conventions
 
-- **React web app**: `src/`, `tests/` at repository root
+- **React web app**: `src/` at repository root
 - **Components**: `src/components/ComponentName/` with co-located tests
 - \*\*Paths shown below assume React app structure - adjust based on plan.md
 
@@ -42,21 +42,7 @@ description: 'Task list template for feature implementation'
   ============================================================================
 -->
 
-## Phase 1: Setup (Shared Infrastructure)
-
-**Purpose**: Project initialization and basic structure
-
-**NOTE**: Skip this phase for existing projects - only for brand new React applications
-
-- [ ] T001 Create React project structure per implementation plan
-- [ ] T002 Initialize TypeScript React app with Vite dependencies
-- [ ] T003 [P] Configure ESLint, Prettier, and TypeScript strict mode
-
-**For existing projects**: Verify current setup meets requirements instead
-
----
-
-## Phase 2: Foundational (Blocking Prerequisites)
+## Phase 1: Foundational (Blocking Prerequisites)
 
 **Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
 
@@ -74,7 +60,7 @@ Examples of foundational tasks (adjust based on your project):
 
 ---
 
-## Phase 3: User Story 1 - [Title] (Priority: P1) 🎯 MVP
+## Phase 2: User Story 1 - [Title] (Priority: P1) 🎯 MVP
 
 **Goal**: [Brief description of what this story delivers]
 
@@ -100,7 +86,7 @@ Examples of foundational tasks (adjust based on your project):
 
 ---
 
-## Phase 4: User Story 2 - [Title] (Priority: P2)
+## Phase 3: User Story 2 - [Title] (Priority: P2)
 
 **Goal**: [Brief description of what this story delivers]
 
@@ -122,7 +108,7 @@ Examples of foundational tasks (adjust based on your project):
 
 ---
 
-## Phase 5: User Story 3 - [Title] (Priority: P3)
+## Phase 4: User Story 3 - [Title] (Priority: P3)
 
 **Goal**: [Brief description of what this story delivers]
 
@@ -147,7 +133,7 @@ Examples of foundational tasks (adjust based on your project):
 
 ---
 
-## Phase N: Polish & Cross-Cutting Concerns
+## Phase 5: Polish & Cross-Cutting Concerns
 
 **Purpose**: Improvements that affect multiple user stories
 

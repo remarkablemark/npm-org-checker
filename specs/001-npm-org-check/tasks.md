@@ -19,7 +19,7 @@ description: 'Task list for NPM Organization Name Availability Checker implement
 
 ## Path Conventions
 
-- **React web app**: `src/`, `tests/` at repository root
+- **React web app**: `src/` at repository root
 - **Components**: `src/components/ComponentName/` with co-located tests
 - **Paths shown below follow React app structure from plan.md**
 

@@ -1,0 +1,221 @@
+# Feature Specification: NPM Scope Checker
+
+**Feature Branch**: `002-scope-check`  
+**Created**: 2026-02-22  
+**Status**: Draft  
+**Input**: User description: "update checker to check scope on npm replicate"
+
+## User Scenarios & Testing _(mandatory)_
+
+<!--
+  IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
+  Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
+  you should still have a viable MVP (Minimum Viable Product) that delivers value.
+
+  Assign priorities (P1, P2, P3, etc.) to each story, where P1 is the most critical.
+  Think of each story as a standalone slice of functionality that can be:
+  - Developed independently
+  - Tested independently
+  - Deployed independently
+  - Demonstrated to users independently
+-->
+
+### User Story 1 - Validate Unified Name Input Format (Priority: P1)
+
+As a user, I want the system to validate both organization name and scope input formats in a single unified field, so that I can quickly identify and correct any issues with the name regardless of type.
+
+**Why this priority**: This is the foundational validation step that prevents unnecessary API calls and provides immediate feedback to users about invalid name formats for both organizations and scopes.
+
+**Independent Test**: Can be fully tested by entering various name formats (organization names and scopes) and verifying validation rules are applied correctly without making any external API calls.
+
+**Acceptance Scenarios**:
+
+1. **Given** I have entered a valid organization name format (e.g., "my-org"), **When** the input becomes valid, **Then** the system should proceed to check if the organization name exists on npm registry
+2. **Given** I have entered a valid scope name (e.g., "username"), **When** the input becomes valid, **Then** the system should proceed to check if the scope exists on npm registry
+3. **Given** I have entered an invalid format (empty, or contains invalid characters), **When** the input is invalid, **Then** the system should display specific validation error messages and not proceed to any API calls
+
+---
+
+### User Story 2 - Check Unified Name Availability on NPM Registry (Priority: P1)
+
+As a user, I want the system to check if either an organization name or scope exists on npm registry using a single unified interface, so that I understand whether my desired name is available for either purpose.
+
+**Why this priority**: This is the core logic that determines name availability for both organizations and scopes, providing clear feedback about whether a name can be used.
+
+**Independent Test**: Can be fully tested by entering known existing and non-existing names (both organization names and scopes) and verifying the correct availability determination.
+
+**Acceptance Scenarios**:
+
+1. **Given** I have entered an organization name that exists on npm registry, **When** the system checks the name, **Then** it should indicate that the name is not available because the organization is already taken
+2. **Given** I have entered a scope that exists on npm registry, **When** the system checks the name, **Then** it should indicate that the name is not available because the scope is already taken
+3. **Given** I have entered a name that does not exist on npm registry (neither organization nor scope), **When** the system checks the name, **Then** it should indicate that the name is available for use
+
+---
+
+### User Story 3 - Display Real-time Unified Name Validation Feedback (Priority: P2)
+
+As a user, I want to see real-time validation feedback as I type a name (organization or scope), so that I can correct errors immediately without waiting for form submission.
+
+**Why this priority**: Improves user experience by providing immediate feedback and reducing frustration from form submission errors across all name types.
+
+**Independent Test**: Can be fully tested by typing various name inputs (organization names and scopes) and verifying that validation feedback appears/disappears appropriately in real-time.
+
+**Acceptance Scenarios**:
+
+1. **Given** I am typing an organization name, **When** I enter invalid characters or format, **Then** the system should show an error message immediately
+2. **Given** I am typing a scope name, **When** I enter invalid characters or format, **Then** the system should show an error message immediately
+3. **Given** I am typing a name, **When** I correct the invalid input, **Then** the error message should disappear immediately
+
+---
+
+### Edge Cases
+
+- What happens when scope contains special characters like #, $, etc.?
+- How does system handle extremely long scope names (over 214 characters)?
+- What happens when scope starts or ends with hyphens or underscores?
+- How does system handle scope names with only numbers?
+- What happens when scope contains non-ASCII characters?
+- What happens when npm registry API is down or unreachable?
+- How does system handle slow responses from npm registry search API?
+- What happens when npm registry returns unexpected response format?
+- How does system handle scopes that conflict with reserved npm names?
+- What happens when checking scopes that are organization names vs user names?
+- How does system handle Unicode characters in URLs when passing through CORS proxy? (RESOLVED: Use encodeURIComponent to properly encode the entire replicate endpoint URL)
+
+## Requirements _(mandatory)_
+
+<!--
+  ACTION REQUIRED: The content in this section represents placeholders.
+  Fill them out with the right functional requirements.
+-->
+
+### Functional Requirements
+
+- **FR-001**: System MUST validate unified name input using existing validateOrganizationName function for all name types (user, scope, organization)
+- **FR-002**: System MUST check name availability across all three types without requiring input format detection
+- **FR-003**: System MUST enforce organization name validation rules for all inputs using existing validateOrganizationName
+- **FR-004**: System MUST apply same validation rules to user names, scopes, and organizations using existing validation
+- **FR-005**: System MUST enforce minimum length requirement for names (at least 1 character) using existing validation
+- **FR-006**: System MUST enforce maximum length requirement for names (no more than 214 characters total) using existing validation
+- **FR-007**: System MUST only allow alphanumeric characters, hyphens, and underscores in name parts using existing validation
+- **FR-008**: System MUST prevent names from starting or ending with hyphens or underscores using existing validation
+- **FR-009**: System MUST display specific error messages for different validation failures
+- **FR-010**: System MUST provide real-time validation feedback as user types
+- **FR-011**: System MUST clear validation errors when user corrects invalid input
+- **FR-012**: System MUST prevent form submission when validation fails
+- **FR-013**: System MUST use the npm registry organization endpoint to check for existing organizations
+- **FR-014**: System MUST use the npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` via corsmirror proxy to check for existing packages with scopes, with proper URL encoding of the entire endpoint URL
+- **FR-015**: System MUST replace `<scope>` placeholder in replicate endpoint URL with the actual scope name (without @ prefix) and URL-encode the complete URL before passing to corsmirror proxy
+- **FR-016**: System MUST use corsmirror.com proxy URL format: `https://corsmirror.com/v1?url=` followed by the URL-encoded replicate endpoint URL (using encodeURIComponent)
+- **FR-017**: System MUST determine name is not available when either organization exists or packages exist with that scope
+- **FR-018**: System MUST display clear message indicating why name is unavailable (organization taken vs scope taken)
+- **FR-019**: System MUST proceed to indicate name availability only when neither organization nor scope exists
+- **FR-020**: System MUST handle npm registry API errors gracefully with user-friendly messages
+- **FR-021**: System MUST implement timeout handling for npm registry API calls
+- **FR-022**: System MUST check both organization availability and scope availability in the appropriate sequence
+- **FR-023**: System MUST follow validation sequence: 1. check user name, 2. check npm scope, 3. check npm org
+- **FR-024**: System MUST stop checking sequence and return unavailable if user name exists (step 1)
+- **FR-025**: System MUST stop checking sequence and return unavailable if npm scope exists (step 2)
+- **FR-026**: System MUST proceed to check npm org only if both user name and npm scope do not exist
+- **FR-027**: System MUST handle npm replicate API responses and parse scope existence from the results
+- **FR-028**: System MUST determine scope is taken when replicate response rows.length > 0
+- **FR-029**: System MUST determine scope is available when replicate response rows.length = 0
+- **FR-030**: System MUST verify that `validateOrganizationName` function exists in `src/utils/validation.ts` before implementation
+- **FR-031**: System MUST document the exact validation rules enforced by `validateOrganizationName` function
+- **FR-032**: System MUST confirm that `validateOrganizationName` handles scope names (without @ prefix) correctly
+- **FR-033**: System MUST use unified validation approach - all inputs (user names, scopes, organizations) use same `validateOrganizationName` function
+- **FR-034**: System MUST NOT detect input format based on @ prefix - validation is format-agnostic
+- **FR-035**: System MUST apply same validation rules to all input types: alphanumeric characters, hyphens, underscores only
+- **FR-036**: System MUST enforce same length constraints (1-214 characters) for all input types
+- **FR-037**: System MUST prevent names from starting/ending with hyphens or underscores for all input types
+
+### Key Entities
+
+- **Name**: Text input representing npm name (either organization name or scope), used for unified availability checking
+- **Name Type**: Input category (organization vs scope) for internal processing, not based on @ prefix detection
+- **Organization Name**: Name for organization checking, follows unified validation rules
+- **Scope Name**: Name for scope checking (without @ prefix), follows unified validation rules
+- **Validation State**: Current validation status of name (valid, invalid, pending)
+- **Error Message**: Specific feedback indicating why validation failed
+- **Name Existence Result**: Result from npm registry APIs indicating if name exists (organization or scope) or not
+- **Name Availability**: Final determination of whether name is available for use
+- **API Response**: Response data from npm registry endpoints (organization endpoint and replicate endpoint), including rows array for scope checking
+- **Replicate Response**: JSON response from npm replicate endpoint with total_rows, offset, and rows array structure
+
+### Input Format Handling
+
+**Unified Validation Approach**: The system uses a format-agnostic validation strategy where all input types (user names, organization names, and scopes) are processed through the same `validateOrganizationName` function. This eliminates the need for format detection and ensures consistent validation rules across all name types.
+
+**Validation Rules Applied to All Input Types**:
+
+- Minimum length: 1 character
+- Maximum length: 214 characters total
+- Allowed characters: alphanumeric, hyphens, underscores only
+- Cannot start or end with hyphens or underscores
+- Same validation function processes all inputs regardless of @ prefix presence
+
+**Scope Name Handling**: When checking scope availability, the @ prefix is added by the system for API calls but user input should NOT include the @ symbol. Users enter scope names without the @ prefix (e.g., "username" not "@username"), and the system handles the @ prefix addition internally when making API calls.
+
+## Clarifications
+
+### Session 2026-02-22
+
+- Q: UI Integration Approach → A: Unified Input Field - Single input that accepts organization names and scope names (without @ prefix), checking availability across all types
+- Q: Scope checking API endpoint → A: Use npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` with replaced `<scope>`, properly URL-encoding the entire URL with encodeURIComponent before passing to corsmirror proxy
+- Q: Replicate response interpretation → A: Scope or org name is taken when rows.length > 0 in the JSON response
+- Q: CORS handling for replicate endpoint → A: Use corsmirror proxy for npm replicate endpoint calls, with full URL encoding using encodeURIComponent to handle Unicode characters like \ufff0
+- Q: Validation sequence → A: 1. check user name, 2. check npm scope, 3. check npm org
+- Q: Implementation approach → A: Consolidate the 3 step validation sequence in existing `checkNameAvailability` function
+- Q: Scope validation rules → A: Reuse user and org name validation rules for scope validation
+- Q: UI component integration → A: Integrate with existing UI components
+- Q: Input format detection → A: No need to detect if user input starts with @
+- Q: Success criteria reuse → A: Reuse existing measurable outcomes
+- Q: Debounce strategy → A: Reuse existing 300ms debounce pattern
+
+## Consolidation Notice
+
+### Session 2026-02-22
+
+**Decision**: Scope checking functionality will be consolidated into the main availability checker rather than being implemented as a separate UI feature.
+
+**Reasoning**:
+
+- The separate scope checking would create unnecessary UI complexity
+- Consolidated availability checking provides the same functionality more efficiently
+- User experience is improved with a single, unified availability check that handles both organization names and scopes
+- Reduces API calls and provides clearer feedback to users
+- Follows the same pattern as the existing user existence checking consolidation
+
+**Implementation**:
+
+- Scope checking will be handled by extending the existing `checkNameAvailability` function in `npmRegistry.ts`
+- The main component will continue to use `useAvailabilityChecker` with the enhanced consolidated function
+- No separate scope validation UI will be displayed to users, but the logic will be preserved
+- Input field will check name availability across all three types: user, scope, and organization without requiring format detection
+- The 3-step validation sequence (user → scope → organization) will be consolidated within the single `checkNameAvailability` function
+- Integration will extend existing OrgNameChecker component to support scope checking without UI changes
+
+**Impact**:
+
+- All scope validation logic will be centralized in the utility layer
+- UI is simplified to focus on unified name availability only (organization names + scopes)
+- Tests will be updated to reflect the consolidated approach
+- 100% test coverage will be maintained with the new implementation
+- Functionality is preserved but implemented more efficiently
+
+## Success Criteria _(mandatory)_
+
+<!--
+  ACTION REQUIRED: Define measurable success criteria.
+  These must be technology-agnostic and measurable.
+-->
+
+### Measurable Outcomes
+
+- **SC-001**: Users receive validation feedback within 100ms of typing or form submission
+- **SC-002**: 95% of invalid name inputs are caught before any API calls are made
+- **SC-003**: Users can successfully enter a valid name and proceed to availability check on first attempt 90% of the time
+- **SC-004**: System reduces unnecessary organization availability checks by at least 80% through user and scope existence validation
+- **SC-005**: npm registry API calls complete within 2 seconds 95% of the time
+- **SC-006**: System handles API failures gracefully without crashing 100% of the time
+- **SC-007**: Users receive clear feedback about organization unavailability due to existing user names or scopes 100% of the time

@@ -64,7 +64,7 @@ export function useAvailabilityChecker(
   const debouncedNameRef = useRef<string>('');
 
   const performCheck = useCallback(async (orgName: string) => {
-    /* v8 ignore start */ // Coverage: Early return for empty strings is tested via debounced function
+    /* v8 ignore start */
     if (!orgName.trim()) {
       return;
     }

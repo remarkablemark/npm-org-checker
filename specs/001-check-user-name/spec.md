@@ -95,7 +95,7 @@ As a user, I want to see real-time validation feedback as I type a user name, so
 - **FR-008**: System MUST clear validation errors when user corrects invalid input
 - **FR-009**: System MUST prevent form submission when validation fails
 - **FR-010**: System MUST check if user exists on npm registry using the search API endpoint
-- **FR-011**: System MUST use the npm registry search endpoint: `https://registry.npmjs.org/-/v1/search?text=author:<user>&size=1`
+- **FR-011**: System MUST use the npm registry search endpoint: `https://registry.npmjs.com/-/v1/search?text=author:<user>&size=1`
 - **FR-012**: System MUST determine organization is not available when user name exists on npm registry
 - **FR-013**: System MUST display clear message that organization name is unavailable because user name is taken
 - **FR-014**: System MUST proceed to additional organization availability checks only when user name does not exist on npm registry
