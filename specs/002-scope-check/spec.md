@@ -146,6 +146,7 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - Q: Scope validation rules → A: Reuse user and org name validation rules for scope validation
 - Q: UI component integration → A: Integrate with existing UI components
 - Q: Input format detection → A: No need to detect if user input starts with @
+- Q: Success criteria reuse → A: Reuse existing measurable outcomes
 
 ## Consolidation Notice
 
@@ -187,12 +188,10 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 
 ### Measurable Outcomes
 
-- **SC-001**: Users receive unified name validation feedback within 100ms of typing or form submission
-- **SC-002**: 95% of invalid name inputs (both organization and scope) are caught before any API calls are made
-- **SC-003**: Users can successfully enter a valid name (organization or scope) and proceed to availability check on first attempt 90% of the time
-- **SC-004**: System accurately determines name availability by checking both organizations and scopes 95% of the time
+- **SC-001**: Users receive validation feedback within 100ms of typing or form submission
+- **SC-002**: 95% of invalid name inputs are caught before any API calls are made
+- **SC-003**: Users can successfully enter a valid name and proceed to availability check on first attempt 90% of the time
+- **SC-004**: System reduces unnecessary organization availability checks by at least 80% through user and scope existence validation
 - **SC-005**: npm registry API calls complete within 2 seconds 95% of the time
 - **SC-006**: System handles API failures gracefully without crashing 100% of the time
-- **SC-007**: Users receive clear feedback about name unavailability due to existing organizations or scopes 100% of the time
-- **SC-008**: System reduces unnecessary name availability checks by at least 80% through input validation
-- **SC-009**: System automatically detects input type (organization vs scope) and applies appropriate validation 100% of the time
+- **SC-007**: Users receive clear feedback about organization unavailability due to existing user names or scopes 100% of the time
