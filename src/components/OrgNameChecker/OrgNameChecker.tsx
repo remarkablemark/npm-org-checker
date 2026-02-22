@@ -48,7 +48,7 @@ export function OrgNameChecker({
     setValue: setOrgName,
   } = useOrgNameValidator();
 
-  const { isAvailable, isChecking, apiError, checkAvailability } =
+  const { isAvailable, isChecking, apiError, orgUrl, checkAvailability } =
     useAvailabilityChecker({ debounceMs: 300 });
 
   // Handle auto-focus
@@ -84,7 +84,7 @@ export function OrgNameChecker({
   const hasError = validationErrors.length > 0;
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-2">
       <div className="flex flex-col space-y-2">
         <label
           htmlFor="name-input"
@@ -124,6 +124,23 @@ export function OrgNameChecker({
         isAvailable={isAvailable}
         isChecking={isChecking}
       />
+
+      {/* Organization URL Link */}
+      {orgUrl && (
+        <div className="text-gray-600">
+          <p>
+            {'See user/organization: '}
+            <a
+              href={orgUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline hover:text-blue-800"
+            >
+              {orgUrl}
+            </a>
+          </p>
+        </div>
+      )}
     </div>
   );
 }

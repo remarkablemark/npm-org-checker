@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { DEFAULT_DEBOUNCE_MS } from 'src/constants';
 import type { ApiError } from 'src/types';
+import type { NameAvailabilityResult } from 'src/utils/npmRegistry';
 import { checkNameAvailability, createApiError } from 'src/utils/npmRegistry';
 
 interface UseAvailabilityCheckerOptions {
@@ -17,6 +18,8 @@ interface UseAvailabilityCheckerReturn {
   apiError: ApiError | null;
   /** Timestamp of the last successful availability check */
   lastChecked: Date | null;
+  /** URL to the potential npm organization page */
+  orgUrl: string | null;
   /** Function to trigger availability check for an organization name */
   checkAvailability: (orgName: string) => void;
   /** Function to reset the hook to initial state */
@@ -58,6 +61,7 @@ export function useAvailabilityChecker(
   const [isChecking, setIsChecking] = useState(false);
   const [apiError, setApiError] = useState<ApiError | null>(null);
   const [lastChecked, setLastChecked] = useState<Date | null>(null);
+  const [orgUrl, setOrgUrl] = useState<string | null>(null);
 
   // Use refs to track the latest timeout and debounced value
   const timeoutRef = useRef<number | null>(null);
@@ -74,14 +78,17 @@ export function useAvailabilityChecker(
     setApiError(null);
 
     try {
-      const available = await checkNameAvailability(orgName);
-      setIsAvailable(available);
+      const result: NameAvailabilityResult =
+        await checkNameAvailability(orgName);
+      setIsAvailable(result.isAvailable);
+      setOrgUrl(result.orgUrl);
       setLastChecked(new Date());
       setApiError(null);
     } catch (error) {
       const apiErr = createApiError(error as Error);
       setApiError(apiErr);
       setIsAvailable(null);
+      setOrgUrl(null);
       setLastChecked(null);
     } finally {
       setIsChecking(false);
@@ -127,6 +134,7 @@ export function useAvailabilityChecker(
     setIsChecking(false);
     setApiError(null);
     setLastChecked(null);
+    setOrgUrl(null);
     debouncedNameRef.current = '';
   }, []);
 
@@ -135,6 +143,7 @@ export function useAvailabilityChecker(
     isChecking,
     apiError,
     lastChecked,
+    orgUrl,
     checkAvailability: checkAvailabilityDebounced,
     reset,
   };

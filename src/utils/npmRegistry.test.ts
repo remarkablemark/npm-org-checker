@@ -1,8 +1,8 @@
 import { ApiErrorType } from 'src/types';
+import type { NameAvailabilityResult } from 'src/utils/npmRegistry';
 
 import {
   checkNameAvailability,
-  checkOrgAvailability,
   checkUserExists,
   createApiError,
 } from './npmRegistry';
@@ -12,126 +12,6 @@ Object.defineProperty(globalThis, 'fetch', {
   value: vi.fn(),
   writable: true,
   configurable: true,
-});
-
-describe('checkOrgAvailability', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('should return true when organization name is available (404)', async () => {
-    const mockFetch = vi.mocked(fetch);
-    mockFetch.mockResolvedValueOnce({
-      status: 404,
-      ok: false,
-    } as unknown as Response);
-
-    const result = await checkOrgAvailability('available-org');
-
-    expect(result).toBe(true);
-    expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https%3A%2F%2Fwww.npmjs.com%2Forg%2Favailable-org',
-      {
-        method: 'HEAD',
-        signal: expect.any(AbortSignal) as AbortSignal,
-      },
-    );
-  });
-
-  it('should return false when organization name is taken (200)', async () => {
-    const mockFetch = vi.mocked(fetch);
-    mockFetch.mockResolvedValueOnce({
-      status: 200,
-      ok: true,
-    } as unknown as Response);
-
-    const result = await checkOrgAvailability('taken-org');
-
-    expect(result).toBe(false);
-  });
-
-  it('should handle network errors', async () => {
-    const mockFetch = vi.mocked(fetch);
-    mockFetch.mockRejectedValueOnce(new Error('Network error'));
-
-    await expect(checkOrgAvailability('test-org')).rejects.toThrow(
-      'Network error',
-    );
-  });
-
-  it('should handle CORS errors', async () => {
-    const mockFetch = vi.mocked(fetch);
-    mockFetch.mockRejectedValueOnce(new TypeError('Failed to fetch'));
-
-    await expect(checkOrgAvailability('test-org')).rejects.toThrow(
-      'Failed to fetch',
-    );
-  });
-
-  it('should handle timeout errors', async () => {
-    const mockFetch = vi.mocked(fetch);
-    mockFetch.mockRejectedValueOnce(new DOMException('Timeout', 'AbortError'));
-
-    await expect(checkOrgAvailability('test-org')).rejects.toThrow('Timeout');
-  });
-
-  it('should handle server errors (500)', async () => {
-    const mockFetch = vi.mocked(fetch);
-    mockFetch.mockResolvedValueOnce({
-      status: 500,
-      ok: false,
-      statusText: 'Internal Server Error',
-    } as unknown as Response);
-
-    await expect(checkOrgAvailability('test-org')).rejects.toThrow(
-      'Internal Server Error',
-    );
-  });
-
-  it('should handle unknown errors', async () => {
-    const mockFetch = vi.mocked(fetch);
-    mockFetch.mockRejectedValueOnce('string error');
-
-    await expect(checkOrgAvailability('test-org')).rejects.toThrow(
-      'Unknown error occurred',
-    );
-  });
-
-  it('should use correct URL format', async () => {
-    const mockFetch = vi.mocked(fetch);
-    mockFetch.mockResolvedValueOnce({
-      status: 404,
-      ok: false,
-    } as unknown as Response);
-
-    await checkOrgAvailability('my-test-org');
-
-    expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https%3A%2F%2Fwww.npmjs.com%2Forg%2Fmy-test-org',
-      {
-        method: 'HEAD',
-        signal: expect.any(AbortSignal) as AbortSignal,
-      },
-    );
-  });
-
-  it('should handle special characters in organization name', async () => {
-    const mockFetch = vi.mocked(fetch);
-    mockFetch.mockResolvedValueOnce({
-      status: 404,
-      ok: false,
-    } as unknown as Response);
-
-    await checkOrgAvailability('org-with-123');
-
-    expect(mockFetch).toHaveBeenCalledWith(
-      'https://corsmirror.com/v1?url=https%3A%2F%2Fwww.npmjs.com%2Forg%2Forg-with-123',
-      {
-        method: 'HEAD',
-        signal: expect.any(AbortSignal) as AbortSignal,
-      },
-    );
-  });
 });
 
 describe('createApiError', () => {
@@ -500,7 +380,7 @@ describe('checkNameAvailability with scope checking (User Story 2)', () => {
     vi.clearAllMocks();
   });
 
-  it('should stop at user check if user exists', async () => {
+  it('should return unavailable with org URL when user exists', async () => {
     const mockFetch = vi.mocked(fetch);
     // Mock user exists
     mockFetch.mockResolvedValueOnce({
@@ -513,13 +393,15 @@ describe('checkNameAvailability with scope checking (User Story 2)', () => {
       }),
     } as unknown as Response);
 
-    const result = await checkNameAvailability('taken-username');
+    const result: NameAvailabilityResult =
+      await checkNameAvailability('taken-username');
 
-    expect(result).toBe(false);
+    expect(result.isAvailable).toBe(false);
+    expect(result.orgUrl).toBe('https://www.npmjs.com/org/taken-username');
     expect(mockFetch).toHaveBeenCalledTimes(1);
   });
 
-  it('should stop at scope check if scope exists', async () => {
+  it('should return unavailable with org URL when scope exists', async () => {
     const mockFetch = vi.mocked(fetch);
     // Mock user doesn't exist
     mockFetch.mockResolvedValueOnce({
@@ -549,13 +431,15 @@ describe('checkNameAvailability with scope checking (User Story 2)', () => {
       }),
     } as unknown as Response);
 
-    const result = await checkNameAvailability('taken-scope');
+    const result: NameAvailabilityResult =
+      await checkNameAvailability('taken-scope');
 
-    expect(result).toBe(false);
+    expect(result.isAvailable).toBe(false);
+    expect(result.orgUrl).toBe('https://www.npmjs.com/org/taken-scope');
     expect(mockFetch).toHaveBeenCalledTimes(2);
   });
 
-  it('should check all three when none exist', async () => {
+  it('should return available with org URL when user and scope do not exist', async () => {
     const mockFetch = vi.mocked(fetch);
     // Mock user doesn't exist
     mockFetch.mockResolvedValueOnce({
@@ -579,19 +463,15 @@ describe('checkNameAvailability with scope checking (User Story 2)', () => {
       }),
     } as unknown as Response);
 
-    // Mock org is available
-    mockFetch.mockResolvedValueOnce({
-      status: 404,
-      ok: false,
-    } as unknown as Response);
+    const result: NameAvailabilityResult =
+      await checkNameAvailability('available-name');
 
-    const result = await checkNameAvailability('available-name');
-
-    expect(result).toBe(true);
-    expect(mockFetch).toHaveBeenCalledTimes(3);
+    expect(result.isAvailable).toBe(true);
+    expect(result.orgUrl).toBe('https://www.npmjs.com/org/available-name');
+    expect(mockFetch).toHaveBeenCalledTimes(2);
   });
 
-  it('should handle organization conflicts after user and scope checks pass', async () => {
+  it('should always return org URL regardless of availability', async () => {
     const mockFetch = vi.mocked(fetch);
     // Mock user doesn't exist
     mockFetch.mockResolvedValueOnce({
@@ -615,15 +495,41 @@ describe('checkNameAvailability with scope checking (User Story 2)', () => {
       }),
     } as unknown as Response);
 
-    // Mock org is taken
+    const result: NameAvailabilityResult =
+      await checkNameAvailability('test-org');
+
+    expect(result.orgUrl).toBe('https://www.npmjs.com/org/test-org');
+    expect(mockFetch).toHaveBeenCalledTimes(2);
+  });
+
+  it('should handle special characters in org URL', async () => {
+    const mockFetch = vi.mocked(fetch);
+    // Mock user doesn't exist
     mockFetch.mockResolvedValueOnce({
       status: 200,
       ok: true,
+      json: vi.fn().mockResolvedValueOnce({
+        objects: [],
+        total: 0,
+        time: '2026-02-22T00:00:00.000Z',
+      }),
     } as unknown as Response);
 
-    const result = await checkNameAvailability('taken-org');
+    // Mock scope doesn't exist
+    mockFetch.mockResolvedValueOnce({
+      status: 200,
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce({
+        total_rows: 0,
+        offset: 0,
+        rows: [],
+      }),
+    } as unknown as Response);
 
-    expect(result).toBe(false);
-    expect(mockFetch).toHaveBeenCalledTimes(3);
+    const result: NameAvailabilityResult =
+      await checkNameAvailability('org-with-123');
+
+    expect(result.orgUrl).toBe('https://www.npmjs.com/org/org-with-123');
+    expect(mockFetch).toHaveBeenCalledTimes(2);
   });
 });

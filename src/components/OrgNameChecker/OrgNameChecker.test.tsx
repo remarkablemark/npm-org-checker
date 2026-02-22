@@ -21,6 +21,7 @@ vi.mock('src/hooks/useAvailabilityChecker', () => ({
     isChecking: false,
     apiError: null,
     lastChecked: null,
+    orgUrl: null,
     checkAvailability: vi.fn(),
     reset: vi.fn(),
   })),
@@ -87,6 +88,7 @@ describe('OrgNameChecker', () => {
       isChecking: false,
       apiError: null,
       lastChecked: new Date(),
+      orgUrl: 'https://www.npmjs.com/org/test-org',
       checkAvailability: vi.fn(),
       reset: vi.fn(),
     });
@@ -170,6 +172,7 @@ describe('OrgNameChecker', () => {
       lastChecked: null,
       checkAvailability: vi.fn(),
       reset: vi.fn(),
+      orgUrl: null,
     });
 
     render(<OrgNameChecker />);
@@ -200,6 +203,7 @@ describe('OrgNameChecker', () => {
       lastChecked: new Date(),
       checkAvailability: vi.fn(),
       reset: vi.fn(),
+      orgUrl: null,
     });
 
     render(<OrgNameChecker />);
@@ -230,12 +234,79 @@ describe('OrgNameChecker', () => {
       lastChecked: new Date(),
       checkAvailability: vi.fn(),
       reset: vi.fn(),
+      orgUrl: null,
     });
 
     render(<OrgNameChecker />);
 
     expect(screen.getByText('Unavailable')).toBeInTheDocument();
     expect(screen.getByText('❌')).toBeInTheDocument();
+  });
+
+  it('displays "See user/organization" text when org is available', async () => {
+    const { useOrgNameValidator } =
+      await import('src/hooks/useOrgNameValidator');
+    const { useAvailabilityChecker } =
+      await import('src/hooks/useAvailabilityChecker');
+
+    vi.mocked(useOrgNameValidator).mockReturnValue({
+      value: 'available-org',
+      isValid: true,
+      validationErrors: [],
+      isDirty: true,
+      setValue: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    vi.mocked(useAvailabilityChecker).mockReturnValue({
+      isAvailable: true,
+      isChecking: false,
+      apiError: null,
+      lastChecked: new Date(),
+      orgUrl: 'https://www.npmjs.com/org/available-org',
+      checkAvailability: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    render(<OrgNameChecker />);
+
+    expect(screen.getByText('See user/organization:')).toBeInTheDocument();
+    expect(
+      screen.getByText('https://www.npmjs.com/org/available-org'),
+    ).toBeInTheDocument();
+  });
+
+  it('displays "See user/organization" text when org is unavailable', async () => {
+    const { useOrgNameValidator } =
+      await import('src/hooks/useOrgNameValidator');
+    const { useAvailabilityChecker } =
+      await import('src/hooks/useAvailabilityChecker');
+
+    vi.mocked(useOrgNameValidator).mockReturnValue({
+      value: 'taken-org',
+      isValid: true,
+      validationErrors: [],
+      isDirty: true,
+      setValue: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    vi.mocked(useAvailabilityChecker).mockReturnValue({
+      isAvailable: false,
+      isChecking: false,
+      apiError: null,
+      lastChecked: new Date(),
+      orgUrl: 'https://www.npmjs.com/org/taken-org',
+      checkAvailability: vi.fn(),
+      reset: vi.fn(),
+    });
+
+    render(<OrgNameChecker />);
+
+    expect(screen.getByText('See user/organization:')).toBeInTheDocument();
+    expect(
+      screen.getByText('https://www.npmjs.com/org/taken-org'),
+    ).toBeInTheDocument();
   });
 
   it('handles keyboard navigation properly', async () => {
@@ -317,6 +388,7 @@ describe('OrgNameChecker', () => {
         timestamp: new Date(),
       },
       lastChecked: null,
+      orgUrl: null,
       checkAvailability: mockCheckAvailability,
       reset: vi.fn(),
     });
@@ -357,6 +429,7 @@ describe('OrgNameChecker', () => {
         timestamp: new Date(),
       },
       lastChecked: null,
+      orgUrl: null,
       checkAvailability: mockCheckAvailability,
       reset: vi.fn(),
     });
@@ -393,6 +466,7 @@ describe('OrgNameChecker', () => {
       lastChecked: new Date(),
       checkAvailability: vi.fn(),
       reset: vi.fn(),
+      orgUrl: null,
     });
 
     // Render without providing callback props
@@ -421,6 +495,7 @@ describe('OrgNameChecker', () => {
       lastChecked: null,
       checkAvailability: vi.fn(),
       reset: vi.fn(),
+      orgUrl: null,
     });
 
     render(<OrgNameChecker />);

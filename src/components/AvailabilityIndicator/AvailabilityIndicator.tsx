@@ -53,7 +53,7 @@ export function AvailabilityIndicator({
           className="h-4 w-4 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"
           aria-hidden="true"
         />
-        <span className="text-sm font-medium">Checking...</span>
+        <span className="font-medium">Checking...</span>
       </div>
     );
   }
@@ -67,7 +67,7 @@ export function AvailabilityIndicator({
         className={`flex items-center gap-2 text-green-600 ${className}`}
       >
         <span aria-hidden="true">✅</span>
-        <span className="text-sm font-medium">Available</span>
+        <span className="font-medium">Available</span>
       </div>
     );
   }
@@ -80,7 +80,7 @@ export function AvailabilityIndicator({
       className={`flex items-center gap-2 text-red-600 ${className}`}
     >
       <span aria-hidden="true">❌</span>
-      <span className="text-sm font-medium">Unavailable</span>
+      <span className="font-medium">Unavailable</span>
     </div>
   );
 }

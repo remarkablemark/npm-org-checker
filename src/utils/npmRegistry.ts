@@ -36,97 +36,6 @@ interface ScopeCheckResponse {
 }
 
 /**
- * Checks if an npm organization name is available by making a HEAD request
- * to the npm registry via a CORS proxy.
- *
- * This function handles the complexity of checking npm organization availability:
- *
- * Technical Implementation:
- * - Uses corsmirror.com as CORS proxy to bypass browser restrictions
- * - Makes HTTP HEAD requests to npmjs.com/org/\{orgName\}
- * - 200 status = organization exists (not available)
- * - 404 status = organization doesn't exist (available)
- * - Other status codes indicate server/network issues
- *
- * Error Handling:
- * - Network timeouts (10 second limit)
- * - CORS proxy failures
- * - npm registry server errors
- * - Invalid organization names
- *
- * Performance Considerations:
- * - HEAD requests are lightweight (no body transfer)
- * - Timeout prevents hanging requests
- * - Proper error cleanup and resource management
- *
- * @example
- * ```typescript
- * import { checkAvailability } from './npmRegistry';
- *
- * try {
- *   const isAvailable = await checkOrgAvailability('my-org');
- *   console.log(isAvailable ? 'Available!' : 'Not available');
- * } catch (error) {
- *   console.error('Failed to check availability:', error);
- * }
- * ```
- *
- * @param orgName - The organization name to check (must be valid npm org name)
- * @returns Promise that resolves to boolean: true if available, false if taken
- * @throws ApiError for network, timeout, or server errors with detailed error information
- */
-export async function checkOrgAvailability(orgName: string): Promise<boolean> {
-  const controller = new AbortController();
-
-  /* v8 ignore start */
-  const timeoutId = setTimeout(() => {
-    controller.abort();
-  }, TIMEOUT_MS);
-  /* v8 ignore end */
-
-  try {
-    const orgUrl = `https://www.npmjs.com/org/${orgName}`;
-    const url = `${CORS_PROXY_URL}${encodeURIComponent(orgUrl)}`;
-
-    const response = await fetch(url, {
-      method: 'HEAD',
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    // 404 means the organization doesn't exist (available)
-    // 200 means it exists (taken)
-    if (response.status === 404) {
-      return true; // Available
-    }
-
-    if (response.status === 200) {
-      return false; // Taken
-    }
-
-    // For other status codes, throw an error
-    throw new Error(
-      response.statusText || `HTTP ${response.status.toString()}`,
-    );
-  } catch (error) {
-    clearTimeout(timeoutId);
-
-    // Handle AbortError (timeout)
-    if (error instanceof DOMException && error.name === 'AbortError') {
-      throw new Error(error.message || 'Request timeout');
-    }
-
-    // Re-throw the error to be handled by the caller
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Unknown error occurred');
-  }
-}
-
-/**
  * Checks if a user exists on npm registry via the search API.
  *
  * This function handles the complexity of checking npm user existence:
@@ -298,14 +207,20 @@ export async function checkScopeExists(scopeName: string): Promise<boolean> {
   }
 }
 
+export interface NameAvailabilityResult {
+  /** Whether the name is available for user and scope use */
+  isAvailable: boolean;
+  /** URL to the potential npm organization page */
+  orgUrl: string;
+}
+
 /**
- * Checks name availability with sequential user, scope, and organization validation.
+ * Checks name availability with sequential user and scope validation.
  *
- * This function implements the complete validation flow:
+ * This function implements validation for user and scope conflicts:
  * 1. First checks if user exists on npm registry
  * 2. Then checks if scope exists on npm registry
- * 3. Finally checks organization availability
- * 4. Returns true only if all three checks pass
+ * 3. Returns availability status and potential org URL
  *
  * This approach optimizes API calls by avoiding unnecessary checks
  * when a conflict is found at any step (early termination).
@@ -315,33 +230,44 @@ export async function checkScopeExists(scopeName: string): Promise<boolean> {
  * import { checkNameAvailability } from './npmRegistry';
  *
  * try {
- *   const isAvailable = await checkNameAvailability('my-name');
- *   console.log(isAvailable ? 'Available!' : 'Not available');
+ *   const result = await checkNameAvailability('my-name');
+ *   console.log(result.isAvailable ? 'Available!' : 'Not available');
+ *   console.log('Potential org URL:', result.orgUrl);
  * } catch (error) {
  *   console.error('Failed to check name:', error);
  * }
  * ```
  *
- * @param name - The name to check for user, scope, and organization availability
- * @returns Promise<boolean> - true if name is available for all uses, false if not available
+ * @param name - The name to check for user and scope availability
+ * @returns Promise<NameAvailabilityResult> - availability status and org URL
  * @throws Error for network, timeout, or server errors
  */
-export async function checkNameAvailability(name: string): Promise<boolean> {
+export async function checkNameAvailability(
+  name: string,
+): Promise<NameAvailabilityResult> {
   // Step 1: Check if user exists
   const userExists = await checkUserExists(name);
   if (userExists) {
-    return false; // Early termination - user conflict
+    return {
+      isAvailable: false,
+      orgUrl: `https://www.npmjs.com/org/${name}`,
+    }; // Early termination - user conflict
   }
 
   // Step 2: Check if scope exists
   const scopeExists = await checkScopeExists(name);
   if (scopeExists) {
-    return false; // Early termination - scope conflict
+    return {
+      isAvailable: false,
+      orgUrl: `https://www.npmjs.com/org/${name}`,
+    }; // Early termination - scope conflict
   }
 
-  // Step 3: Check organization availability
-  const orgAvailable = await checkOrgAvailability(name);
-  return orgAvailable;
+  // Name is available for user and scope - return org URL for reference
+  return {
+    isAvailable: true,
+    orgUrl: `https://www.npmjs.com/org/${name}`,
+  };
 }
 
 /**

@@ -1,5 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { ApiErrorType } from 'src/types';
+import type { NameAvailabilityResult } from 'src/utils/npmRegistry';
 import { checkNameAvailability, createApiError } from 'src/utils/npmRegistry';
 
 import { useAvailabilityChecker } from './useAvailabilityChecker';
@@ -27,11 +28,16 @@ describe('useAvailabilityChecker', () => {
     expect(result.current.isChecking).toBe(false);
     expect(result.current.apiError).toBeNull();
     expect(result.current.lastChecked).toBeNull();
+    expect(result.current.orgUrl).toBeNull();
   });
 
   it('should check availability for valid organization name', async () => {
     const mockCheckNameAvailability = vi.mocked(checkNameAvailability);
-    mockCheckNameAvailability.mockResolvedValueOnce(true);
+    const mockResult: NameAvailabilityResult = {
+      isAvailable: true,
+      orgUrl: 'https://www.npmjs.com/org/test-org',
+    };
+    mockCheckNameAvailability.mockResolvedValueOnce(mockResult);
 
     const { result } = renderHook(() =>
       useAvailabilityChecker({ debounceMs: 0 }),
@@ -50,6 +56,7 @@ describe('useAvailabilityChecker', () => {
 
     expect(result.current.isChecking).toBe(false);
     expect(result.current.isAvailable).toBe(true);
+    expect(result.current.orgUrl).toBe('https://www.npmjs.com/org/test-org');
     expect(result.current.apiError).toBeNull();
     expect(result.current.lastChecked).toBeInstanceOf(Date);
     expect(mockCheckNameAvailability).toHaveBeenCalledWith('test-org');
@@ -57,7 +64,11 @@ describe('useAvailabilityChecker', () => {
 
   it('should handle taken organization name', async () => {
     const mockCheckNameAvailability = vi.mocked(checkNameAvailability);
-    mockCheckNameAvailability.mockResolvedValueOnce(false);
+    const mockResult: NameAvailabilityResult = {
+      isAvailable: false,
+      orgUrl: 'https://www.npmjs.com/org/taken-org',
+    };
+    mockCheckNameAvailability.mockResolvedValueOnce(mockResult);
 
     const { result } = renderHook(() => useAvailabilityChecker());
 
@@ -71,6 +82,7 @@ describe('useAvailabilityChecker', () => {
 
     expect(result.current.isChecking).toBe(false);
     expect(result.current.isAvailable).toBe(false);
+    expect(result.current.orgUrl).toBe('https://www.npmjs.com/org/taken-org');
     expect(result.current.apiError).toBeNull();
     expect(result.current.lastChecked).toBeInstanceOf(Date);
   });
@@ -100,6 +112,7 @@ describe('useAvailabilityChecker', () => {
 
     expect(result.current.isChecking).toBe(false);
     expect(result.current.isAvailable).toBeNull();
+    expect(result.current.orgUrl).toBeNull();
     expect(result.current.apiError).toEqual(apiError);
     expect(result.current.lastChecked).toBeNull();
     expect(mockCreateApiError).toHaveBeenCalledWith(networkError);
@@ -107,7 +120,11 @@ describe('useAvailabilityChecker', () => {
 
   it('should debounce availability checks', async () => {
     const mockCheckNameAvailability = vi.mocked(checkNameAvailability);
-    mockCheckNameAvailability.mockResolvedValueOnce(true);
+    const mockResult: NameAvailabilityResult = {
+      isAvailable: true,
+      orgUrl: 'https://www.npmjs.com/org/test-org',
+    };
+    mockCheckNameAvailability.mockResolvedValueOnce(mockResult);
 
     const { result } = renderHook(() =>
       useAvailabilityChecker({ debounceMs: 300 }),
@@ -133,11 +150,16 @@ describe('useAvailabilityChecker', () => {
     expect(mockCheckNameAvailability).toHaveBeenCalledWith('test-org');
     expect(result.current.isChecking).toBe(false);
     expect(result.current.isAvailable).toBe(true);
+    expect(result.current.orgUrl).toBe('https://www.npmjs.com/org/test-org');
   });
 
   it('should cancel previous debounced check when new check is called', async () => {
     const mockCheckNameAvailability = vi.mocked(checkNameAvailability);
-    mockCheckNameAvailability.mockResolvedValueOnce(true);
+    const mockResult: NameAvailabilityResult = {
+      isAvailable: true,
+      orgUrl: 'https://www.npmjs.com/org/second-org',
+    };
+    mockCheckNameAvailability.mockResolvedValueOnce(mockResult);
 
     const { result } = renderHook(() =>
       useAvailabilityChecker({ debounceMs: 300 }),
@@ -182,6 +204,7 @@ describe('useAvailabilityChecker', () => {
     expect(mockCheckNameAvailability).not.toHaveBeenCalled();
     expect(result.current.isChecking).toBe(false);
     expect(result.current.isAvailable).toBeNull();
+    expect(result.current.orgUrl).toBeNull();
   });
 
   it('should not check availability for whitespace-only string', async () => {
@@ -206,7 +229,11 @@ describe('useAvailabilityChecker', () => {
 
   it('should reset state correctly', async () => {
     const mockCheckNameAvailability = vi.mocked(checkNameAvailability);
-    mockCheckNameAvailability.mockResolvedValueOnce(true);
+    const mockResult: NameAvailabilityResult = {
+      isAvailable: true,
+      orgUrl: 'https://www.npmjs.com/org/test-org',
+    };
+    mockCheckNameAvailability.mockResolvedValueOnce(mockResult);
 
     const { result } = renderHook(() => useAvailabilityChecker());
 
@@ -220,6 +247,7 @@ describe('useAvailabilityChecker', () => {
     });
 
     expect(result.current.isAvailable).toBe(true);
+    expect(result.current.orgUrl).toBe('https://www.npmjs.com/org/test-org');
     expect(result.current.lastChecked).toBeInstanceOf(Date);
 
     // Then reset
@@ -230,12 +258,17 @@ describe('useAvailabilityChecker', () => {
     expect(result.current.isAvailable).toBeNull();
     expect(result.current.isChecking).toBe(false);
     expect(result.current.apiError).toBeNull();
+    expect(result.current.orgUrl).toBeNull();
     expect(result.current.lastChecked).toBeNull();
   });
 
   it('should handle multiple rapid calls correctly', async () => {
     const mockCheckNameAvailability = vi.mocked(checkNameAvailability);
-    mockCheckNameAvailability.mockResolvedValue(true);
+    const mockResult: NameAvailabilityResult = {
+      isAvailable: true,
+      orgUrl: 'https://www.npmjs.com/org/org3',
+    };
+    mockCheckNameAvailability.mockResolvedValue(mockResult);
 
     const { result } = renderHook(() =>
       useAvailabilityChecker({ debounceMs: 100 }),
@@ -285,7 +318,11 @@ describe('useAvailabilityChecker', () => {
     expect(result.current.apiError).not.toBeNull();
 
     // Second call succeeds
-    mockCheckNameAvailability.mockResolvedValueOnce(true);
+    const mockSuccessResult: NameAvailabilityResult = {
+      isAvailable: true,
+      orgUrl: 'https://www.npmjs.com/org/test-org',
+    };
+    mockCheckNameAvailability.mockResolvedValueOnce(mockSuccessResult);
 
     act(() => {
       result.current.checkAvailability('test-org');
@@ -297,11 +334,16 @@ describe('useAvailabilityChecker', () => {
 
     expect(result.current.apiError).toBeNull();
     expect(result.current.isAvailable).toBe(true);
+    expect(result.current.orgUrl).toBe('https://www.npmjs.com/org/test-org');
   });
 
   it('should use default debounce time when not specified', async () => {
     const mockCheckNameAvailability = vi.mocked(checkNameAvailability);
-    mockCheckNameAvailability.mockResolvedValueOnce(true);
+    const mockResult: NameAvailabilityResult = {
+      isAvailable: true,
+      orgUrl: 'https://www.npmjs.com/org/test-org',
+    };
+    mockCheckNameAvailability.mockResolvedValueOnce(mockResult);
 
     const { result } = renderHook(() => useAvailabilityChecker());
 
@@ -348,6 +390,7 @@ describe('useAvailabilityChecker', () => {
 
     expect(result.current.isChecking).toBe(false);
     expect(result.current.isAvailable).toBeNull();
+    expect(result.current.orgUrl).toBeNull();
     expect(result.current.apiError).toEqual(apiError);
     expect(result.current.lastChecked).toBeNull();
     expect(mockCreateApiError).toHaveBeenCalledWith(testError);
