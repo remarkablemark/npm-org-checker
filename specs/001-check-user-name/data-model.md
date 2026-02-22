@@ -5,12 +5,12 @@
 
 ## Core Entities
 
-### UserValidationState
+### NameValidationState
 
-Represents the current validation status of user name input.
+Represents the current validation status of name input (used for both user and organization validation).
 
 ```typescript
-type UserValidationState = 'valid' | 'invalid' | 'pending';
+type NameValidationState = 'valid' | 'invalid' | 'pending';
 ```
 
 **Fields**:
@@ -21,9 +21,10 @@ type UserValidationState = 'valid' | 'invalid' | 'pending';
 
 **Validation Rules**:
 
-- Same as organization names: lowercase letters, numbers, hyphens, and underscores
-- Length: 1-100 characters
+- Uses validateOrganizationName function for both user and organization names
+- Length: 1-214 characters
 - Pattern: Must start with lowercase letter, end with letter/number
+- Allows: lowercase letters, numbers, hyphens, and underscores
 - No consecutive hyphens
 - No reserved words (npm, node, package, module)
 
@@ -89,10 +90,10 @@ interface OrganizationAvailability {
 
 ## State Transitions
 
-### User Name Input Flow
+### Name Input Flow
 
 ```
-Input → Validation → User Existence Check → Organization Check → Result
+Input → Validation (validateOrganizationName) → User Existence Check → Organization Check → Result
   ↓         ↓              ↓                    ↓              ↓
 pending → valid/invalid → exists/not-found → available/taken → final
 ```
@@ -100,7 +101,7 @@ pending → valid/invalid → exists/not-found → available/taken → final
 ### Validation States
 
 1. **pending**: User is typing or input is empty
-2. **invalid**: Input fails validation rules
+2. **invalid**: Input fails validation rules (using validateOrganizationName)
 3. **valid**: Input passes validation, proceed to existence check
 
 ### Existence Check States
@@ -131,18 +132,13 @@ interface OrgNameCheckerState {
   orgValidationState: ValidationResult;
   orgAvailability: OrganizationAvailability;
 
-  // New user validation state
-  userName: string;
-  userValidationState: UserValidationState;
+  // Name validation state (unified for both user and org)
+  name: string;
+  nameValidationState: NameValidationState;
   userExistence: UserExistenceResult;
 
   // UI state
-  currentStep:
-    | 'user-input'
-    | 'user-checking'
-    | 'org-input'
-    | 'org-checking'
-    | 'result';
+  currentStep: 'input' | 'user-checking' | 'org-checking' | 'result';
 }
 ```
 
@@ -208,6 +204,6 @@ interface OrgNameCheckerState {
 
 ### Existing Utilities
 
-- `validation.ts`: Extend for user name validation
+- `validation.ts`: Uses validateOrganizationName for both user and organization validation
 - `npmRegistry.ts`: Add user existence checking
 - Error handling: Reuse existing patterns

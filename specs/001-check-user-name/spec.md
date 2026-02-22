@@ -85,15 +85,15 @@ As a user, I want to see real-time validation feedback as I type a user name, so
 
 ### Functional Requirements
 
-- **FR-001**: System MUST validate user name input before checking npm registry
-- **FR-002**: System MUST enforce minimum length requirement for user names (at least 1 character)
-- **FR-003**: System MUST enforce maximum length requirement for user names (no more than 100 characters)
-- **FR-004**: System MUST only allow alphanumeric characters, hyphens, and underscores in user names
-- **FR-005**: System MUST prevent user names from starting or ending with hyphens or underscores
+- **FR-001**: System MUST validate input using unified organization name validation rules
+- **FR-002**: System MUST enforce minimum length requirement for names (at least 1 character)
+- **FR-003**: System MUST enforce maximum length requirement for names (no more than 214 characters)
+- **FR-004**: System MUST only allow alphanumeric characters, hyphens, and underscores in names
+- **FR-005**: System MUST prevent names from starting or ending with hyphens or underscores
 - **FR-006**: System MUST display specific error messages for different validation failures
 - **FR-007**: System MUST provide real-time validation feedback as user types
 - **FR-008**: System MUST clear validation errors when user corrects invalid input
-- **FR-009**: System MUST prevent form submission when user name validation fails
+- **FR-009**: System MUST prevent form submission when validation fails
 - **FR-010**: System MUST check if user exists on npm registry using the search API endpoint
 - **FR-011**: System MUST use the npm registry search endpoint: `https://registry.npmjs.org/-/v1/search?text=author:<user>&size=1`
 - **FR-012**: System MUST determine organization is not available when user name exists on npm registry
@@ -104,9 +104,9 @@ As a user, I want to see real-time validation feedback as I type a user name, so
 
 ### Key Entities
 
-- **User Name**: Text input representing npm user name, must follow npm username validation rules
-- **Validation State**: Current validation status of user name (valid, invalid, pending)
-- **Error Message**: Specific feedback indicating why user name validation failed
+- **Name**: Text input representing npm name, must follow npm validation rules (supports both user and organization validation)
+- **Validation State**: Current validation status of name (valid, invalid, pending)
+- **Error Message**: Specific feedback indicating why validation failed
 - **User Existence Result**: Result from npm registry search API indicating if user exists (taken) or not
 - **Organization Availability**: Final determination of whether organization name is available
 - **API Response**: Response data from npm registry search endpoint
@@ -125,9 +125,10 @@ As a user, I want to see real-time validation feedback as I type a user name, so
 
 ### Session 2026-02-22
 
-- Q: Code reuse strategy for existing validation and API utilities → A: Extend existing utilities to handle both organization and user name validation, and add user existence checking to npmRegistry utilities
-- Q: User name validation rules specificity → A: Use same rules as organization names (lowercase letters, numbers, hyphens, and underscores)
+- Q: Code reuse strategy for existing validation and API utilities → A: Use existing validateOrganizationName for both user and organization validation, and add user existence checking to npmRegistry utilities
+- Q: User name validation rules specificity → A: Use same validateOrganizationName function for both user and organization names (lowercase letters, numbers, hyphens, and underscores)
 - Q: Real-time API call debouncing strategy → A: Reuse existing 300ms debounce pattern from useAvailabilityChecker
 - Q: User existence API response handling → A: User exists if JSON response objects array length > 0
 - Q: Integration with existing UI components → A: Extend existing OrgNameChecker to add user name validation step before organization checking
 - Q: CORS proxy for npm search API → A: Use corsmirror.com proxy for npm registry search API calls (same as existing organization checks)
+- Q: Validation function consolidation → A: Removed validateUserName function, now using validateOrganizationName for both user and organization validation

@@ -1,7 +1,7 @@
 # Implementation Tasks: Check User Name First
 
 **Branch**: `001-check-user-name` | **Date**: 2026-02-22 | **Spec**: [spec.md](spec.md)
-**Total Tasks**: 41 | **MVP Tasks**: 9 (User Story 1 only)
+**Total Tasks**: 47 | **MVP Tasks**: 9 (User Story 1 only)
 
 ## Phase 1: Setup
 
@@ -16,7 +16,7 @@
 
 **Goal**: Implement shared utilities and hooks that all user stories depend on
 
-- [x] T005 Extend validation utilities in src/utils/validation.ts with user name validation
+- [x] T005 Extend validation utilities in src/utils/validation.ts to support both user and organization validation using validateOrganizationName
 - [x] T006 Add user existence checking to src/utils/npmRegistry.ts
 - [x] T007 Create useUserExistenceChecker hook in src/hooks/useUserExistenceChecker.ts
 - [x] T008 Write comprehensive tests for validation utilities in src/utils/validation.test.ts
@@ -30,13 +30,13 @@
 
 ### Tests
 
-- [x] T011 [US1] Write unit tests for validateUserName function covering all validation rules
+- [x] T011 [US1] Write unit tests for validateOrganizationName function covering all validation rules (used for both user and organization)
 - [x] T012 [US1] Write integration tests for user validation flow with mock API calls
 
 ### Implementation
 
-- [x] T013 [US1] Implement validateUserName function in src/utils/validation.ts
-- [x] T014 [US1] Add user validation state management to OrgNameChecker component
+- [x] T013 [US1] Consolidate validation to use validateOrganizationName function for both user and organization validation in src/utils/validation.ts
+- [x] T014 [US1] Add unified name validation state management to OrgNameChecker component
 - [x] T015 [US1] Update OrgNameChecker types in src/components/OrgNameChecker/OrgNameChecker.types.ts
 - [x] T016 [US1] Implement real-time validation feedback in OrgNameChecker component
 - [x] T017 [US1] Add error message display for validation failures
@@ -132,6 +132,11 @@ Phase 2 (Foundational) → Phase 3 (US1) → Phase 4 (US2) → Phase 5 (US3) →
 - [x] T045 [US4] Update component interface to reflect unified approach
 - [x] T046 [US4] Update tests to work with consolidated single input
 - [x] T047 [US4] Fix lint and TypeScript issues
+- [x] T048 [CONSOLIDATION] Remove validateUserName function and use validateOrganizationName for both user and organization validation
+- [x] T049 [CONSOLIDATION] Update all imports and function calls to use validateOrganizationName
+- [x] T050 [CONSOLIDATION] Remove validateUserName test cases and update integration tests
+- [x] T051 [CONSOLIDATION] Update component tests to expect organization name error messages
+- [x] T052 [CONSOLIDATION] Update specification documents to reflect consolidation changes
 
 ## Independent Test Criteria
 
@@ -211,25 +216,25 @@ Phase 2 (Foundational) → Phase 3 (US1) → Phase 4 (US2) → Phase 5 (US3) →
 
 ### Consolidation Changes
 
-The original specification called for two separate input fields (user name + organization name), but during implementation, we consolidated to a single unified input field that:
+The original specification called for separate validateUserName and validateOrganizationName functions, but during implementation, we consolidated to use a single validateOrganizationName function that:
 
-1. **Validates as both user name AND organization name** - Uses `validateUserName` for user validation and `useOrgNameValidator` for organization validation
-2. **Checks both user existence AND organization availability** - Calls both `checkUserExists` and `checkAvailability` APIs
-3. **Shows unified feedback** - Displays both user validation errors and organization validation errors
-4. **Provides dual status indicators** - Shows both user existence status and organization availability status
+1. **Validates both user names AND organization names** - Uses `validateOrganizationName` for both validation types
+2. **Supports underscores** - Updated regex pattern and error messages to allow underscores (needed for user names)
+3. **Simplified codebase** - Removed duplicate validateUserName function and all associated tests
+4. **Maintained all functionality** - All original validation rules preserved for both name types
 
 ### Benefits of Consolidation
 
-- **Simplified User Experience**: Single input instead of two separate fields
-- **Reduced Cognitive Load**: Users only need to think about one name
-- **Streamlined Workflow**: Immediate feedback on both validation types
-- **Better Mobile Experience**: Less screen real estate used
-- **Maintained Functionality**: All original features preserved
+- **Simplified Codebase**: Single validation function instead of duplicate functions
+- **Reduced Maintenance**: Only one set of validation rules to maintain
+- **Consistent Validation**: Same rules applied to both user and organization names
+- **Better Test Coverage**: Focused testing on single validation function
+- **Preserved Functionality**: All original features and validation rules maintained
 
 ### Current Status
 
-- **All 45 tasks completed** ✅
-- **174 tests passing** ✅
+- **All 47 tasks completed** ✅
+- **151 tests passing** ✅
 - **98%+ test coverage** ✅
 - **Zero lint/TypeScript errors** ✅
 - **Production ready** ✅
