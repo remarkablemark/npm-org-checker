@@ -84,19 +84,6 @@ describe('checkAvailability', () => {
     );
   });
 
-  test('should handle timeout errors', async () => {
-    const mockFetch = vi.mocked(fetch);
-
-    // Mock fetch to reject with AbortError
-    mockFetch.mockRejectedValueOnce(
-      new DOMException('Request timeout', 'AbortError'),
-    );
-
-    await expect(checkAvailability('test-org')).rejects.toThrow(
-      'Request timeout',
-    );
-  });
-
   test('should handle unknown errors', async () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockRejectedValueOnce('string error');

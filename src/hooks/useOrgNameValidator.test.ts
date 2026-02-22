@@ -27,7 +27,7 @@ describe('useOrgNameValidator', () => {
     expect(result.current.isDirty).toBe(true);
   });
 
-  test('should validate empty string', () => {
+  test('should validate empty string and show too short error', () => {
     const { result } = renderHook(() => useOrgNameValidator());
 
     act(() => {
@@ -38,16 +38,6 @@ describe('useOrgNameValidator', () => {
     expect(result.current.isValid).toBe(false);
     expect(result.current.validationErrors.length).toBeGreaterThan(0);
     expect(result.current.isDirty).toBe(true);
-  });
-
-  test('should validate name that is too short', () => {
-    const { result } = renderHook(() => useOrgNameValidator());
-
-    act(() => {
-      result.current.setValue('');
-    });
-
-    expect(result.current.isValid).toBe(false);
     expect(
       result.current.validationErrors.some(
         (error) => error.type === ValidationErrorType.TOO_SHORT,

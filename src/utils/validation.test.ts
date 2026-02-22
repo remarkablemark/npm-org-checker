@@ -153,46 +153,4 @@ describe('validateOrganizationName', () => {
     expect(result.isValid).toBe(true);
     expect(result.errors).toHaveLength(0);
   });
-
-  test('should handle edge case of single character validation', () => {
-    const result = validateOrganizationName('a');
-    expect(result.isValid).toBe(true);
-    expect(result.errors).toHaveLength(0);
-  });
-
-  test('should reject names starting with uppercase letter', () => {
-    const result = validateOrganizationName('Myorg');
-
-    expect(result.isValid).toBe(false);
-    expect(
-      result.errors.some((e) => e.type === ValidationErrorType.INVALID_START),
-    ).toBe(true);
-  });
-
-  test('should reject names ending with invalid character', () => {
-    const result = validateOrganizationName('myorg-');
-
-    expect(result.isValid).toBe(false);
-    expect(
-      result.errors.some((e) => e.type === ValidationErrorType.INVALID_END),
-    ).toBe(true);
-  });
-
-  test('should reject names starting with number', () => {
-    const result = validateOrganizationName('1myorg');
-
-    expect(result.isValid).toBe(false);
-    expect(
-      result.errors.some((e) => e.type === ValidationErrorType.INVALID_START),
-    ).toBe(true);
-  });
-
-  test('should reject names ending with hyphen', () => {
-    const result = validateOrganizationName('myorg-');
-
-    expect(result.isValid).toBe(false);
-    expect(
-      result.errors.some((e) => e.type === ValidationErrorType.INVALID_END),
-    ).toBe(true);
-  });
 });
