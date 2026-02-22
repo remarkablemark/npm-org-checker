@@ -50,7 +50,7 @@ interface UserExistenceResult {
 
 **API Integration**:
 
-- Endpoint: `https://registry.npmjs.org/-/v1/search?text=author:<user>&size=1`
+- Endpoint: `https://registry.npmjs.com/-/v1/search?text=author:<user>&size=1`
 - Proxy: `https://corsmirror.com/v1?url=` + encoded endpoint
 - Response parsing: Check `objects.length > 0`
 

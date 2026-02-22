@@ -47,7 +47,7 @@ export async function checkUserExists(userName: string): Promise<boolean> {
   const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
   try {
-    const url = `${CORS_PROXY_URL}https://registry.npmjs.org/-/v1/search?text=author:${encodeURIComponent(userName)}&size=1`;
+    const url = `${CORS_PROXY_URL}https://registry.npmjs.com/-/v1/search?text=author:${encodeURIComponent(userName)}&size=1`;
 
     const response = await fetch(url, {
       method: 'GET',

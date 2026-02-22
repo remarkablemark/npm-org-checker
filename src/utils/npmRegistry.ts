@@ -173,7 +173,7 @@ export async function checkUserExists(userName: string): Promise<boolean> {
   /* v8 ignore end */
 
   try {
-    const url = `${CORS_PROXY_URL}https://registry.npmjs.org/-/v1/search?text=author:${encodeURIComponent(userName)}&size=1`;
+    const url = `${CORS_PROXY_URL}https://registry.npmjs.com/-/v1/search?text=author:${encodeURIComponent(userName)}&size=1`;
 
     const response = await fetch(url, {
       method: 'GET',

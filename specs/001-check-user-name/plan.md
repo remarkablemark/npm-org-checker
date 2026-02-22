@@ -32,7 +32,7 @@ This feature adds user name validation and existence checking before organizatio
 
 **API Endpoints**:
 
-- User existence: `https://registry.npmjs.org/-/v1/search?text=author:<user>&size=1` (via corsmirror proxy)
+- User existence: `https://registry.npmjs.com/-/v1/search?text=author:<user>&size=1` (via corsmirror proxy)
 - Response format: `{"objects":[],"total":0,"time":"2026-02-22T00:51:55.421Z"}`
 - User exists if `objects.length > 0`
 
