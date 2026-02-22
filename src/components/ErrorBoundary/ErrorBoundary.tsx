@@ -60,7 +60,7 @@ export class ErrorBoundary extends Component<
               </button>
               {import.meta.env.DEV && this.state.error && (
                 <details className="mt-4">
-                  <summary className="cursor-pointer text-sm text-gray-500">
+                  <summary className="cursor-pointer text-gray-500">
                     Error Details (Development Only)
                   </summary>
                   <pre className="mt-2 text-xs whitespace-pre-wrap text-red-600">

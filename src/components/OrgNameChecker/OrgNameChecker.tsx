@@ -84,7 +84,7 @@ export function OrgNameChecker({
   const hasError = validationErrors.length > 0;
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-2">
       <div className="flex flex-col space-y-2">
         <label
           htmlFor="name-input"
@@ -127,7 +127,7 @@ export function OrgNameChecker({
 
       {/* Organization URL Link */}
       {orgUrl && (
-        <div className="text-center text-sm text-gray-600">
+        <div className="text-gray-600">
           <p>
             {'See user/organization: '}
             <a

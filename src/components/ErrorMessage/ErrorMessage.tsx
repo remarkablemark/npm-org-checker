@@ -68,13 +68,11 @@ export function ErrorMessage({
             <span className="text-lg" aria-hidden="true">
               ⚠️
             </span>
-            <h3 className="text-sm font-medium">Validation Errors</h3>
+            <h3 className="font-medium">Validation Errors</h3>
           </div>
           <ul className="ml-6 list-inside list-disc space-y-1">
             {validationErrors.map((error) => (
-              <li key={error} className="text-sm">
-                {error}
-              </li>
+              <li key={error}>{error}</li>
             ))}
           </ul>
         </div>
@@ -85,9 +83,9 @@ export function ErrorMessage({
               <span className="text-lg" aria-hidden="true">
                 ❌
               </span>
-              <span className="text-sm font-medium">Error</span>
+              <span className="font-medium">Error</span>
             </div>
-            <div className="text-sm">{currentError.message}</div>
+            <div>{currentError.message}</div>
 
             {showTechnicalDetails && (
               <details className="rounded-md border border-red-200 bg-red-50 p-3">
