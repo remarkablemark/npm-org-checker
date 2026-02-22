@@ -56,17 +56,6 @@ export interface AvailabilityIndicatorProps {
   role?: string;
 }
 
-export interface ErrorMessageProps {
-  errors: ValidationError[];
-  apiError?: ApiError | null;
-  'aria-label'?: string;
-  'aria-describedby'?: string;
-  'aria-invalid'?: boolean;
-  'aria-live'?: 'polite' | 'assertive' | 'off';
-  'aria-atomic'?: boolean;
-  role?: string;
-}
-
 export interface OrgNameCheckerProps {
   onAvailabilityChange?: (isAvailable: boolean | null) => void;
   onValidationError?: (errors: string[]) => void;
