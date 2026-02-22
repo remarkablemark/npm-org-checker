@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import type { ApiError } from 'src/types';
-import { checkAvailability, createApiError } from 'src/utils/npmRegistry';
+import { checkOrgAvailability, createApiError } from 'src/utils/npmRegistry';
 
 interface UseAvailabilityCheckerOptions {
   /** Debounce delay in milliseconds for availability checks (default: 300) */
@@ -75,7 +75,7 @@ export function useAvailabilityChecker(
     setApiError(null);
 
     try {
-      const available = await checkAvailability(orgName);
+      const available = await checkOrgAvailability(orgName);
       setIsAvailable(available);
       setLastChecked(new Date());
       setApiError(null);

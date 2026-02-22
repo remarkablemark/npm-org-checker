@@ -26,17 +26,6 @@ vi.mock('src/hooks/useAvailabilityChecker', () => ({
   })),
 }));
 
-vi.mock('src/hooks/useUserExistenceChecker', () => ({
-  useUserExistenceChecker: vi.fn(() => ({
-    userExists: null,
-    isChecking: false,
-    apiError: null,
-    lastChecked: null,
-    checkUserExists: vi.fn(),
-    reset: vi.fn(),
-  })),
-}));
-
 describe('OrgNameChecker', () => {
   it('renders input field with proper attributes', () => {
     render(<OrgNameChecker />);
@@ -341,20 +330,19 @@ describe('OrgNameChecker', () => {
     expect(mockCheckAvailability).toHaveBeenCalledWith('test-org');
   });
 
-  it('calls onUserExistenceChange when user existence status changes', async () => {
+  it('does not call checkAvailability when retry button is clicked with empty input', async () => {
     const { useOrgNameValidator } =
       await import('src/hooks/useOrgNameValidator');
     const { useAvailabilityChecker } =
       await import('src/hooks/useAvailabilityChecker');
-    const { useUserExistenceChecker } =
-      await import('src/hooks/useUserExistenceChecker');
 
-    const mockOnUserExistenceChange = vi.fn();
+    const mockCheckAvailability = vi.fn();
 
+    // Start with empty input and API error to show retry button
     vi.mocked(useOrgNameValidator).mockReturnValue({
-      value: 'test-org',
-      isValid: true,
-      validationErrors: [],
+      value: '', // Empty input
+      isValid: false,
+      validationErrors: [], // No validation errors for empty input initially
       isDirty: true,
       setValue: vi.fn(),
       reset: vi.fn(),
@@ -363,132 +351,24 @@ describe('OrgNameChecker', () => {
     vi.mocked(useAvailabilityChecker).mockReturnValue({
       isAvailable: null,
       isChecking: false,
-      apiError: null,
+      apiError: {
+        type: 'NETWORK_ERROR',
+        message: 'Network error',
+        timestamp: new Date(),
+      },
       lastChecked: null,
-      checkAvailability: vi.fn(),
-      reset: vi.fn(),
-    });
-
-    // Mock user existence checker with different states
-    const mockUserExistenceChecker = vi.mocked(useUserExistenceChecker);
-
-    // Initial render with null userExists
-    mockUserExistenceChecker.mockReturnValue({
-      userExists: null,
-      isChecking: false,
-      apiError: null,
-      lastChecked: null,
-      checkUserExists: vi.fn(),
-      reset: vi.fn(),
-    });
-
-    const { rerender } = render(
-      <OrgNameChecker onUserExistenceChange={mockOnUserExistenceChange} />,
-    );
-
-    // Should have called callback with initial null value
-    expect(mockOnUserExistenceChange).toHaveBeenCalledWith(null);
-
-    // Rerender with userExists = false
-    mockUserExistenceChecker.mockReturnValue({
-      userExists: false,
-      isChecking: false,
-      apiError: null,
-      lastChecked: null,
-      checkUserExists: vi.fn(),
-      reset: vi.fn(),
-    });
-
-    rerender(
-      <OrgNameChecker onUserExistenceChange={mockOnUserExistenceChange} />,
-    );
-
-    expect(mockOnUserExistenceChange).toHaveBeenCalledWith(false);
-
-    // Rerender with userExists = true
-    mockUserExistenceChecker.mockReturnValue({
-      userExists: true,
-      isChecking: false,
-      apiError: null,
-      lastChecked: null,
-      checkUserExists: vi.fn(),
-      reset: vi.fn(),
-    });
-
-    rerender(
-      <OrgNameChecker onUserExistenceChange={mockOnUserExistenceChange} />,
-    );
-
-    expect(mockOnUserExistenceChange).toHaveBeenCalledWith(true);
-  });
-
-  it('calls onUserValidationError when user validation errors occur', async () => {
-    const { useOrgNameValidator } =
-      await import('src/hooks/useOrgNameValidator');
-    const { useAvailabilityChecker } =
-      await import('src/hooks/useAvailabilityChecker');
-    const { useUserExistenceChecker } =
-      await import('src/hooks/useUserExistenceChecker');
-
-    const mockOnUserValidationError = vi.fn();
-
-    vi.mocked(useOrgNameValidator).mockReturnValue({
-      value: '', // Start with empty value so typing works
-      isValid: false, // Invalid initially
-      validationErrors: [],
-      isDirty: false,
-      setValue: vi.fn(),
-      reset: vi.fn(),
-    });
-
-    vi.mocked(useAvailabilityChecker).mockReturnValue({
-      isAvailable: null,
-      isChecking: false,
-      apiError: null,
-      lastChecked: null,
-      checkAvailability: vi.fn(),
-      reset: vi.fn(),
-    });
-
-    vi.mocked(useUserExistenceChecker).mockReturnValue({
-      userExists: null,
-      isChecking: false,
-      apiError: null,
-      lastChecked: null,
-      checkUserExists: vi.fn(),
+      checkAvailability: mockCheckAvailability,
       reset: vi.fn(),
     });
 
     const user = userEvent.setup();
-    render(
-      <OrgNameChecker onUserValidationError={mockOnUserValidationError} />,
-    );
+    render(<OrgNameChecker />);
 
-    // Should have called callback with initial validation errors (empty input is invalid)
-    expect(mockOnUserValidationError).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        expect.stringContaining('required'),
-        expect.stringContaining('character long'),
-      ]),
-    );
+    // Retry button should be visible since there are no validation errors but there's an API error
+    const retryButton = screen.getByRole('button', { name: /retry/i });
+    await user.click(retryButton);
 
-    // Type invalid organization name to trigger validation errors
-    const userInput = screen.getByRole('textbox', {
-      name: 'Organization name',
-    });
-    await user.type(userInput, '1invalid');
-
-    // Should have called validation error callback multiple times
-    expect(mockOnUserValidationError).toHaveBeenCalledTimes(9);
-
-    // Check that the callback was called with user validation errors at some point
-    expect(mockOnUserValidationError).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        expect.stringContaining(
-          'Organization name must start with a lowercase letter',
-        ),
-      ]),
-    );
+    expect(mockCheckAvailability).not.toHaveBeenCalled();
   });
 
   it('does not call callbacks when they are not provided', async () => {
@@ -545,7 +425,7 @@ describe('OrgNameChecker', () => {
 
     render(<OrgNameChecker />);
 
-    // Should render single input that handles both user and org validation
+    // Should render single input that handles org validation
     expect(
       screen.getByRole('textbox', { name: 'Organization name' }),
     ).toBeInTheDocument();

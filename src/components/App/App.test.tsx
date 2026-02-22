@@ -43,7 +43,7 @@ describe('App component', () => {
     const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).toHaveAttribute('aria-label', 'Organization name');
     expect(input).toHaveAttribute('placeholder', 'Enter npm organization name');
-    expect(input).toHaveAttribute('aria-invalid', 'true'); // Empty input is invalid
+    expect(input).toHaveAttribute('aria-invalid', 'false'); // Empty input is not marked as invalid until user interacts
 
     const label = screen.getByLabelText('NPM Organization Name');
     expect(label).toBeInTheDocument();

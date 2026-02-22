@@ -54,7 +54,7 @@ interface NpmSearchResponse {
  * import { checkAvailability } from './npmRegistry';
  *
  * try {
- *   const isAvailable = await checkAvailability('my-org');
+ *   const isAvailable = await checkOrgAvailability('my-org');
  *   console.log(isAvailable ? 'Available!' : 'Not available');
  * } catch (error) {
  *   console.error('Failed to check availability:', error);
@@ -65,7 +65,7 @@ interface NpmSearchResponse {
  * @returns Promise that resolves to boolean: true if available, false if taken
  * @throws ApiError for network, timeout, or server errors with detailed error information
  */
-export async function checkAvailability(orgName: string): Promise<boolean> {
+export async function checkOrgAvailability(orgName: string): Promise<boolean> {
   const controller = new AbortController();
   /* v8 ignore start */ // Coverage: Timeout callback is hard to test reliably
   const timeoutId = setTimeout(() => {
@@ -195,6 +195,47 @@ export async function checkUserExists(userName: string): Promise<boolean> {
 
     throw new Error('Unknown error occurred');
   }
+}
+
+/**
+ * Checks name availability with sequential user and organization validation.
+ *
+ * This function implements the complete validation flow:
+ * 1. First checks if user exists on npm registry
+ * 2. Only checks organization availability if user doesn't exist
+ * 3. Returns true only if both user doesn't exist AND organization is available
+ *
+ * This approach optimizes API calls by avoiding unnecessary organization checks
+ * when the user name already exists (which would make the organization unavailable).
+ *
+ * @example
+ * ```typescript
+ * import { checkNameAvailability } from './npmRegistry';
+ *
+ * try {
+ *   const isAvailable = await checkNameAvailability('my-name');
+ *   console.log(isAvailable ? 'Available!' : 'Not available');
+ * } catch (error) {
+ *   console.error('Failed to check name:', error);
+ * }
+ * ```
+ *
+ * @param name - The name to check for both user existence and organization availability
+ * @returns Promise<boolean> - true if name is available, false if not available
+ * @throws ApiError for network, timeout, or server errors
+ */
+export async function checkNameAvailability(name: string): Promise<boolean> {
+  // Step 1: Check if user exists
+  const userExists = await checkUserExists(name);
+
+  // Step 2: If user exists, name is not available
+  if (userExists) {
+    return false;
+  }
+
+  // Step 3: User doesn't exist, check organization availability
+  const orgAvailable = await checkOrgAvailability(name);
+  return orgAvailable;
 }
 
 /**

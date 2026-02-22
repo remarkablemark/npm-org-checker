@@ -1,7 +1,7 @@
 import { ApiErrorType } from 'src/types';
 
 import {
-  checkAvailability,
+  checkOrgAvailability,
   checkUserExists,
   createApiError,
 } from './npmRegistry';
@@ -13,7 +13,7 @@ Object.defineProperty(globalThis, 'fetch', {
   configurable: true,
 });
 
-describe('checkAvailability', () => {
+describe('checkOrgAvailability', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -25,7 +25,7 @@ describe('checkAvailability', () => {
       ok: false,
     } as unknown as Response);
 
-    const result = await checkAvailability('available-org');
+    const result = await checkOrgAvailability('available-org');
 
     expect(result).toBe(true);
     expect(mockFetch).toHaveBeenCalledWith(
@@ -44,7 +44,7 @@ describe('checkAvailability', () => {
       ok: true,
     } as unknown as Response);
 
-    const result = await checkAvailability('taken-org');
+    const result = await checkOrgAvailability('taken-org');
 
     expect(result).toBe(false);
   });
@@ -53,7 +53,7 @@ describe('checkAvailability', () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
-    await expect(checkAvailability('test-org')).rejects.toThrow(
+    await expect(checkOrgAvailability('test-org')).rejects.toThrow(
       'Network error',
     );
   });
@@ -62,7 +62,7 @@ describe('checkAvailability', () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockRejectedValueOnce(new TypeError('Failed to fetch'));
 
-    await expect(checkAvailability('test-org')).rejects.toThrow(
+    await expect(checkOrgAvailability('test-org')).rejects.toThrow(
       'Failed to fetch',
     );
   });
@@ -71,7 +71,7 @@ describe('checkAvailability', () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockRejectedValueOnce(new DOMException('Timeout', 'AbortError'));
 
-    await expect(checkAvailability('test-org')).rejects.toThrow('Timeout');
+    await expect(checkOrgAvailability('test-org')).rejects.toThrow('Timeout');
   });
 
   it('should handle server errors (500)', async () => {
@@ -82,7 +82,7 @@ describe('checkAvailability', () => {
       statusText: 'Internal Server Error',
     } as unknown as Response);
 
-    await expect(checkAvailability('test-org')).rejects.toThrow(
+    await expect(checkOrgAvailability('test-org')).rejects.toThrow(
       'Internal Server Error',
     );
   });
@@ -91,7 +91,7 @@ describe('checkAvailability', () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockRejectedValueOnce('string error');
 
-    await expect(checkAvailability('test-org')).rejects.toThrow(
+    await expect(checkOrgAvailability('test-org')).rejects.toThrow(
       'Unknown error occurred',
     );
   });
@@ -103,7 +103,7 @@ describe('checkAvailability', () => {
       ok: false,
     } as unknown as Response);
 
-    await checkAvailability('my-test-org');
+    await checkOrgAvailability('my-test-org');
 
     expect(mockFetch).toHaveBeenCalledWith(
       'https://corsmirror.com/v1?url=https://www.npmjs.com/org/my-test-org',
@@ -121,7 +121,7 @@ describe('checkAvailability', () => {
       ok: false,
     } as unknown as Response);
 
-    await checkAvailability('org-with-123');
+    await checkOrgAvailability('org-with-123');
 
     expect(mockFetch).toHaveBeenCalledWith(
       'https://corsmirror.com/v1?url=https://www.npmjs.com/org/org-with-123',
