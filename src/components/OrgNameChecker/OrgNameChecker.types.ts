@@ -7,10 +7,8 @@ export interface OrgNameCheckerProps {
   onUserExistenceChange?: (userExists: boolean | null) => void;
   /** Callback fired when user validation errors occur */
   onUserValidationError?: (errors: string[]) => void;
-  /** Placeholder text for the user name input field */
-  userPlaceholder?: string;
-  /** Placeholder text for the organization name input field */
+  /** Placeholder text for the input field */
   placeholder?: string;
-  /** Whether the user name input should be auto-focused */
+  /** Whether the input should be auto-focused */
   autoFocus?: boolean;
 }

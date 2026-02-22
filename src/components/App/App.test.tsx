@@ -30,15 +30,11 @@ describe('App component', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    // First need to fill in user name to enable org input
-    const userInput = screen.getByRole('textbox', { name: 'User name' });
-    await user.type(userInput, 'validuser');
+    const input = screen.getByRole('textbox', { name: 'Organization name' });
+    expect(input).toHaveValue('');
 
-    const orgInput = screen.getByRole('textbox', { name: 'Organization name' });
-    expect(orgInput).toHaveValue('');
-
-    await user.type(orgInput, 'test-org');
-    expect(orgInput).toHaveValue('test-org');
+    await user.type(input, 'test-org');
+    expect(input).toHaveValue('test-org');
   });
 
   it('has proper accessibility attributes', () => {
@@ -47,7 +43,7 @@ describe('App component', () => {
     const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).toHaveAttribute('aria-label', 'Organization name');
     expect(input).toHaveAttribute('placeholder', 'Enter npm organization name');
-    expect(input).toHaveAttribute('aria-invalid', 'false');
+    expect(input).toHaveAttribute('aria-invalid', 'true'); // Empty input is invalid
 
     const label = screen.getByLabelText('NPM Organization Name');
     expect(label).toBeInTheDocument();

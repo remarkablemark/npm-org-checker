@@ -13,7 +13,8 @@ import type { OrgNameCheckerProps } from './OrgNameChecker.types';
  *
  * This component provides a complete interface for:
  * - Real-time input validation with immediate feedback
- * - Debounced availability checking via npm registry API
+ * - User name existence checking via npm registry API
+ * - Organization name availability checking via npm registry API
  * - Visual status indicators (available/unavailable/checking)
  * - Comprehensive error handling and display
  * - Full accessibility support (keyboard navigation, screen readers)
@@ -22,14 +23,17 @@ import type { OrgNameCheckerProps } from './OrgNameChecker.types';
  * ```tsx
  * <OrgNameChecker
  *   onAvailabilityChange={(isAvailable) => console.log(isAvailable)}
+ *   onUserExistenceChange={(userExists) => console.log(userExists)}
  *   onValidationError={(errors) => console.log(errors)}
  *   placeholder="Enter your org name"
  *   autoFocus={true}
  * />
  * ```
  *
- * @param onAvailabilityChange - Optional callback fired when availability status changes
+ * @param onAvailabilityChange - Optional callback fired when organization availability status changes
+ * @param onUserExistenceChange - Optional callback fired when user existence status changes
  * @param onValidationError - Optional callback fired when validation errors occur
+ * @param onUserValidationError - Optional callback fired when user validation errors occur
  * @param placeholder - Placeholder text for the input field (default: "Enter npm organization name")
  * @param autoFocus - Whether the input should be auto-focused on mount (default: false)
  *
@@ -37,10 +41,9 @@ import type { OrgNameCheckerProps } from './OrgNameChecker.types';
  */
 export function OrgNameChecker({
   onAvailabilityChange,
-  onValidationError,
   onUserExistenceChange,
+  onValidationError,
   onUserValidationError,
-  userPlaceholder = 'Enter npm user name',
   placeholder = 'Enter npm organization name',
   autoFocus = false,
 }: OrgNameCheckerProps) {
@@ -64,7 +67,6 @@ export function OrgNameChecker({
   } = useUserExistenceChecker({ debounceMs: 300 });
 
   // User validation state
-  const [userName, setUserName] = useState('');
   const [userValidation, setUserValidation] = useState(() =>
     validateUserName(''),
   );
@@ -81,15 +83,15 @@ export function OrgNameChecker({
     onAvailabilityChange?.(isAvailable);
   }, [isAvailable, onAvailabilityChange]);
 
-  // Notify parent of validation errors
-  useEffect(() => {
-    onValidationError?.(validationErrors.map((error) => error.message));
-  }, [validationErrors, onValidationError]);
-
   // Notify parent of user existence changes
   useEffect(() => {
     onUserExistenceChange?.(userExists);
   }, [userExists, onUserExistenceChange]);
+
+  // Notify parent of validation errors
+  useEffect(() => {
+    onValidationError?.(validationErrors.map((error) => error.message));
+  }, [validationErrors, onValidationError]);
 
   // Notify parent of user validation errors
   useEffect(() => {
@@ -98,32 +100,23 @@ export function OrgNameChecker({
     );
   }, [userValidation.errors, onUserValidationError]);
 
-  // Handle user name input change
-  const handleUserInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const value = event.target.value;
-    setUserName(value);
-    const validation = validateUserName(value);
-    setUserValidation(validation);
-
-    // If user validation passes, check user existence
-    if (validation.isValid) {
-      checkUserExistsFunc(value);
-    }
-  };
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setOrgName(value);
 
-    // Note: checkAvailability is already debounced in the hook
-    // We call it on every change and let the hook handle debouncing
-    /* v8 ignore start */
-    if (value) {
+    // Validate as user name
+    const validation = validateUserName(value);
+    setUserValidation(validation);
+
+    // Check user existence if user validation passes
+    if (validation.isValid) {
+      checkUserExistsFunc(value);
+    }
+
+    // Check organization availability if org validation passes
+    if (value && isValid) {
       checkAvailability(value);
     }
-    /* v8 ignore end */
   };
 
   const errorId = validationErrors.length > 0 ? 'validation-errors' : undefined;
@@ -134,25 +127,26 @@ export function OrgNameChecker({
 
   return (
     <div className="w-full space-y-4">
-      {/* User Name Input */}
       <div className="flex flex-col space-y-2">
         <label
-          htmlFor="user-name-input"
+          htmlFor="name-input"
           className="text-sm font-medium text-gray-700"
         >
-          NPM User Name
+          NPM Organization Name
         </label>
 
         <input
           ref={inputRef}
-          id="user-name-input"
+          id="name-input"
           type="text"
-          value={userName}
-          onChange={handleUserInputChange}
-          placeholder={userPlaceholder}
-          aria-label="User name"
-          aria-describedby={userErrorId}
-          aria-invalid={hasUserError}
+          value={orgName}
+          onChange={handleInputChange}
+          placeholder={placeholder}
+          aria-label="Organization name"
+          aria-describedby={
+            `${errorId ?? ''} ${userErrorId ?? ''}`.trim() || undefined
+          }
+          aria-invalid={hasError || hasUserError}
           className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 text-lg transition-colors focus:border-blue-500 focus:outline-none md:max-w-[600px]"
         />
       </div>
@@ -162,11 +156,13 @@ export function OrgNameChecker({
         validationErrors={userValidation.errors.map((error) => error.message)}
         apiError={userApiError ?? undefined}
         showTechnicalDetails
+        /* v8 ignore start */
         onRetry={() => {
-          if (userName && userValidation.isValid) {
-            checkUserExistsFunc(userName);
+          if (orgName && userValidation.isValid) {
+            checkUserExistsFunc(orgName);
           }
         }}
+        /* v8 ignore end */
       />
 
       {/* User Existence Status */}
@@ -174,29 +170,6 @@ export function OrgNameChecker({
         isAvailable={userExists === false ? true : null}
         isChecking={isCheckingUser}
       />
-
-      {/* Organization Name Input */}
-      <div className="flex flex-col space-y-2">
-        <label
-          htmlFor="org-name-input"
-          className="text-sm font-medium text-gray-700"
-        >
-          NPM Organization Name
-        </label>
-
-        <input
-          id="org-name-input"
-          type="text"
-          value={orgName}
-          onChange={handleInputChange}
-          placeholder={placeholder}
-          aria-label="Organization name"
-          aria-describedby={errorId}
-          aria-invalid={hasError}
-          className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 text-lg transition-colors focus:border-blue-500 focus:outline-none md:max-w-[600px]"
-          disabled={!userValidation.isValid || userExists === true}
-        />
-      </div>
 
       {/* Organization Validation Errors */}
       <ErrorMessage

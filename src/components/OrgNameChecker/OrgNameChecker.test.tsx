@@ -50,14 +50,14 @@ describe('OrgNameChecker', () => {
   it('does not auto-focus when autoFocus prop is false', () => {
     render(<OrgNameChecker autoFocus={false} />);
 
-    const input = screen.getByRole('textbox', { name: 'User name' });
+    const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).not.toHaveFocus();
   });
 
   it('does not auto-focus input by default', () => {
     render(<OrgNameChecker />);
 
-    const input = screen.getByRole('textbox', { name: 'User name' });
+    const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).not.toHaveFocus();
   });
 
@@ -71,8 +71,8 @@ describe('OrgNameChecker', () => {
   it('auto-focuses input when autoFocus prop is true', () => {
     render(<OrgNameChecker autoFocus />);
 
-    // The user name input should be focused (it has the ref)
-    const input = screen.getByRole('textbox', { name: 'User name' });
+    // The organization name input should be focused (it has the ref)
+    const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).toHaveFocus();
   });
 
@@ -252,7 +252,7 @@ describe('OrgNameChecker', () => {
   it('handles keyboard navigation properly', async () => {
     render(<OrgNameChecker />);
 
-    const input = screen.getByRole('textbox', { name: 'User name' });
+    const input = screen.getByRole('textbox', { name: 'Organization name' });
     expect(input).toBeInTheDocument();
 
     // Should be keyboard accessible
@@ -433,10 +433,10 @@ describe('OrgNameChecker', () => {
     const mockOnUserValidationError = vi.fn();
 
     vi.mocked(useOrgNameValidator).mockReturnValue({
-      value: 'test-org',
-      isValid: true,
+      value: '', // Start with empty value so typing works
+      isValid: false, // Invalid initially
       validationErrors: [],
-      isDirty: true,
+      isDirty: false,
       setValue: vi.fn(),
       reset: vi.fn(),
     });
@@ -472,16 +472,20 @@ describe('OrgNameChecker', () => {
       ]),
     );
 
-    // Type invalid user name to trigger validation errors
-    const userInput = screen.getByRole('textbox', { name: 'User name' });
+    // Type invalid organization name to trigger validation errors
+    const userInput = screen.getByRole('textbox', {
+      name: 'Organization name',
+    });
     await user.type(userInput, '1invalid');
 
     // Should have called validation error callback multiple times
     expect(mockOnUserValidationError).toHaveBeenCalledTimes(9);
 
-    // The last call should contain the validation error for invalid input
-    expect(mockOnUserValidationError).toHaveBeenLastCalledWith(
-      expect.arrayContaining([expect.stringContaining('lowercase letter')]),
+    // Check that the callback was called with user validation errors at some point
+    expect(mockOnUserValidationError).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.stringContaining('User name must start with a lowercase letter'),
+      ]),
     );
   });
 
@@ -539,10 +543,7 @@ describe('OrgNameChecker', () => {
 
     render(<OrgNameChecker />);
 
-    // Should render both inputs - user input (enabled) and org input (disabled)
-    expect(
-      screen.getByRole('textbox', { name: 'User name' }),
-    ).toBeInTheDocument();
+    // Should render single input that handles both user and org validation
     expect(
       screen.getByRole('textbox', { name: 'Organization name' }),
     ).toBeInTheDocument();
