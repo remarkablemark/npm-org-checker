@@ -45,7 +45,7 @@ describe('App component', () => {
     expect(input).toHaveAttribute('placeholder', 'Enter npm organization name');
     expect(input).toHaveAttribute('aria-invalid', 'false');
 
-    const label = screen.getByLabelText('npm Organization Name');
+    const label = screen.getByLabelText('NPM Organization Name');
     expect(label).toBeInTheDocument();
   });
 });

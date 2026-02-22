@@ -91,7 +91,7 @@ export function OrgNameChecker({
           htmlFor="org-name-input"
           className="text-sm font-medium text-gray-700"
         >
-          npm Organization Name
+          NPM Organization Name
         </label>
 
         <input
