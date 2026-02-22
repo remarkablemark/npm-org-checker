@@ -63,7 +63,7 @@ export function OrgNameChecker({
     userExists,
     isChecking: isCheckingUser,
     apiError: userApiError,
-    checkUserExists: checkUserExistsFunc,
+    checkUserExists,
   } = useUserExistenceChecker({ debounceMs: 300 });
 
   // User validation state
@@ -110,7 +110,7 @@ export function OrgNameChecker({
 
     // Check user existence if user validation passes
     if (validation.isValid) {
-      checkUserExistsFunc(value);
+      checkUserExists(value);
     }
 
     // Check organization availability if org validation passes
@@ -159,7 +159,7 @@ export function OrgNameChecker({
         /* v8 ignore start */
         onRetry={() => {
           if (orgName && userValidation.isValid) {
-            checkUserExistsFunc(orgName);
+            checkUserExists(orgName);
           }
         }}
         /* v8 ignore end */
