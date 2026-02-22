@@ -19,7 +19,7 @@ description: 'Task list template for feature implementation'
 
 ## Path Conventions
 
-- **React web app**: `src/`, `tests/` at repository root
+- **React web app**: `src/` at repository root
 - **Components**: `src/components/ComponentName/` with co-located tests
 - \*\*Paths shown below assume React app structure - adjust based on plan.md
 
