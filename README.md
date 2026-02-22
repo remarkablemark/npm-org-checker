@@ -6,7 +6,7 @@
 
 🔍 Check if an npm org name is available:
 
-- [npm org name checker](http://remarkablemark.org/npm-org-checker/)
+- [npm org checker](https://remarkablemark.org/npm-org-checker/)
 
 ## Install
 
