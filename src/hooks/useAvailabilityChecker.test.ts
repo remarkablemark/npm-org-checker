@@ -1,7 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { ApiErrorType } from 'src/types';
 import { checkNameAvailability, createApiError } from 'src/utils/npmRegistry';
-import { afterEach, beforeEach, describe, expect, vi } from 'vitest';
 
 import { useAvailabilityChecker } from './useAvailabilityChecker';
 

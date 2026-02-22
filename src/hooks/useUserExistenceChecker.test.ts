@@ -1,7 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { ApiErrorType } from 'src/types';
 import { checkUserExists, createApiError } from 'src/utils/npmRegistry';
-import { afterEach, beforeEach, describe, expect, vi } from 'vitest';
 
 import { useUserExistenceChecker } from './useUserExistenceChecker';
 
