@@ -112,9 +112,13 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - **FR-020**: System MUST handle npm registry API errors gracefully with user-friendly messages
 - **FR-021**: System MUST implement timeout handling for npm registry API calls
 - **FR-022**: System MUST check both organization availability and scope availability in the appropriate sequence
-- **FR-023**: System MUST handle npm replicate API responses and parse scope existence from the results
-- **FR-024**: System MUST determine scope is taken when replicate response rows.length > 0
-- **FR-025**: System MUST determine scope is available when replicate response rows.length = 0
+- **FR-023**: System MUST follow validation sequence: 1. check user name, 2. check npm scope, 3. check npm org
+- **FR-024**: System MUST stop checking sequence and return unavailable if user name exists (step 1)
+- **FR-025**: System MUST stop checking sequence and return unavailable if npm scope exists (step 2)
+- **FR-026**: System MUST proceed to check npm org only if both user name and npm scope do not exist
+- **FR-027**: System MUST handle npm replicate API responses and parse scope existence from the results
+- **FR-028**: System MUST determine scope is taken when replicate response rows.length > 0
+- **FR-029**: System MUST determine scope is available when replicate response rows.length = 0
 
 ### Key Entities
 
@@ -137,6 +141,7 @@ As a user, I want to see real-time validation feedback as I type a name (organiz
 - Q: Scope checking API endpoint → A: Use npm replicate endpoint `https://replicate.npmjs.com/_all_docs?startkey=%22@<scope>/%22&endkey=%22@<scope>/\ufff0%22` with replaced `<scope>`
 - Q: Replicate response interpretation → A: Scope or org name is taken when rows.length > 0 in the JSON response
 - Q: CORS handling for replicate endpoint → A: Use corsmirror proxy for npm replicate endpoint calls
+- Q: Validation sequence → A: 1. check user name, 2. check npm scope, 3. check npm org
 
 ## Consolidation Notice
 
