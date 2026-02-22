@@ -24,21 +24,7 @@ description: 'Task list for NPM Scope Checker feature implementation'
 - **Utilities**: `src/utils/` with co-located tests
 - **Hooks**: `src/hooks/` with co-located tests
 
-## Phase 1: Setup (Shared Infrastructure)
-
-**Purpose**: Project initialization and basic structure
-
-**NOTE**: Skip this phase for existing projects - only for brand new React applications
-
-- [ ] T001 Create React project structure per implementation plan
-- [ ] T002 Initialize TypeScript React app with Vite dependencies
-- [ ] T003 [P] Configure ESLint, Prettier, and TypeScript strict mode
-
-**For existing projects**: Verify current setup meets requirements instead
-
----
-
-## Phase 2: Foundational (Blocking Prerequisites)
+## Phase 1: Foundational (Blocking Prerequisites)
 
 **Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
 
@@ -55,7 +41,7 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 ---
 
-## Phase 3: User Story 1 - Validate Unified Name Input Format (Priority: P1) 🎯 MVP
+## Phase 2: User Story 1 - Validate Unified Name Input Format (Priority: P1) 🎯 MVP
 
 **Goal**: Implement unified name validation that works for both organization names and scopes without format detection
 
@@ -81,7 +67,7 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 ---
 
-## Phase 4: User Story 2 - Check Unified Name Availability on NPM Registry (Priority: P1)
+## Phase 3: User Story 2 - Check Unified Name Availability on NPM Registry (Priority: P1)
 
 **Goal**: Implement comprehensive name availability checking across user, scope, and organization types
 
@@ -114,7 +100,7 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 ---
 
-## Phase 5: User Story 3 - Display Real-time Unified Name Validation Feedback (Priority: P2)
+## Phase 4: User Story 3 - Display Real-time Unified Name Validation Feedback (Priority: P2)
 
 **Goal**: Ensure real-time validation feedback works seamlessly for all name types
 
@@ -138,7 +124,7 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 ---
 
-## Phase 6: Polish & Cross-Cutting Concerns
+## Phase 5: Polish & Cross-Cutting Concerns
 
 **Purpose**: Improvements that affect multiple user stories
 
@@ -157,18 +143,17 @@ description: 'Task list for NPM Scope Checker feature implementation'
 
 ### Phase Dependencies
 
-- **Setup (Phase 1)**: No dependencies - can start immediately
-- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
-- **User Stories (Phase 3-5)**: All depend on Foundational phase completion
+- **Foundational (Phase 1)**: No dependencies - can start immediately
+- **User Stories (Phase 2-4)**: All depend on Foundational phase completion
   - User stories can then proceed in parallel (if staffed)
   - Or sequentially in priority order (P1 → P2 → P3)
-- **Polish (Phase 6)**: Depends on all desired user stories being complete
+- **Polish (Phase 5)**: Depends on all desired user stories being complete
 
 ### User Story Dependencies
 
-- **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
-- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - Depends on US1 validation foundation
-- **User Story 3 (P2)**: Can start after Foundational (Phase 2) - Depends on US1 and US2 validation logic
+- **User Story 1 (P1)**: Can start after Foundational (Phase 1) - No dependencies on other stories
+- **User Story 2 (P2)**: Can start after Foundational (Phase 1) - Depends on US1 validation foundation
+- **User Story 3 (P2)**: Can start after Foundational (Phase 1) - Depends on US1 and US2 validation logic
 
 ### Within Each User Story
 
