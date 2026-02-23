@@ -89,15 +89,15 @@ description: 'Task list for System Dark Mode feature implementation'
 
 ### Tests for Component Updates
 
-- [ ] T017 [P] Create OrgNameChecker dark mode test in src/components/OrgNameChecker/OrgNameChecker.test.tsx
-- [ ] T018 [P] Create AvailabilityIndicator dark mode test in src/components/AvailabilityIndicator/AvailabilityIndicator.test.tsx
-- [ ] T019 [P] Create ErrorMessage dark mode test in src/components/ErrorMessage/ErrorMessage.test.tsx
+- [ ] T016 [P] Create OrgNameChecker dark mode test in src/components/OrgNameChecker/OrgNameChecker.test.tsx
+- [ ] T017 [P] Create AvailabilityIndicator dark mode test in src/components/AvailabilityIndicator/AvailabilityIndicator.test.tsx
+- [ ] T018 [P] Create ErrorMessage dark mode test in src/components/ErrorMessage/ErrorMessage.test.tsx
 
 ### Implementation for Component Updates
 
-- [ ] T020 [P] Add dark mode variants to OrgNameChecker in src/components/OrgNameChecker/OrgNameChecker.tsx
-- [ ] T021 [P] Add dark mode variants to AvailabilityIndicator in src/components/AvailabilityIndicator/AvailabilityIndicator.tsx
-- [ ] T022 [P] Add dark mode variants to ErrorMessage in src/components/ErrorMessage/ErrorMessage.tsx
+- [ ] T019 [P] Add dark mode variants to OrgNameChecker in src/components/OrgNameChecker/OrgNameChecker.tsx
+- [ ] T020 [P] Add dark mode variants to AvailabilityIndicator in src/components/AvailabilityIndicator/AvailabilityIndicator.tsx
+- [ ] T021 [P] Add dark mode variants to ErrorMessage in src/components/ErrorMessage/ErrorMessage.tsx
 
 **Checkpoint**: All components should now support both themes consistently
 
@@ -107,13 +107,13 @@ description: 'Task list for System Dark Mode feature implementation'
 
 **Purpose**: Final improvements and validation
 
-- [ ] T023 [P] Run accessibility contrast validation across all components
-- [ ] T024 [P] Verify smooth transitions work correctly in both themes
-- [ ] T025 [P] Test reduced motion preference support
-- [ ] T026 [P] Validate performance meets <200ms theme application requirement
-- [ ] T027 [P] Run full test suite with 100% coverage verification
-- [ ] T028 [P] Manual testing across different browsers and devices
-- [ ] T029 [P] Validate quickstart.md implementation steps work correctly
+- [ ] T022 [P] Run accessibility contrast validation across all components
+- [ ] T023 [P] Verify smooth transitions work correctly in both themes
+- [ ] T024 [P] Test reduced motion preference support
+- [ ] T025 [P] Validate performance meets <200ms theme application requirement
+- [ ] T026 [P] Run full test suite with 100% coverage verification
+- [ ] T027 [P] Manual testing across different browsers and devices
+- [ ] T028 [P] Validate quickstart.md implementation steps work correctly
 
 ---
 
