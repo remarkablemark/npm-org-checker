@@ -55,7 +55,8 @@ description: 'Task list for System Dark Mode feature implementation'
 - [ ] T008 [P] [US1] Add dark mode variants to App component in src/components/App/App.tsx
 - [ ] T009 [P] [US1] Add dark mode variants to body element in index.html
 - [ ] T010 [P] [US1] Add theme transition CSS to index.html style block
-- [ ] T011 [US1] Verify existing theme detection script works correctly in index.html
+- [ ] T011 [US1] Validate existing theme detection script works correctly in index.html
+- [ ] T012 [US1] Verify theme detection performance meets <200ms requirement
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -69,13 +70,13 @@ description: 'Task list for System Dark Mode feature implementation'
 
 ### Tests for User Story 2 (TDD - Write First, Ensure They Fail)
 
-- [ ] T012 [P] [US2] Create fallback behavior test in src/components/App/App.test.tsx
-- [ ] T013 [P] [US2] Create browser compatibility test in src/test/browser-compatibility.test.tsx
+- [ ] T013 [P] [US2] Create fallback behavior test in src/components/App/App.test.tsx
+- [ ] T014 [P] [US2] Create browser compatibility test in src/test/browser-compatibility.test.tsx
 
 ### Implementation for User Story 2
 
-- [ ] T014 [P] [US2] Ensure graceful degradation for older browsers in index.html
-- [ ] T015 [P] [US2] Test cross-browser compatibility manually
+- [ ] T015 [P] [US2] Ensure graceful degradation for older browsers in index.html
+- [ ] T016 [P] [US2] Test cross-browser compatibility manually
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -89,31 +90,52 @@ description: 'Task list for System Dark Mode feature implementation'
 
 ### Tests for Component Updates
 
-- [ ] T016 [P] Create OrgNameChecker dark mode test in src/components/OrgNameChecker/OrgNameChecker.test.tsx
-- [ ] T017 [P] Create AvailabilityIndicator dark mode test in src/components/AvailabilityIndicator/AvailabilityIndicator.test.tsx
-- [ ] T018 [P] Create ErrorMessage dark mode test in src/components/ErrorMessage/ErrorMessage.test.tsx
+- [ ] T017 [P] Create OrgNameChecker dark mode test in src/components/OrgNameChecker/OrgNameChecker.test.tsx
+- [ ] T018 [P] Create AvailabilityIndicator dark mode test in src/components/AvailabilityIndicator/AvailabilityIndicator.test.tsx
+- [ ] T019 [P] Create ErrorMessage dark mode test in src/components/ErrorMessage/ErrorMessage.test.tsx
 
 ### Implementation for Component Updates
 
-- [ ] T019 [P] Add dark mode variants to OrgNameChecker in src/components/OrgNameChecker/OrgNameChecker.tsx
-- [ ] T020 [P] Add dark mode variants to AvailabilityIndicator in src/components/AvailabilityIndicator/AvailabilityIndicator.tsx
-- [ ] T021 [P] Add dark mode variants to ErrorMessage in src/components/ErrorMessage/ErrorMessage.tsx
+- [ ] T020 [P] Add dark mode variants to OrgNameChecker in src/components/OrgNameChecker/OrgNameChecker.tsx
+- [ ] T021 [P] Add dark mode variants to AvailabilityIndicator in src/components/AvailabilityIndicator/AvailabilityIndicator.tsx
+- [ ] T022 [P] Add dark mode variants to ErrorMessage in src/components/ErrorMessage/ErrorMessage.tsx
 
 **Checkpoint**: All components should now support both themes consistently
 
 ---
 
-## Phase 5: Polish & Cross-Cutting Concerns
+## Phase 5: Smooth Transitions & Performance (Addressing FR-006)
+
+**Purpose**: Implement smooth theme transitions and validate performance requirements
+
+**Independent Test**: Verify theme switching is smooth and meets performance criteria
+
+### Tests for Transitions & Performance
+
+- [ ] T023 [P] Create transition performance test in src/test/performance.test.tsx
+- [ ] T024 [P] Create reduced motion support test in src/test/accessibility.test.tsx
+
+### Implementation for Transitions & Performance
+
+- [ ] T025 [P] Implement comprehensive CSS transitions in index.html style block
+- [ ] T026 [P] Add reduced motion support for accessibility in index.html
+- [ ] T027 [P] Validate theme application timing meets <200ms requirement
+- [ ] T028 [P] Test smooth transitions work correctly in both themes
+
+**Checkpoint**: Theme switching should be smooth, accessible, and performant
+
+---
+
+## Phase 6: Polish & Cross-Cutting Concerns
 
 **Purpose**: Final improvements and validation
 
-- [ ] T022 [P] Run accessibility contrast validation across all components
-- [ ] T023 [P] Verify smooth transitions work correctly in both themes
-- [ ] T024 [P] Test reduced motion preference support
-- [ ] T025 [P] Validate performance meets <200ms theme application requirement
-- [ ] T026 [P] Run full test suite with 100% coverage verification
-- [ ] T027 [P] Manual testing across different browsers and devices
-- [ ] T028 [P] Validate quickstart.md implementation steps work correctly
+- [ ] T029 [P] Run accessibility contrast validation across all components
+- [ ] T030 [P] Test reduced motion preference support
+- [ ] T031 [P] Validate performance meets <200ms theme application requirement
+- [ ] T032 [P] Run full test suite with 100% coverage verification
+- [ ] T033 [P] Manual testing across different browsers and devices
+- [ ] T034 [P] Validate quickstart.md implementation steps work correctly
 
 ---
 
@@ -125,13 +147,15 @@ description: 'Task list for System Dark Mode feature implementation'
 - **User Story 1 (Phase 2)**: Depends on Foundational completion - BLOCKS other stories
 - **User Story 2 (Phase 3)**: Depends on User Story 1 completion
 - **Component Updates (Phase 4)**: Depends on User Story 1 completion
-- **Polish (Phase 5)**: Depends on all implementation phases being complete
+- **Transitions & Performance (Phase 5)**: Depends on User Story 1 completion
+- **Polish (Phase 6)**: Depends on all implementation phases being complete
 
 ### User Story Dependencies
 
 - **User Story 1 (P1)**: Can start after Foundational - No dependencies on other stories
 - **User Story 2 (P2)**: Depends on User Story 1 - builds on detection logic
 - **Component Updates**: Depends on User Story 1 - applies styling to existing components
+- **Transitions & Performance**: Depends on User Story 1 - enhances core functionality
 
 ### Within Each User Story
 
@@ -179,7 +203,8 @@ Task: "Add theme transition CSS to index.html style block"
 2. Add User Story 1 → Test independently → Deploy/Demo (MVP!)
 3. Add User Story 2 → Test independently → Deploy/Demo
 4. Add Component Updates → Test across all components → Deploy/Demo
-5. Complete Polish → Final validation → Deploy
+5. Add Transitions & Performance → Validate smooth switching → Deploy/Demo
+6. Complete Polish → Final validation → Deploy
 
 ### Parallel Team Strategy
 
@@ -193,6 +218,19 @@ With multiple developers:
 
 ---
 
+## Requirement Coverage Mapping
+
+| FR ID  | Requirement        | Tasks Covered          | Status      |
+| ------ | ------------------ | ---------------------- | ----------- |
+| FR-001 | System detection   | T005, T008, T011, T012 | ✅ Complete |
+| FR-002 | Apply theme        | T008, T009, T010       | ✅ Complete |
+| FR-003 | Fallback behavior  | T013, T014, T015, T016 | ✅ Complete |
+| FR-004 | Component support  | T017-T022              | ✅ Complete |
+| FR-005 | Theme consistency  | T020-T022              | ✅ Complete |
+| FR-006 | Smooth transitions | T023-T028              | ✅ Complete |
+
+---
+
 ## Notes
 
 - [P] tasks = different files, no dependencies
@@ -203,3 +241,4 @@ With multiple developers:
 - Stop at any checkpoint to validate story independently
 - 100% test coverage required per project constitution
 - Follow React 19 + TypeScript 5 + Tailwind CSS 4 standards
+- Performance requirement: <200ms theme application (aligned across all artifacts)
