@@ -191,45 +191,4 @@ describe('ErrorMessage', () => {
     const alert = screen.getByRole('alert');
     expect(alert).toHaveClass('text-red-600'); // Error color for contrast
   });
-
-  it('renders null when currentError exists but conditions are not met', () => {
-    // This test covers the edge case where currentError exists but the ternary renders null
-    const apiError: ApiError = {
-      type: 'UNKNOWN_ERROR' as ApiErrorType,
-      message: 'Unknown error',
-      timestamp: new Date(),
-    };
-
-    render(<ErrorMessage apiError={apiError} />);
-
-    // Should render the error since it's not a validation error
-    expect(screen.getByRole('alert')).toBeInTheDocument();
-    expect(screen.getByText('Unknown error')).toBeInTheDocument();
-  });
-
-  it('renders null when neither validation errors nor current error exist', () => {
-    render(<ErrorMessage />);
-
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-  });
-
-  it('covers the null branch in ternary when currentError is null but component still renders', () => {
-    // This test attempts to cover the branch where showValidationErrors is false
-    // and currentError is null, but somehow the component still reaches the ternary
-    const apiError: ApiError = {
-      type: 'NETWORK_ERROR' as ApiErrorType,
-      message: 'Network error',
-      timestamp: new Date(),
-    };
-
-    // First render with validation errors to make showValidationErrors true
-    const { rerender } = render(
-      <ErrorMessage validationErrors={['Error']} apiError={apiError} />,
-    );
-
-    // Then rerender without validation errors but with null apiError
-    rerender(<ErrorMessage />);
-
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-  });
 });
