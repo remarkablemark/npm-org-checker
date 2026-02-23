@@ -4,6 +4,8 @@ Auto-generated from all feature plans. Last updated: 2026-02-21
 
 ## Active Technologies
 
+- localStorage for theme persistence (existing) (001-dark-mode)
+
 - N/A (client-side application) (001-check-user-name)
 
 - TypeScript 5 (strict mode) + React 19, Vite 7, Vitest 4, Tailwind CSS 4 (001-npm-org-check)
@@ -26,11 +28,11 @@ TypeScript 5 (strict mode): Follow standard conventions
 
 ## Recent Changes
 
+- 001-dark-mode: Added TypeScript 5 (strict mode) + React 19, Vite 7, Vitest 4, Tailwind CSS 4
+
 - 002-scope-check: Added TypeScript 5 (strict mode) + React 19, Vite 7, Vitest 4, Tailwind CSS 4
 
 - 001-check-user-name: Added TypeScript 5 (strict mode) + React 19, Vite 7, Vitest 4, Tailwind CSS 4
-
-- 001-npm-org-check: Added TypeScript 5 (strict mode) + React 19, Vite 7, Vitest 4, Tailwind CSS 4
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->
