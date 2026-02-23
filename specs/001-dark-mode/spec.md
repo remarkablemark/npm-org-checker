@@ -1,7 +1,7 @@
 # Feature Specification: System Dark Mode
 
 **Feature Branch**: `001-dark-mode`  
-**Created**: 2025-02-22  
+**Created**: 2026-02-22  
 **Status**: Draft  
 **Input**: User description: "system dark mode"
 
