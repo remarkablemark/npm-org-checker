@@ -23,18 +23,16 @@ description: 'Task list for System Dark Mode feature implementation'
 - **Components**: `src/components/ComponentName/` with co-located tests
 - **Paths shown below follow React app structure from plan.md**
 
-## Phase 1: Foundational (Blocking Prerequisites)
+## Phase 1: Prerequisites ✅ COMPLETE
 
-**Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
+All foundational infrastructure is already in place:
 
-**⚠️ CRITICAL**: No user story work can begin until this phase is complete
+- Theme detection logic exists in index.html
+- Vitest testing framework configured
+- Tailwind CSS 4 with dark mode support configured
+- Component structure established
 
-- [ ] T001 Verify existing theme detection logic in index.html ✅ ALREADY EXISTS
-- [ ] T002 Verify Vitest testing framework with @testing-library/react configuration ✅ ALREADY CONFIGURED
-- [ ] T003 Verify Tailwind CSS 4 configuration with dark mode support ✅ ALREADY CONFIGURED
-- [ ] T004 Review existing component structure in src/components/ ✅ ALREADY EXISTS
-
-**Checkpoint**: Foundation ready - user story implementation can now begin in parallel
+**Ready to begin User Story 1 implementation**
 
 ---
 
@@ -46,17 +44,17 @@ description: 'Task list for System Dark Mode feature implementation'
 
 ### Tests for User Story 1 (TDD - Write First, Ensure They Fail)
 
-- [ ] T005 [P] [US1] Create theme detection test in src/components/App/App.test.tsx
-- [ ] T006 [P] [US1] Create mock matchMedia setup in src/test/setup.ts
-- [ ] T007 [P] [US1] Create localStorage mock utilities in src/test/mocks/localStorage.ts
+- [ ] T001 [P] [US1] Create theme detection test in src/components/App/App.test.tsx
+- [ ] T002 [P] [US1] Create mock matchMedia setup in src/test/setup.ts
+- [ ] T003 [P] [US1] Create localStorage mock utilities in src/test/mocks/localStorage.ts
 
 ### Implementation for User Story 1
 
-- [ ] T008 [P] [US1] Add dark mode variants to App component in src/components/App/App.tsx
-- [ ] T009 [P] [US1] Add dark mode variants to body element in index.html
-- [ ] T010 [P] [US1] Add theme transition CSS to index.html style block
-- [ ] T011 [US1] Validate existing theme detection script works correctly in index.html
-- [ ] T012 [US1] Verify theme detection performance meets <200ms requirement
+- [ ] T004 [P] [US1] Add dark mode variants to App component in src/components/App/App.tsx
+- [ ] T005 [P] [US1] Add dark mode variants to body element in index.html
+- [ ] T006 [P] [US1] Add theme transition CSS to index.html style block
+- [ ] T007 [US1] Validate existing theme detection script works correctly in index.html
+- [ ] T008 [US1] Verify theme detection performance meets <200ms requirement
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -70,13 +68,13 @@ description: 'Task list for System Dark Mode feature implementation'
 
 ### Tests for User Story 2 (TDD - Write First, Ensure They Fail)
 
-- [ ] T013 [P] [US2] Create fallback behavior test in src/components/App/App.test.tsx
-- [ ] T014 [P] [US2] Create browser compatibility test in src/test/browser-compatibility.test.tsx
+- [ ] T009 [P] [US2] Create fallback behavior test in src/components/App/App.test.tsx
+- [ ] T010 [P] [US2] Create browser compatibility test in src/test/browser-compatibility.test.tsx
 
 ### Implementation for User Story 2
 
-- [ ] T015 [P] [US2] Ensure graceful degradation for older browsers in index.html
-- [ ] T016 [P] [US2] Test cross-browser compatibility manually
+- [ ] T011 [P] [US2] Ensure graceful degradation for older browsers in index.html
+- [ ] T012 [P] [US2] Test cross-browser compatibility manually
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -90,15 +88,15 @@ description: 'Task list for System Dark Mode feature implementation'
 
 ### Tests for Component Updates
 
-- [ ] T017 [P] Create OrgNameChecker dark mode test in src/components/OrgNameChecker/OrgNameChecker.test.tsx
-- [ ] T018 [P] Create AvailabilityIndicator dark mode test in src/components/AvailabilityIndicator/AvailabilityIndicator.test.tsx
-- [ ] T019 [P] Create ErrorMessage dark mode test in src/components/ErrorMessage/ErrorMessage.test.tsx
+- [ ] T013 [P] Create OrgNameChecker dark mode test in src/components/OrgNameChecker/OrgNameChecker.test.tsx
+- [ ] T014 [P] Create AvailabilityIndicator dark mode test in src/components/AvailabilityIndicator/AvailabilityIndicator.test.tsx
+- [ ] T015 [P] Create ErrorMessage dark mode test in src/components/ErrorMessage/ErrorMessage.test.tsx
 
 ### Implementation for Component Updates
 
-- [ ] T020 [P] Add dark mode variants to OrgNameChecker in src/components/OrgNameChecker/OrgNameChecker.tsx
-- [ ] T021 [P] Add dark mode variants to AvailabilityIndicator in src/components/AvailabilityIndicator/AvailabilityIndicator.tsx
-- [ ] T022 [P] Add dark mode variants to ErrorMessage in src/components/ErrorMessage/ErrorMessage.tsx
+- [ ] T016 [P] Add dark mode variants to OrgNameChecker in src/components/OrgNameChecker/OrgNameChecker.tsx
+- [ ] T017 [P] Add dark mode variants to AvailabilityIndicator in src/components/AvailabilityIndicator/AvailabilityIndicator.tsx
+- [ ] T018 [P] Add dark mode variants to ErrorMessage in src/components/ErrorMessage/ErrorMessage.tsx
 
 **Checkpoint**: All components should now support both themes consistently
 
@@ -112,15 +110,15 @@ description: 'Task list for System Dark Mode feature implementation'
 
 ### Tests for Transitions & Performance
 
-- [ ] T023 [P] Create transition performance test in src/test/performance.test.tsx
-- [ ] T024 [P] Create reduced motion support test in src/test/accessibility.test.tsx
+- [ ] T019 [P] Create transition performance test in src/test/performance.test.tsx
+- [ ] T020 [P] Create reduced motion support test in src/test/accessibility.test.tsx
 
 ### Implementation for Transitions & Performance
 
-- [ ] T025 [P] Implement comprehensive CSS transitions in index.html style block
-- [ ] T026 [P] Add reduced motion support for accessibility in index.html
-- [ ] T027 [P] Validate theme application timing meets <200ms requirement
-- [ ] T028 [P] Test smooth transitions work correctly in both themes
+- [ ] T021 [P] Implement comprehensive CSS transitions in index.html style block
+- [ ] T022 [P] Add reduced motion support for accessibility in index.html
+- [ ] T023 [P] Validate theme application timing meets <200ms requirement
+- [ ] T024 [P] Test smooth transitions work correctly in both themes
 
 **Checkpoint**: Theme switching should be smooth, accessible, and performant
 
@@ -130,12 +128,12 @@ description: 'Task list for System Dark Mode feature implementation'
 
 **Purpose**: Final improvements and validation
 
-- [ ] T029 [P] Run accessibility contrast validation across all components
-- [ ] T030 [P] Test reduced motion preference support
-- [ ] T031 [P] Validate performance meets <200ms theme application requirement
-- [ ] T032 [P] Run full test suite with 100% coverage verification
-- [ ] T033 [P] Manual testing across different browsers and devices
-- [ ] T034 [P] Validate quickstart.md implementation steps work correctly
+- [ ] T025 [P] Run accessibility contrast validation across all components
+- [ ] T026 [P] Test reduced motion preference support
+- [ ] T027 [P] Validate performance meets <200ms theme application requirement
+- [ ] T028 [P] Run full test suite with 100% coverage verification
+- [ ] T029 [P] Manual testing across different browsers and devices
+- [ ] T030 [P] Validate quickstart.md implementation steps work correctly
 
 ---
 
@@ -143,8 +141,8 @@ description: 'Task list for System Dark Mode feature implementation'
 
 ### Phase Dependencies
 
-- **Foundational (Phase 1)**: No dependencies - can start immediately
-- **User Story 1 (Phase 2)**: Depends on Foundational completion - BLOCKS other stories
+- **Prerequisites (Phase 1)**: ✅ Complete - no dependencies
+- **User Story 1 (Phase 2)**: Can start immediately - no blocking dependencies
 - **User Story 2 (Phase 3)**: Depends on User Story 1 completion
 - **Component Updates (Phase 4)**: Depends on User Story 1 completion
 - **Transitions & Performance (Phase 5)**: Depends on User Story 1 completion
@@ -152,7 +150,7 @@ description: 'Task list for System Dark Mode feature implementation'
 
 ### User Story Dependencies
 
-- **User Story 1 (P1)**: Can start after Foundational - No dependencies on other stories
+- **User Story 1 (P1)**: Can start immediately - No dependencies on other stories
 - **User Story 2 (P2)**: Depends on User Story 1 - builds on detection logic
 - **Component Updates**: Depends on User Story 1 - applies styling to existing components
 - **Transitions & Performance**: Depends on User Story 1 - enhances core functionality
@@ -176,14 +174,14 @@ description: 'Task list for System Dark Mode feature implementation'
 
 ```bash
 # Launch all tests for User Story 1 together (TDD - write first):
-Task: "Create theme detection test in src/components/App/App.test.tsx"
-Task: "Create mock matchMedia setup in src/test/setup.ts"
-Task: "Create localStorage mock utilities in src/test/mocks/localStorage.ts"
+Task: "T001 [P] [US1] Create theme detection test in src/components/App/App.test.tsx"
+Task: "T002 [P] [US1] Create mock matchMedia setup in src/test/setup.ts"
+Task: "T003 [P] [US1] Create localStorage mock utilities in src/test/mocks/localStorage.ts"
 
 # Launch all components for User Story 1 together:
-Task: "Add dark mode variants to App component in src/components/App/App.tsx"
-Task: "Add dark mode variants to body element in index.html"
-Task: "Add theme transition CSS to index.html style block"
+Task: "T004 [P] [US1] Add dark mode variants to App component in src/components/App/App.tsx"
+Task: "T005 [P] [US1] Add dark mode variants to body element in index.html"
+Task: "T006 [P] [US1] Add theme transition CSS to index.html style block"
 ```
 
 ---
@@ -192,14 +190,14 @@ Task: "Add theme transition CSS to index.html style block"
 
 ### MVP First (User Story 1 Only)
 
-1. Complete Phase 1: Foundational
+1. Start immediately - Prerequisites complete
 2. Complete Phase 2: User Story 1 (Core dark mode detection)
 3. **STOP and VALIDATE**: Test User Story 1 independently
 4. Deploy/demo if ready
 
 ### Incremental Delivery
 
-1. Complete Foundational → Foundation ready
+1. Prerequisites → Ready to start
 2. Add User Story 1 → Test independently → Deploy/Demo (MVP!)
 3. Add User Story 2 → Test independently → Deploy/Demo
 4. Add Component Updates → Test across all components → Deploy/Demo
@@ -210,8 +208,8 @@ Task: "Add theme transition CSS to index.html style block"
 
 With multiple developers:
 
-1. Team completes Foundational together
-2. Once Foundational is done:
+1. Prerequisites already complete
+2. Start immediately:
    - Developer A: User Story 1 (core detection)
    - Developer B: Component updates (styling)
 3. Stories complete and integrate independently
@@ -222,12 +220,12 @@ With multiple developers:
 
 | FR ID  | Requirement        | Tasks Covered          | Status      |
 | ------ | ------------------ | ---------------------- | ----------- |
-| FR-001 | System detection   | T005, T008, T011, T012 | ✅ Complete |
-| FR-002 | Apply theme        | T008, T009, T010       | ✅ Complete |
-| FR-003 | Fallback behavior  | T013, T014, T015, T016 | ✅ Complete |
-| FR-004 | Component support  | T017-T022              | ✅ Complete |
-| FR-005 | Theme consistency  | T020-T022              | ✅ Complete |
-| FR-006 | Smooth transitions | T023-T028              | ✅ Complete |
+| FR-001 | System detection   | T001, T004, T007, T008 | ✅ Complete |
+| FR-002 | Apply theme        | T004, T005, T006       | ✅ Complete |
+| FR-003 | Fallback behavior  | T009, T010, T011, T012 | ✅ Complete |
+| FR-004 | Component support  | T013-T018              | ✅ Complete |
+| FR-005 | Theme consistency  | T016-T018              | ✅ Complete |
+| FR-006 | Smooth transitions | T019-T024              | ✅ Complete |
 
 ---
 
