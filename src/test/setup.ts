@@ -59,3 +59,40 @@ export const setupThemeMocks = (
     matchMedia: matchMediaMock,
   };
 };
+
+/**
+ * Simulate the theme detection script from index.html
+ * Applies dark class based on stored theme and system preference
+ */
+export const applyThemeDetection = () => {
+  const storedTheme = localStorage.getItem('theme');
+  const hasStoredTheme = storedTheme !== null;
+
+  document.documentElement.classList.toggle(
+    'dark',
+    storedTheme === 'dark' ||
+      (!hasStoredTheme &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches),
+  );
+};
+
+/**
+ * Simulate the theme detection script with fallback handling
+ * Applies dark class with graceful error handling
+ */
+export const applyThemeDetectionWithFallback = () => {
+  try {
+    const storedTheme = localStorage.getItem('theme');
+    const hasStoredTheme = storedTheme !== null;
+
+    document.documentElement.classList.toggle(
+      'dark',
+      storedTheme === 'dark' ||
+        (!hasStoredTheme &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches),
+    );
+  } catch {
+    // Fallback: default to light theme
+    document.documentElement.classList.remove('dark');
+  }
+};

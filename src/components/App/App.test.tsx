@@ -1,9 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
 
 import { setupLocalStorageMock } from '../../test/mocks/localStorage';
-import { setupThemeMocks } from '../../test/setup';
+import {
+  applyThemeDetection,
+  applyThemeDetectionWithFallback,
+  setupThemeMocks,
+} from '../../test/setup';
 import App from '.';
 
 describe('App component', () => {
@@ -63,19 +66,6 @@ describe('App Dark Mode', () => {
     // Reset DOM before each test
     document.documentElement.classList.remove('dark');
   });
-
-  const applyThemeDetection = () => {
-    // Simulate the theme detection script from index.html
-    const storedTheme = localStorage.getItem('theme');
-    const hasStoredTheme = storedTheme !== null;
-
-    document.documentElement.classList.toggle(
-      'dark',
-      storedTheme === 'dark' ||
-        (!hasStoredTheme &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches),
-    );
-  };
 
   it('applies dark class when system prefers dark', () => {
     // Mock system prefers dark
@@ -149,24 +139,6 @@ describe('App Fallback Behavior', () => {
     document.documentElement.classList.remove('dark');
   });
 
-  const applyThemeDetection = () => {
-    // Simulate the theme detection script from index.html with fallback handling
-    try {
-      const storedTheme = localStorage.getItem('theme');
-      const hasStoredTheme = storedTheme !== null;
-
-      document.documentElement.classList.toggle(
-        'dark',
-        storedTheme === 'dark' ||
-          (!hasStoredTheme &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches),
-      );
-    } catch {
-      // Fallback: default to light theme
-      document.documentElement.classList.remove('dark');
-    }
-  };
-
   it('falls back to light theme when matchMedia is not supported', () => {
     // Mock matchMedia not supported
     Object.defineProperty(window, 'matchMedia', {
@@ -177,8 +149,8 @@ describe('App Fallback Behavior', () => {
     // Setup localStorage mock separately
     setupLocalStorageMock();
 
-    // Apply theme detection logic
-    applyThemeDetection();
+    // Apply theme detection logic with fallback
+    applyThemeDetectionWithFallback();
 
     render(<App />);
 
@@ -199,8 +171,8 @@ describe('App Fallback Behavior', () => {
       writable: true,
     });
 
-    // Apply theme detection logic
-    applyThemeDetection();
+    // Apply theme detection logic with fallback
+    applyThemeDetectionWithFallback();
 
     render(<App />);
 
@@ -219,8 +191,8 @@ describe('App Fallback Behavior', () => {
       writable: true,
     });
 
-    // Apply theme detection logic
-    applyThemeDetection();
+    // Apply theme detection logic with fallback
+    applyThemeDetectionWithFallback();
 
     render(<App />);
 
@@ -240,8 +212,8 @@ describe('App Fallback Behavior', () => {
     // Setup localStorage mock separately
     setupLocalStorageMock();
 
-    // Apply theme detection logic
-    applyThemeDetection();
+    // Apply theme detection logic with fallback
+    applyThemeDetectionWithFallback();
 
     render(<App />);
 
@@ -266,8 +238,8 @@ describe('App Fallback Behavior', () => {
       writable: true,
     });
 
-    // Apply theme detection logic
-    applyThemeDetection();
+    // Apply theme detection logic with fallback
+    applyThemeDetectionWithFallback();
 
     render(<App />);
 
