@@ -47,10 +47,10 @@ export function AvailabilityIndicator({
         role="status"
         aria-live="polite"
         aria-busy={isChecking}
-        className={`flex items-center gap-2 text-blue-600 ${className}`}
+        className={`flex items-center gap-2 text-blue-600 dark:text-blue-400 ${className}`}
       >
         <div
-          className="h-4 w-4 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"
+          className="h-4 w-4 animate-spin rounded-full border-2 border-blue-600 border-t-transparent dark:border-blue-400"
           aria-hidden="true"
         />
         <span className="font-medium">Checking...</span>
@@ -64,7 +64,7 @@ export function AvailabilityIndicator({
       <div
         role="status"
         aria-live="polite"
-        className={`flex items-center gap-2 text-green-600 ${className}`}
+        className={`flex items-center gap-2 text-green-600 dark:text-green-400 ${className}`}
       >
         <span aria-hidden="true">✅</span>
         <span className="font-medium">Available</span>
@@ -77,7 +77,7 @@ export function AvailabilityIndicator({
     <div
       role="status"
       aria-live="polite"
-      className={`flex items-center gap-2 text-red-600 ${className}`}
+      className={`flex items-center gap-2 text-red-600 dark:text-red-400 ${className}`}
     >
       <span aria-hidden="true">❌</span>
       <span className="font-medium">Unavailable</span>

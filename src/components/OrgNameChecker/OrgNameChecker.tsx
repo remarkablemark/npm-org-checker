@@ -88,7 +88,7 @@ export function OrgNameChecker({
       <div className="flex flex-col space-y-2">
         <label
           htmlFor="name-input"
-          className="text-sm font-medium text-gray-700"
+          className="text-sm font-medium text-gray-700 dark:text-gray-300"
         >
           NPM Organization Name
         </label>
@@ -103,7 +103,7 @@ export function OrgNameChecker({
           aria-label="Organization name"
           aria-describedby={errorId ?? undefined}
           aria-invalid={hasError}
-          className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 text-lg transition-colors focus:border-blue-500 focus:outline-none md:max-w-[600px]"
+          className="w-full rounded-lg border-2 border-gray-300 bg-white px-4 py-3 text-lg transition-colors focus:border-blue-500 focus:outline-none md:max-w-[600px] dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-blue-400"
         />
       </div>
 
@@ -127,14 +127,14 @@ export function OrgNameChecker({
 
       {/* Organization URL Link */}
       {orgUrl && (
-        <div className="text-gray-600">
+        <div className="text-gray-600 dark:text-gray-400">
           <p>
             {'See user/organization: '}
             <a
               href={orgUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 underline hover:text-blue-800"
+              className="text-blue-600 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
             >
               {orgUrl}
             </a>
