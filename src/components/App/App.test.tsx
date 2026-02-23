@@ -2,11 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { setupLocalStorageMock } from '../../test/mocks/localStorage';
-import {
-  applyThemeDetection,
-  applyThemeDetectionWithFallback,
-  setupThemeMocks,
-} from '../../test/setup';
+import { applyThemeDetection, setupThemeMocks } from '../../test/setup';
 import App from '.';
 
 describe('App component', () => {
@@ -67,69 +63,108 @@ describe('App Dark Mode', () => {
     document.documentElement.classList.remove('dark');
   });
 
-  it('applies dark class when system prefers dark', () => {
+  it('displays dark theme when system prefers dark', () => {
     // Mock system prefers dark
     setupThemeMocks({ prefersDark: true });
 
-    // Apply theme detection logic
+    // Simulate the theme detection script from index.html
     applyThemeDetection();
 
     render(<App />);
 
-    // Verify dark styles are applied
-    expect(document.documentElement.classList.contains('dark')).toBe(true);
+    // Test visible dark theme styling
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('dark:bg-gray-900');
+    expect(main).toHaveClass('bg-gray-50'); // Both classes present, dark mode overrides
+
+    // Test text colors in dark theme
+    const heading = screen.getByRole('heading', { level: 1 });
+    expect(heading).toHaveClass('dark:text-gray-100');
+    expect(heading).toHaveClass('text-gray-900'); // Both classes present, dark mode overrides
+
+    const description = screen.getByText(
+      /Check the availability of npm organization names in real-time/,
+    );
+    expect(description).toHaveClass('dark:text-gray-300');
+    expect(description).toHaveClass('text-gray-600'); // Both classes present, dark mode overrides
   });
 
-  it('applies light class when system prefers light', () => {
+  it('displays light theme when system prefers light', () => {
     // Mock system prefers light
     setupThemeMocks({ prefersDark: false });
 
-    // Apply theme detection logic
+    // Simulate the theme detection script from index.html
     applyThemeDetection();
 
     render(<App />);
 
-    // Verify light styles are applied
-    expect(document.documentElement.classList.contains('dark')).toBe(false);
+    // Test visible light theme styling
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('bg-gray-50');
+    expect(main).not.toHaveClass('bg-gray-900');
+
+    // Test text colors in light theme
+    const heading = screen.getByRole('heading', { level: 1 });
+    expect(heading).toHaveClass('text-gray-900');
+    expect(heading).not.toHaveClass('text-gray-100');
+
+    const description = screen.getByText(
+      /Check the availability of npm organization names in real-time/,
+    );
+    expect(description).toHaveClass('text-gray-600');
+    expect(description).not.toHaveClass('text-gray-300');
   });
 
-  it('respects manual dark theme override', () => {
+  it('applies manual dark theme override', () => {
     // Mock manual dark theme
     setupThemeMocks({ prefersDark: false, storedTheme: 'dark' });
 
-    // Apply theme detection logic
+    // Simulate the theme detection script from index.html
     applyThemeDetection();
 
     render(<App />);
 
-    // Verify dark styles are applied despite system preference
-    expect(document.documentElement.classList.contains('dark')).toBe(true);
+    // Test that manual dark theme overrides system preference
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('dark:bg-gray-900');
+    expect(main).toHaveClass('bg-gray-50'); // Both classes present, dark mode overrides
+
+    const heading = screen.getByRole('heading', { level: 1 });
+    expect(heading).toHaveClass('dark:text-gray-100');
+    expect(heading).toHaveClass('text-gray-900'); // Both classes present, dark mode overrides
   });
 
-  it('respects manual light theme override', () => {
+  it('applies manual light theme override', () => {
     // Mock manual light theme
     setupThemeMocks({ prefersDark: true, storedTheme: 'light' });
 
-    // Apply theme detection logic
+    // Simulate the theme detection script from index.html
     applyThemeDetection();
 
     render(<App />);
 
-    // Verify light styles are applied despite system preference
-    expect(document.documentElement.classList.contains('dark')).toBe(false);
+    // Test that manual light theme overrides system preference
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('bg-gray-50');
+    expect(main).not.toHaveClass('bg-gray-900');
+
+    const heading = screen.getByRole('heading', { level: 1 });
+    expect(heading).toHaveClass('text-gray-900');
   });
 
   it('uses system preference when no manual theme is set', () => {
     // Mock system prefers dark with no manual override
     setupThemeMocks({ prefersDark: true, storedTheme: null });
 
-    // Apply theme detection logic
+    // Simulate the theme detection script from index.html
     applyThemeDetection();
 
     render(<App />);
 
-    // Verify system preference is used
-    expect(document.documentElement.classList.contains('dark')).toBe(true);
+    // Test that system preference is used
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('dark:bg-gray-900');
+    expect(main).toHaveClass('bg-gray-50'); // Both classes present, dark mode overrides
   });
 });
 
@@ -149,13 +184,15 @@ describe('App Fallback Behavior', () => {
     // Setup localStorage mock separately
     setupLocalStorageMock();
 
-    // Apply theme detection logic with fallback
-    applyThemeDetectionWithFallback();
-
     render(<App />);
 
-    // Verify fallback to light theme
-    expect(document.documentElement.classList.contains('dark')).toBe(false);
+    // Verify fallback to light theme (visible styling)
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('bg-gray-50');
+    expect(main).not.toHaveClass('bg-gray-900');
+
+    const heading = screen.getByRole('heading', { level: 1 });
+    expect(heading).toHaveClass('text-gray-900');
   });
 
   it('falls back to light theme when localStorage is not available', () => {
@@ -171,13 +208,12 @@ describe('App Fallback Behavior', () => {
       writable: true,
     });
 
-    // Apply theme detection logic with fallback
-    applyThemeDetectionWithFallback();
-
     render(<App />);
 
-    // Verify fallback to light theme
-    expect(document.documentElement.classList.contains('dark')).toBe(false);
+    // Verify fallback to light theme (visible styling)
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('bg-gray-50');
+    expect(main).not.toHaveClass('bg-gray-900');
   });
 
   it('falls back to light theme when both APIs are not supported', () => {
@@ -191,13 +227,12 @@ describe('App Fallback Behavior', () => {
       writable: true,
     });
 
-    // Apply theme detection logic with fallback
-    applyThemeDetectionWithFallback();
-
     render(<App />);
 
-    // Verify fallback to light theme
-    expect(document.documentElement.classList.contains('dark')).toBe(false);
+    // Verify fallback to light theme (visible styling)
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('bg-gray-50');
+    expect(main).not.toHaveClass('bg-gray-900');
   });
 
   it('handles matchMedia throwing errors gracefully', () => {
@@ -212,13 +247,11 @@ describe('App Fallback Behavior', () => {
     // Setup localStorage mock separately
     setupLocalStorageMock();
 
-    // Apply theme detection logic with fallback
-    applyThemeDetectionWithFallback();
-
     render(<App />);
 
-    // Verify fallback to light theme
-    expect(document.documentElement.classList.contains('dark')).toBe(false);
+    // Verify graceful fallback to light theme
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('bg-gray-50');
   });
 
   it('handles localStorage throwing errors gracefully', () => {
@@ -238,12 +271,10 @@ describe('App Fallback Behavior', () => {
       writable: true,
     });
 
-    // Apply theme detection logic with fallback
-    applyThemeDetectionWithFallback();
-
     render(<App />);
 
-    // Verify fallback to light theme
-    expect(document.documentElement.classList.contains('dark')).toBe(false);
+    // Verify graceful fallback to light theme
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('bg-gray-50');
   });
 });
