@@ -168,29 +168,32 @@ Add dark mode variant to the body element:
 
 ### Step 7: Add Smooth Transitions
 
-Create a CSS file for smooth theme transitions:
+Add theme transition CSS to the existing style block in index.html to prevent FOUT:
 
-```css
-/* src/styles/theme-transitions.css */
-* {
-  transition-property: background-color, border-color, color, box-shadow;
-  transition-duration: 200ms;
-  transition-timing-function: ease-in-out;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition-duration: 0.01ms !important;
+```html
+<!-- index.html -->
+<style>
+  .github-corner > svg {
+    opacity: 0.5;
+    transition: opacity 0.4s;
   }
-}
-```
+  .github-corner:hover > svg {
+    opacity: 1;
+  }
 
-Import in main.tsx:
+  /* Theme transitions */
+  * {
+    transition-property: background-color, border-color, color, box-shadow;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+  }
 
-```tsx
-// src/main.tsx
-import './styles/theme-transitions.css';
-// ... rest of imports
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition-duration: 0.01ms;
+    }
+  }
+</style>
 ```
 
 ## Testing
@@ -264,34 +267,6 @@ describe('App Dark Mode', () => {
    - Verify contrast ratios with color picker
    - Test with screen readers
    - Verify keyboard navigation
-
-## Performance Verification
-
-### Theme Switching Performance
-
-Add performance monitoring:
-
-```javascript
-// Monitor theme application performance
-const start = performance.now();
-document.documentElement.classList.toggle('dark', shouldApplyDark);
-const end = performance.now();
-
-console.log(`Theme application took ${end - start}ms`);
-// Should be <10ms
-```
-
-### Memory Usage
-
-Monitor for memory leaks during theme switching:
-
-```javascript
-// Check for event listener cleanup
-const listeners = getEventListeners(
-  window.matchMedia('(prefers-color-scheme: dark)'),
-);
-console.log('Active listeners:', listeners);
-```
 
 ## Troubleshooting
 

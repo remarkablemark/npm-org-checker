@@ -76,18 +76,11 @@ All components MUST support both light and dark themes using Tailwind's `dark:` 
 
 **Contract Pattern:**
 
-```css
-/* Light mode (default) */
-.component-class {
-  background-color: theme('colors.white');
-  color: theme('colors.gray.900');
-}
-
-/* Dark mode */
-.dark .component-class {
-  background-color: theme('colors.gray.800');
-  color: theme('colors.gray.100');
-}
+```jsx
+// Tailwind utility classes with dark variants
+<div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+  {/* Component content */}
+</div>
 ```
 
 ### App Component Contract
@@ -215,7 +208,7 @@ All components MUST support both light and dark themes using Tailwind's `dark:` 
 /* MUST respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   * {
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.01ms;
   }
 }
 ```

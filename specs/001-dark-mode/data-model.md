@@ -214,7 +214,7 @@ All color combinations must meet WCAG AA contrast ratios:
 ```css
 @media (prefers-reduced-motion: reduce) {
   * {
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.01ms;
   }
 }
 ```
