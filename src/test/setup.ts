@@ -8,7 +8,7 @@ import { mockTheme, setupLocalStorageMock } from './mocks/localStorage';
 /**
  * Create a mock MediaQueryList object for matchMedia
  */
-export const createMockMediaQueryList = (matches = false) => ({
+const createMockMediaQueryList = (matches = false) => ({
   matches,
   media: '(prefers-color-scheme: dark)',
   onchange: null,
@@ -22,7 +22,7 @@ export const createMockMediaQueryList = (matches = false) => ({
 /**
  * Setup matchMedia mock for tests
  */
-export const setupMatchMediaMock = (prefersDark = false) => {
+const setupMatchMediaMock = (prefersDark = false) => {
   const mockMediaQuery = vi.fn().mockImplementation((query) => {
     if (query === '(prefers-color-scheme: dark)') {
       return createMockMediaQueryList(prefersDark);
@@ -74,25 +74,4 @@ export const applyThemeDetection = () => {
       (!hasStoredTheme &&
         window.matchMedia('(prefers-color-scheme: dark)').matches),
   );
-};
-
-/**
- * Simulate the theme detection script with fallback handling
- * Applies dark class with graceful error handling
- */
-export const applyThemeDetectionWithFallback = () => {
-  try {
-    const storedTheme = localStorage.getItem('theme');
-    const hasStoredTheme = storedTheme !== null;
-
-    document.documentElement.classList.toggle(
-      'dark',
-      storedTheme === 'dark' ||
-        (!hasStoredTheme &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches),
-    );
-  } catch {
-    // Fallback: default to light theme
-    document.documentElement.classList.remove('dark');
-  }
 };
