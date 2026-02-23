@@ -108,17 +108,12 @@ All foundational infrastructure is already in place:
 
 **Independent Test**: Verify theme switching is smooth and meets performance criteria
 
-### Tests for Transitions & Performance
-
-- [ ] T019 [P] Create transition performance test in src/test/performance.test.tsx
-- [ ] T020 [P] Create reduced motion support test in src/test/accessibility.test.tsx
-
 ### Implementation for Transitions & Performance
 
-- [ ] T021 [P] Implement comprehensive CSS transitions in index.html style block
-- [ ] T022 [P] Add reduced motion support for accessibility in index.html
-- [ ] T023 [P] Validate theme application timing meets <200ms requirement
-- [ ] T024 [P] Test smooth transitions work correctly in both themes
+- [ ] T019 [P] Implement comprehensive CSS transitions in index.html style block
+- [ ] T020 [P] Add reduced motion support for accessibility in index.html
+- [ ] T021 [P] Validate theme application timing meets <200ms requirement
+- [ ] T022 [P] Test smooth transitions work correctly in both themes
 
 **Checkpoint**: Theme switching should be smooth, accessible, and performant
 
@@ -128,12 +123,12 @@ All foundational infrastructure is already in place:
 
 **Purpose**: Final improvements and validation
 
-- [ ] T025 [P] Run accessibility contrast validation across all components
-- [ ] T026 [P] Test reduced motion preference support
-- [ ] T027 [P] Validate performance meets <200ms theme application requirement
-- [ ] T028 [P] Run full test suite with 100% coverage verification
-- [ ] T029 [P] Manual testing across different browsers and devices
-- [ ] T030 [P] Validate quickstart.md implementation steps work correctly
+- [ ] T023 [P] Run accessibility contrast validation across all components
+- [ ] T024 [P] Test reduced motion preference support
+- [ ] T025 [P] Validate performance meets <200ms theme application requirement
+- [ ] T026 [P] Run full test suite with 100% coverage verification
+- [ ] T027 [P] Manual testing across different browsers and devices
+- [ ] T028 [P] Validate quickstart.md implementation steps work correctly
 
 ---
 
@@ -225,7 +220,7 @@ With multiple developers:
 | FR-003 | Fallback behavior  | T009, T010, T011, T012 | ✅ Complete |
 | FR-004 | Component support  | T013-T018              | ✅ Complete |
 | FR-005 | Theme consistency  | T016-T018              | ✅ Complete |
-| FR-006 | Smooth transitions | T019-T024              | ✅ Complete |
+| FR-006 | Smooth transitions | T019-T022              | ✅ Complete |
 
 ---
 
