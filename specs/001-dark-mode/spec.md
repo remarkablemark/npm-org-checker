@@ -5,12 +5,20 @@
 **Status**: Draft  
 **Input**: User description: "system dark mode"
 
+## Clarifications
+
+### Session 2026-02-22
+
+- Q: Should the feature include manual theme toggle controls? → A: System only, no manual toggle
+
+---
+
 ## User Scenarios & Testing _(mandatory)_
 
 <!--
   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
   Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
-  you should still have a viable MVP (Minimum Viable Product) that delivers value.
+  you still have a viable MVP (Minimum Viable Product) that delivers value.
 
   Assign priorities (P1, P2, P3, etc.) to each story, where P1 is the most critical.
   Think of each story as a standalone slice of functionality that can be:
@@ -36,42 +44,25 @@ As a user, I want the application to automatically detect and apply my system's 
 
 ---
 
-### User Story 2 - Manual Theme Toggle (Priority: P2)
+### User Story 2 - Fallback Behavior (Priority: P2)
 
-As a user, I want to manually override the system dark mode setting so that I can choose my preferred theme regardless of system settings.
+As a user, I want the application to gracefully handle environments where system dark mode detection is not available so that I still have a usable interface.
 
-**Why this priority**: Provides user control and accommodates scenarios where system preference doesn't match user needs for this specific application.
+**Why this priority**: Ensures the application works across all browsers and environments, providing consistent experience even when system detection fails.
 
-**Independent Test**: Can be fully tested by manually toggling the theme and verifying it persists and overrides system settings.
-
-**Acceptance Scenarios**:
-
-1. **Given** the system is in light mode, **When** the user selects dark theme, **Then** the interface displays in dark theme
-2. **Given** the system is in dark mode, **When** the user selects light theme, **Then** the interface displays in light theme
-3. **Given** a manual theme is selected, **When** the application reloads, **Then** the manual theme preference persists
-
----
-
-### User Story 3 - Reset to System Preference (Priority: P3)
-
-As a user, I want to reset my manual theme selection to follow system preferences so that I can easily return to automatic behavior.
-
-**Why this priority**: Completes the theme management experience by allowing users to return to the default behavior.
-
-**Independent Test**: Can be fully tested by selecting a manual theme, then resetting to system preference and verifying automatic detection resumes.
+**Independent Test**: Can be fully tested by simulating browsers without system theme detection support and verifying fallback behavior.
 
 **Acceptance Scenarios**:
 
-1. **Given** a manual theme is selected, **When** the user chooses "follow system", **Then** the interface immediately matches the current system setting
-2. **Given** the user reset to system preference, **When** the system theme changes, **Then** the interface automatically updates to match
-
----
+1. **Given** the browser doesn't support system theme detection, **When** the application loads, **Then** the interface displays in light theme as default
+2. **Given** system theme detection fails, **When** the application loads, **Then** the interface displays in light theme as default
+3. **Given** system theme detection becomes available later, **When** the system theme changes, **Then** the interface responds to system changes
 
 ### Edge Cases
 
 - What happens when the browser doesn't support system dark mode detection?
 - How does the system handle rapid system theme changes?
-- What happens when localStorage is not available for persisting preferences?
+- What happens when localStorage is not available for theme detection?
 - How does the application behave when system preference changes while the app is offline?
 - What is the fallback behavior when CSS custom properties for dark mode are not supported?
 
@@ -87,17 +78,13 @@ As a user, I want to reset my manual theme selection to follow system preference
 - **FR-001**: System MUST automatically detect the user's OS dark mode preference on application load
 - **FR-002**: System MUST apply the appropriate theme (light/dark) based on system preference
 - **FR-003**: System MUST listen for and respond to system dark mode changes in real-time
-- **FR-004**: Users MUST be able to manually override the system theme preference
-- **FR-005**: System MUST persist manual theme preferences across browser sessions
-- **FR-006**: Users MUST be able to reset to automatic system preference detection
-- **FR-007**: System MUST provide appropriate fallback behavior for browsers that don't support system theme detection
+- **FR-004**: System MUST provide appropriate fallback behavior for browsers that don't support system theme detection
 - **FR-008**: System MUST ensure all UI components properly support both light and dark themes
 - **FR-009**: System MUST maintain theme consistency across all pages and components
 - **FR-010**: System MUST provide smooth transitions when switching between themes
 
 ### Key Entities
 
-- **Theme Preference**: Represents the user's current theme choice (system, light, or dark) with persistence capability
 - **System Theme State**: Represents the current OS-level dark mode setting as detected by the browser
 - **Theme Configuration**: Contains the mapping of theme states to visual styles and CSS custom properties
 
@@ -112,7 +99,7 @@ As a user, I want to reset my manual theme selection to follow system preference
 
 - **SC-001**: 100% of users with system dark mode enabled see the application in dark theme on first visit
 - **SC-002**: Theme changes apply within 200ms of system preference updates
-- **SC-003**: Manual theme preferences persist across 100% of browser sessions
+- **SC-003**: Application functions correctly in 100% of browsers without system theme detection support
 - **SC-004**: 95% of users successfully complete theme switching tasks on first attempt
 - **SC-005**: Zero visual inconsistencies or broken styles in either light or dark themes
 - **SC-006**: Application functions correctly in 100% of tested browsers, including those without system theme detection support

@@ -32,5 +32,5 @@
 ## Notes
 
 - ✅ All validation criteria passed - specification is ready for planning
-- No [NEEDS CLARIFICATION] markers found
-- Specification successfully created and validated
+- ✅ Clarification applied: System-only dark mode (no manual toggle)
+- ✅ Specification successfully updated and validated
