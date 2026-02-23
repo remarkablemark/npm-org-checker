@@ -10,7 +10,7 @@
 ### Session 2026-02-22
 
 - Q: Should the feature include manual theme toggle controls? → A: System only, no manual toggle
-- Q: What should be the dark mode enable logic? → A: System only: Use window.matchMedia('(prefers-color-scheme: dark)').matches only
+- Q: What should be the dark mode enable logic? → A: Use existing localStorage + system detection logic as-is
 - Q: Should the existing localStorage-based logic be reused? → A: Keep existing localStorage + system logic as-is
 - Q: Where should dark styles be applied? → A: Mix of index.html and React component styles
 
@@ -43,7 +43,7 @@ As a user, I want the application to automatically detect and apply my system's 
 
 1. **Given** the system is set to light mode, **When** the application loads, **Then** the interface displays in light theme
 2. **Given** the system is set to dark mode, **When** the application loads, **Then** the interface displays in dark theme
-3. **Given** the application is running, **When** the system dark mode changes, **Then** the interface updates to match the new system setting
+3. **Given** the application loads with system set to dark mode, **When** the page renders, **Then** the interface displays in dark theme
 
 ---
 
@@ -80,11 +80,10 @@ As a user, I want the application to gracefully handle environments where system
 
 - **FR-001**: System MUST automatically detect the user's OS dark mode preference on application load
 - **FR-002**: System MUST apply the appropriate theme (light/dark) based on system preference
-- **FR-003**: System MUST listen for and respond to system dark mode changes in real-time
-- **FR-004**: System MUST provide appropriate fallback behavior for browsers that don't support system theme detection
-- **FR-008**: System MUST ensure all UI components properly support both light and dark themes
-- **FR-009**: System MUST maintain theme consistency across all pages and components
-- **FR-010**: System MUST provide smooth transitions when switching between themes
+- **FR-003**: System MUST provide appropriate fallback behavior for browsers that don't support system theme detection
+- **FR-004**: System MUST ensure all UI components properly support both light and dark themes
+- **FR-005**: System MUST maintain theme consistency across all pages and components
+- **FR-006**: System MUST provide smooth transitions when switching between themes
 
 ### Key Entities
 

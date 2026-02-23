@@ -74,9 +74,8 @@ description: 'Task list for System Dark Mode feature implementation'
 
 ### Implementation for User Story 2
 
-- [ ] T014 [P] [US2] Add browser compatibility checks to theme detection logic in index.html
-- [ ] T015 [P] [US2] Ensure graceful degradation for older browsers in index.html
-- [ ] T016 [P] [US2] Test cross-browser compatibility manually
+- [ ] T014 [P] [US2] Ensure graceful degradation for older browsers in index.html
+- [ ] T015 [P] [US2] Test cross-browser compatibility manually
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
