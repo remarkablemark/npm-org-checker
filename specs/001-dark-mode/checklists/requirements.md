@@ -33,4 +33,5 @@
 
 - ✅ All validation criteria passed - specification is ready for planning
 - ✅ Clarification applied: System-only dark mode (no manual toggle)
+- ✅ Dark mode logic clarified: Use window.matchMedia('(prefers-color-scheme: dark)').matches only
 - ✅ Specification successfully updated and validated
