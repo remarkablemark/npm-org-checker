@@ -12,6 +12,7 @@
 - Q: Should the feature include manual theme toggle controls? → A: System only, no manual toggle
 - Q: What should be the dark mode enable logic? → A: System only: Use window.matchMedia('(prefers-color-scheme: dark)').matches only
 - Q: Should the existing localStorage-based logic be reused? → A: Keep existing localStorage + system logic as-is
+- Q: Where should dark styles be applied? → A: Mix of index.html and React component styles
 
 ---
 

@@ -35,4 +35,5 @@
 - ✅ Clarification applied: System-only dark mode (no manual toggle)
 - ✅ Dark mode logic clarified: Use window.matchMedia('(prefers-color-scheme: dark)').matches only
 - ✅ Implementation approach: Keep existing localStorage + system logic as-is
+- ✅ Styling approach: Mix of index.html and React component styles
 - ✅ Specification successfully updated and validated
