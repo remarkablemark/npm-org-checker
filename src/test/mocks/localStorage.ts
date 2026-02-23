@@ -3,7 +3,7 @@
  * Provides consistent localStorage mocking across all test files
  */
 
-export const createLocalStorageMock = () => {
+const createLocalStorageMock = () => {
   const store = new Map<string, string>();
 
   const mock = {
