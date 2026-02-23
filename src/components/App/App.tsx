@@ -2,22 +2,22 @@ import { OrgNameChecker } from '../OrgNameChecker';
 
 export default function App() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4 py-8 dark:bg-gray-900">
       <div className="w-full max-w-2xl space-y-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 md:text-4xl">
+          <h1 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-gray-100">
             NPM Organization Name Checker
           </h1>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-gray-600 dark:text-gray-300">
             Check the availability of npm organization names in real-time
           </p>
         </div>
 
-        <div className="rounded-lg bg-white p-6 shadow-md">
+        <div className="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
           <OrgNameChecker autoFocus />
         </div>
 
-        <div className="text-center text-sm text-gray-500">
+        <div className="text-center text-sm text-gray-500 dark:text-gray-400">
           <p>
             Enter an organization name to check if it's available as an npm
             scope

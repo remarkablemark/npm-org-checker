@@ -60,7 +60,7 @@ export function ErrorMessage({
     <div
       role="alert"
       aria-live="assertive"
-      className="animate-in fade-in text-red-600 duration-200"
+      className="animate-in fade-in text-red-600 duration-200 dark:text-red-400"
     >
       {showValidationErrors ? (
         <div className="space-y-2">
@@ -88,11 +88,11 @@ export function ErrorMessage({
             <div>{currentError.message}</div>
 
             {showTechnicalDetails && (
-              <details className="rounded-md border border-red-200 bg-red-50 p-3">
-                <summary className="cursor-pointer font-mono text-xs text-red-700 hover:text-red-900">
+              <details className="rounded-md border border-red-200 bg-red-50 p-3 dark:border-red-800 dark:bg-red-900/20">
+                <summary className="cursor-pointer font-mono text-xs text-red-700 hover:text-red-900 dark:text-red-300 dark:hover:text-red-100">
                   Technical Details
                 </summary>
-                <div className="mt-2 space-y-1 font-mono text-xs text-red-600">
+                <div className="mt-2 space-y-1 font-mono text-xs text-red-600 dark:text-red-400">
                   <div>Type: {currentError.type}</div>
                   {currentError.statusCode && (
                     <div>Status Code: {currentError.statusCode}</div>
@@ -106,7 +106,7 @@ export function ErrorMessage({
               <button
                 type="button"
                 onClick={onRetry}
-                className="rounded-md bg-red-100 px-3 py-1.5 text-xs font-medium text-red-700 transition-colors hover:bg-red-200 focus:ring-2 focus:ring-red-500 focus:ring-offset-1 focus:outline-none"
+                className="rounded-md bg-red-100 px-3 py-1.5 text-xs font-medium text-red-700 transition-colors hover:bg-red-200 focus:ring-2 focus:ring-red-500 focus:ring-offset-1 focus:outline-none dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/50 dark:focus:ring-red-400"
               >
                 Retry
               </button>

@@ -32,9 +32,21 @@
       .github-corner:hover > svg {
         opacity: 1;
       }
+      * {
+        transition-property: background-color, border-color, color, box-shadow;
+        transition-duration: 200ms;
+        transition-timing-function: ease-in-out;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition-duration: 0.01ms;
+        }
+      }
     </style>
   </head>
-  <body class="flex min-h-screen min-w-80 place-items-center bg-gray-50">
+  <body
+    class="flex min-h-screen min-w-80 place-items-center bg-gray-50 dark:bg-gray-900"
+  >
     <div class="mx-auto" id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
