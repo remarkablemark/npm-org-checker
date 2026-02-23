@@ -7,7 +7,7 @@
 
 ## Summary
 
-Implement system dark mode detection for the npm org checker application. The feature will automatically detect and apply the user's OS dark mode preference using existing localStorage + system detection logic. Dark styles will be applied using a mixed approach: global styles in index.html and Tailwind dark: variants in React components. The implementation maintains backward compatibility with existing localStorage-based manual override functionality.
+Implement system dark mode detection for the npm org checker application. The feature will automatically detect and apply the user's OS dark mode preference using system detection logic. Dark styles will be applied using a mixed approach: global styles in index.html and Tailwind dark: variants in React components. The implementation maintains existing theme detection infrastructure for system preference detection.
 
 ## Technical Context
 
@@ -42,7 +42,7 @@ _GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 - ✅ Test-First Development: Comprehensive testing strategy defined with mock contracts and coverage requirements
 - ✅ Modern React Standards: Uses functional components, TypeScript strict mode, Tailwind CSS 4, no manual optimization needed
 - ✅ Code Quality & Consistency: Follows existing patterns, proper import structure, no console.log statements
-- ✅ Performance & Reliability: <20ms theme application overhead, CSS transitions, graceful fallbacks
+- ✅ Performance & Reliability: <200ms theme application overhead, CSS transitions, graceful fallbacks
 
 **Constitution Compliance: PASSED** - No violations identified
 
